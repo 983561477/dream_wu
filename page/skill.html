@@ -1,0 +1,63 @@
+﻿<script type="text/javascript">
+ $(document).ready(function(){
+	 var h1 = $(".container3").height();
+	 var H = $(window).height();
+	 $(".container1").css("height",H-h1);
+	 var h2 = $(".tit03").height();
+	 var h3 = $(".box05_r").height();
+	 $(".my_martia_list").css("height",h3-h2);
+})
+
+ // 获取技能分类
+ sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_skill_category\", \"para\":[]}");
+
+
+</script>
+
+
+<div class="container1">
+ <div class="box05">
+   <div class="box05_l">
+     <div class="tit02">&bull;参战武学&bull;</div>
+     <ul class="martia_list skill_category">
+
+       <!-- <li><span class="martia_tit">基础内功</span><span class="martia_color1">归元吐纳法</span></li>
+       <li><span class="martia_tit">基础招架</span><span class="martia_color2">断云斧</span></li>
+       <li><span class="martia_tit">基础剑法</span><span class="martia_color3">狂风快剑</span></li>
+       <li><span class="martia_tit">基础刀法</span><span class="martia_color4">嗜血狂刀</span></li>
+       <li><span class="martia_tit">基础拳脚</span><span class="martia_color5">黯然销魂掌</span></li>
+       <li><span class="martia_tit">基础暗器</span><span class="martia_color1">寒星八打</span></li>
+       <li><span class="martia_tit">基础轻功</span><span class="martia_color6">凌波微步</span></li> -->
+     </ul>
+   </div>
+   <div class="box05_r">
+     <div class="cfx">
+       <div class="cfxbox"></div><div class="cfxbox"></div><div class="cfxbox"></div><div class="cfxbox"></div><div class="cfxbox"></div><div class="cfxbox"></div>
+     </div>
+     <div class="tit03">&bull;我的武学&bull;</div>
+     <ul class="my_martia_list skill_list">
+
+       <!-- 
+
+       <li>
+       <span class="syz">使用中</span>
+       <span class="martia_name martia_color1">归元吐纳法</span>
+       <span class="dj">658级</span>
+       </li>
+
+       <li><span class="syz">使用中</span><span class="martia_name martia_color2">断云斧</span><span class="dj">658级</span></li>
+       <li><span class="syz">使用中</span><span class="martia_name martia_color3">狂风快剑</span><span class="dj">658级</span></li>
+       <li><span class="syz">使用中</span><span class="martia_name martia_color4">嗜血狂刀</span><span class="dj">658级</span></li>
+       <li><span class="syz">使用中</span><span class="martia_name martia_color5">黯然销魂掌</span><span class="dj">658级</span></li>
+       <li><span class="syz">使用中</span><span class="martia_name martia_color1">寒星八打</span><span class="dj">658级</span></li>
+       <li><span class="syz">使用中</span><span class="martia_name martia_color6">凌波微步</span><span class="dj">658级</span></li>
+       <li><span class="martia_name martia_color5">独孤九剑</span><span class="dj">658级</span></li>
+       <li><span class="martia_name martia_color1">归元吐纳法</span><span class="dj">658级</span></li>
+       <li><span class="martia_name martia_color5">独孤九剑</span><span class="dj">658级</span></li>
+       <li><span class="martia_name martia_color1">归元吐纳法</span><span class="dj">658级</span></li>
+       <li><span class="martia_name martia_color5">独孤九剑</span><span class="dj">658级</span></li>
+       <li><span class="martia_name martia_color1">归元吐纳法</span><span class="dj">658级</span></li> -->
+     </ul>
+   </div>
+ </div>
+</div>

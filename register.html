@@ -1,0 +1,109 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>梦武</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+<link rel="stylesheet" type="text/css" href="css/basic.css">
+<script type="text/javascript" src="/js/jquery-3.0.0.min.js"></script>
+<script src="/js/init.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		// 判断是电脑还是手机
+		if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+			document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+		}else {
+			// height = 691;
+			// width = 1396;
+			// 50
+			// 屏幕高度
+			window_height = window.innerHeight;
+			// 屏幕宽度
+			window_width = window.innerWidth;
+			// 页面的高度
+			html_height = window_height;
+			// 页面的宽度
+			html_width = html_height / 1.8;
+			// 缩放系数
+			var prportion = (html_height / 691) * 50;
+			document.documentElement.style.fontSize = prportion+'px';
+
+			//console.log(prportion, window_width, window_height);
+
+		    $("html").width(html_width).height(html_height);
+		    $("html").css("background", "#272727");
+		    // 给 body 设置宽高
+          	$("body").width(html_width).height(html_height);
+		    $("html").css("margin","auto");
+		}
+	});
+</script>
+
+</head>
+<body class="loginbk">
+
+<script>
+	$(document).ready(function() {
+		// 点击确定隐藏提示信息
+		$(".qd").click(function() {
+			$(".black1").hide();
+			$(".login_tk").hide();
+		})
+
+		// 点击登录获取用户信息
+		$(".trjh").click(function() {
+			// 获取账号
+			var login_name = $("#login_name").val();
+			// 获取密码
+			var password = $("#password").val();
+			// 获取用户再一次输入的密码
+			var repassword = $("#repassword").val();
+			// 获取游戏id
+			gid = $("#game_id").val();
+			// 传输数据
+			$.post(host + "/player", {action:"REGISTER", login_name:login_name, password:password, repassword:repassword, game_id:gid}, function(data) {
+				if(data.ret == 1) {
+					// 直接跳转登录页面
+					window.location.href = '/login.html';	
+				}
+				else {
+					exception_show(data.desc);
+					return;
+				}
+			}, "json")
+		})
+
+		function exception_show(err) {
+			$(".black1").show();
+			$(".login_tk").show();
+			$(".login_tk p").html(err);
+		}
+	})
+</script>
+
+
+<img src="images/logo.png" alt="" class="login_logo">
+<div class="login_con1">
+ <ul class="ul01">
+   <li><img src="images/bk13.png" alt="" class="ssj"><input type="text" id="login_name" value="" class="text03" placeholder="账号"></li>
+
+   <li><img src="images/bk13.png" alt="" class="ssj"><input type="password" id="password" value="" class="text03" placeholder="密码"></li>
+
+   <li><img src="images/bk13.png" alt="" class="ssj"><input type="password" id="repassword" value="" class="text03" placeholder="确认密码"></li>
+   
+   <li><img src="images/bk13.png" alt="" class="ssj"><input type="text" id="game_id" value="" class="text03" placeholder="游戏ID"></li>
+
+   <li><a href="/login.html">返回登录</a></li>
+ </ul>
+ <a href="javascript:void(0)"><img src="images/rzjh.png" alt="" class="trjh"></a>
+</div>
+
+<div class="black1" style="display: none;"></div>
+<div class="login_tk" style="display: none;">
+	<P></P>
+    <a class="qd">确定</a>
+</div>
+
+</body>
+</html>

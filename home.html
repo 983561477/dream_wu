@@ -1,0 +1,181 @@
+﻿<script type="text/javascript">
+ $(document).ready(function(){
+
+   // 消去样式
+   $("body").removeClass("bd02");
+   var h1 = $(".container1").height();
+   var h2 = $(".container3").height();
+   var H = $(window).height();
+   $(".container2").css("height",H-h1-h2);
+
+    // 判断是电脑还是手机
+    if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+        // 设备为手机
+        equipment == 1;
+    }else {
+        // 设备为电脑
+        equipment == 0;
+        // 聊天
+        $(".txt02").css("left", "auto");
+        // 功能
+        $(".nav").css("left", "auto");
+
+        // 获取弹窗的宽度
+        var tkbox_width = $(".tkbox2").width();
+        // 弹窗的左偏位置
+        $(".tkbox2").css("left", (window_width - tkbox_width) / 2);
+
+        // 对话图片
+        $(".talk_but").css("right", (window_width - html_width) / 2 + 40);
+    }
+
+   var clearstyle = function(num,order){
+		order = (order === undefined ? 0 : order); // b默认值为2
+
+		for(var i=1;i<=num;i++){
+			$(".nav"+i).removeClass("nav"+i+"on");
+		} //清除
+
+		if(order!=0){
+		$(".nav"+order).addClass("nav"+order+"on"); //展示
+		}
+
+   };
+
+   // 点击江湖
+   $(".nav1").click(function(){
+    clearstyle(6,1);
+    $("#home").load("/home.html");
+   });
+
+  // 人物首页
+  $(".nav2").click(function(){
+    clearstyle(6,2);
+    $(".page").load("/page/fiure-self-details.html");
+  });
+
+  // 技能页面
+  $(".nav3").click(function(){
+    clearstyle(6,3);
+    $(".page").load("/page/skill.html");
+  });
+
+  $(".nav4").click(function(){
+    clearstyle(6,4);
+    window.location.href = "";
+  });
+
+  $(".nav5").click(function(){
+    clearstyle(6,5);
+    window.location.href = "";
+  });
+
+  $(".nav6").click(function(){
+	  clearstyle(6,6);
+    window.location.href = "";
+  });
+
+});
+
+  // 调用函数
+  Load_html();
+
+  // 根据玩家的状态加载页面
+  function Load_html(){
+    // console.log(player_state);
+    if(player_state == 0){
+      // 加载数据
+      go("local");
+      // 
+      return;
+    }
+    if(player_state == 1){
+      // 加载战斗界面
+      $("#home").load("/page/combat.html");
+      return;
+    }
+  }
+
+  // 路径返回函数
+function go(path) {
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"go\",\"para\":[{\"path\":\""+path+"\"}]}");
+}
+
+// 
+
+
+</script>
+<!-- 导入init.js -->
+<!-- <script src="js/init.js"></script> -->
+
+<!-- 弹窗界面 -->
+<div class="black" style="display: none;"></div>
+<div class="tkbox2" style="display: none;"></div>
+
+<div class="page">
+  <!-- 方位界面 -->
+  <div class="container1">
+    <div class="header">
+      <div class="h_l"><a href="#"><img src="images/sj.png" alt=""></a></div> 
+      <div class="title" id="title"></div>
+      <div class="h_r"><a href="#"><img src="images/dt.png" alt=""></a></div>
+    </div>
+
+    <!-- 当前方位介绍 style="font-size:13px" -->
+    <div class="txt01" id="introduce">
+      <p></p>
+    </div>
+
+    <!-- 方位界面 -->
+    <div class="box01">
+      <img src="images/img01.jpg" alt="" class="img01">
+      <div class="box01_con">
+        <!-- 西北 westnorth -->
+        <a href="javascript:void(0)" class="but01 tm filter" id="westnorth"></a>
+        <!-- 北 north -->
+        <a href="javascript:void(0)" class="but01 filter" id="north"></a>
+        <!-- 东北 eastnorth -->
+        <a href="javascript:void(0)" class="but01 filter" id="eastnorth"></a>
+        <!-- 西 west -->
+        <a href="javascript:void(0)" class="but01 filter" id="west"></a>
+        <!-- 当前场景 localhost -->
+        <a href="javascript:void(0)" class="but01 but01on" id="local"></a>
+        <!-- 东 east -->
+        <a href="javascript:void(0)" class="but01 filter" id="east"></a>
+        <!-- 西南 westsouth -->
+        <a href="javascript:void(0)" class="but01 filter" id="westsouth"></a>
+        <!-- 南 south -->
+        <a href="javascript:void(0)" class="but01 filter" id="south"></a>
+        <!-- 东南 eastsouth -->
+        <a href="javascript:void(0)" class="but01 filter" id="eastsouth"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 物资界面 -->
+  <div class="container2">
+
+    <!-- 人物界面 -->
+    <div class="box02">
+    </div>
+  </div>
+
+</div>
+
+<!-- 聊天跟功能界面 -->
+<div class="container3">
+  <!-- 聊天界面 -->
+  <div class="txt02">
+    <a class="lt talk_but"><img src="images/ico05.png" alt=""></a>
+  </div>
+
+  <!-- 功能界面 -->
+  <div class="nav">
+    <a href="javascript:void(0)" class="nav1"></a>
+    <a href="javascript:void(0)" class="nav2"></a>
+    <a href="javascript:void(0)" class="nav3"></a>
+    <a href="javascript:void(0)" class="nav4"></a>
+    <a href="javascript:void(0)" class="nav5"></a>
+    <a href="javascript:void(0)" class="nav6"></a>
+  </div>
+</div>

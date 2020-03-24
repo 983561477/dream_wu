@@ -1,0 +1,38 @@
+﻿<script>
+  // 获取NPC按钮 
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getButton\", \"para\":[{\"category\":\"1014\"}]}");
+
+  // NPC击杀按钮
+  function Npc_kill(ident, challenged_ident){
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"npc_kill\",\"para\":[{\"ident\":\""+ident+"\", \"challenged_ident\":\""+challenged_ident+"\"}]}");
+  }
+
+  // NPC切磋按钮
+  function Npc_compare(ident, challenged_ident){
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"npc_compare\",\"para\":[{\"ident\":\""+ident+"\", \"challenged_ident\":\""+challenged_ident+"\"}]}");
+  }
+</script>
+
+<!-- NPC信息显示 -->
+<div class="rw1"><img src="images/rw.png" alt="" class="rw_tx"><span class="rw_xm"></span></div>
+<div class="tkbox2_con1">
+
+  <!-- NPC描述 -->
+  <div class="introduce"></div>
+
+  <!-- NPC战斗信息 -->
+  <div class="opponents"></div>
+
+  <!-- NPC属性 -->
+  <div class="zb_txt2 property">
+      <div class="zb_tit01">
+        <span class="zbtit01_txt">属性</span>
+        <span class="zbtit01_line"></span>
+      </div>
+  </div>
+
+  <!-- 按钮 -->
+  <div class="npc_but cz"></div>
+</div>
+<!-- 关闭按钮 -->
+<div class='tk_button'><a class='but03' name='gb'>关闭</a></div>

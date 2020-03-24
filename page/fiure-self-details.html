@@ -1,0 +1,132 @@
+﻿<script>
+  // 获取人物详情
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getPlayerInfo\",\"para\":[]}");
+
+  // 从人物页面传入
+  is_fiure_or_back = 'fiure';
+  // 装备背包分类
+  back_category = '1011';
+
+  // 获取背包里面的装备
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\"73bff967-6703-4fca-9ffd-3db4b2880724\"}]}");
+
+  
+  
+
+// 点击行囊 获取背包
+$(".backpack").click(function(){
+    // 加载背包
+    $(".page").load("/page/backpack.html");
+})
+
+  // 提升返回函数
+  function upattr(attr) {
+
+  }
+
+  // 升级返回函数
+  function uplevel() {
+
+  }
+
+  // 打坐返回函数
+  function dazuo() {
+
+  }
+
+  // 江湖属性返回函数
+  function jh_attribute() {
+  
+  }
+</script>
+
+<div class="container1">
+  <div class="box03">
+    <!-- 玩家基本信息 -->
+    <div class="box03_l">
+
+      <div class="rw2">
+        <img src="../images/tx1_s1.png" alt="" class="rw_tx">
+        <!-- 玩家姓名 -->
+        <span class="rw_xm nick"></span>
+      </div>
+      <!-- 称号 -->
+      <p>
+        <span class="sp01 title"></span>
+        <a href="javascript:void(0)">更换</a>
+      </p>
+      <!-- 等级 -->
+      <p class="level"></p>
+      <!-- 战斗力 -->
+      <p class="combat_effect"></p>
+      <!-- 气血 -->
+      <p class="hp"></p>
+      <!-- 内力 -->
+      <p class="mp"></p>
+
+      <a href="javascript:void(0)" class="but05">装备属性统计</a>
+      
+    </div>
+
+    <!-- 玩家属性 -->
+    <div class="box03_r">
+     <!-- 咖啡 -->
+     <!-- 力量 -->
+     <p class="power"></p>
+     <!-- 体力 -->
+     <p class="physical"></p>
+     <!-- 智慧 -->
+     <p class="intelligence"></p>
+     <!-- 敏捷 -->
+     <p class="agile"></p>
+     <!-- 潜能 -->
+     <p class="potency"></p>
+     <!-- 年龄 -->
+     <p class="age"></p>
+     <!-- 性别 -->
+     <p class="gender"></p>
+     <!-- 经验值 -->
+     <p class="experience"></p>
+
+     <!-- 江湖属性 -->
+      <a href="javascript:void(0)" class="but06" onclick='jh_attribute()'>江湖属性</a>
+    </div>
+  </div>
+  </div>
+  <div class="container2">
+  <div class="box04">
+    <div class="sx_con">
+
+    <div class="sx" id="hand_left"><a href="javascript:void(0)" value="1"><img src="../images/sx.png" alt=""><span>左手</span></a></div>
+
+    <div class="sx" id="hand_right"><a href="javascript:void(0)" value="8"><img src="../images/sx.png" alt=""><span>右手</span></a></div>
+
+    <div class="sx" id="wrist_left"><a href="javascript:void(0)" value="9"><img src="../images/sx.png" alt=""><span>左腕</span></a></div>
+
+    <div class="sx" id="wrist_right"><a href="javascript:void(0)" value="10"><img src="../images/sx.png" alt=""><span>右腕</span></a></div>
+
+    <div class="sx" id="head"><a href="javascript:void(0)" value="11"><img src="../images/sx.png" alt=""><span>帽子</span></a></div>
+    
+    <div class="sx" id="necklace"><a href="javascript:void(0)" value="12"><img src="../images/sx.png" alt=""><span>项链</span></a></div>
+
+    <div class="sx" id="clothing"><a href="javascript:void(0)" value="2"><img src="../images/sx.png" alt=""><span>衣服</span></a></div>
+
+    <div class="sx" id="waist"><a href="javascript:void(0)" value="3"><img src="../images/sx.png" alt=""><span>腰带</span></a></div>
+
+    <div class="sx" id="foot"><a href="javascript:void(0)" value="4"><img src="../images/sx.png" alt=""><span>鞋子</span></a></div>
+
+    <div class="sx" id="back"><a href="javascript:void(0)" value="6"><img src="../images/sx.png" alt=""><span>背部</span></a></div>
+
+    <div class="sx" id="ring"><a href="javascript:void(0)" value="7"><img src="../images/sx.png" alt=""><span>戒指</span></a></div>
+    
+    <div class="sx" id="amulet"><a href="javascript:void(0)" value="5"><img src="../images/sx.png" alt=""><span>护符</span></a></div>
+  
+    </div>
+
+    <div class="buttonbox1">
+      <a href="javascript:void(0)" class="but07">疗 伤</a>
+      <a href="javascript:void(0)" onclick="dazuo()" class="but07 dazuo">打 坐</a>
+      <a href="javascript:void(0)" class="but07 backpack">行 囊</a>
+    </div>
+  </div>
+  </div>

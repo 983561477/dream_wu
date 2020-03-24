@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>梦武</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" type="text/css" href="css/basic.css">
+
+<link rel="icon" sizes="72x72" href="/images/logo.png">
+
+<!-- 导入jQuery文件 -->
+<script type="text/javascript" src="/js/jquery-3.0.0.min.js"></script>
+<!-- 导入init.js -->
+<script src="/js/init.js"></script>
+<!-- 导入skt.js -->
+<script src="/js/skt.js"></script>
+<!-- 导入index.js -->
+<script src="/js/index.js"></script>
+<!-- 导入json2.js -->
+<script src="/js/json2.js"></script>
+
+<script type="text/javascript">
+ 	$(document).ready(function(){
+		// 判断是电脑还是手机
+		if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+			// 设备为手机
+			equipment = 1;
+			document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+		}else {
+			// 设备为电脑
+			equipment = 0;
+			// height = 691;
+			// width = 1396;
+			// 50
+			// 屏幕高度
+			window_height = window.innerHeight;
+			// 屏幕宽度
+			window_width = window.innerWidth;
+			// 页面的高度
+			html_height = window_height;
+			// 页面的宽度
+			html_width = html_height / 1.8;
+			// 缩放系数
+			var prportion = (html_height / 691) * 50;
+			document.documentElement.style.fontSize = prportion+'px';
+
+			//console.log(prportion, window_width, window_height);
+
+		    $("html").width(html_width).height(html_height);
+		    $("html").css("background", "#272727");
+		    //$("body").width(html_width).height(html_height);
+		    $("html").css("margin","auto");
+		    //$("body").css("margin","auto");
+		}
+	});
+</script>
+</head>
+
+<body>
+
+<div id="home"></div>
+
+</body>
+</html>

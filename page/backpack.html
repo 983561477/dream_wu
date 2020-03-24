@@ -1,0 +1,96 @@
+﻿<script>
+  // 获取背包类别详情
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushCategory\",\"para\":[]}");
+
+  // 从背包页面传入
+  is_fiure_or_back = 'back';
+  //console.log(is_fiure_or_back);
+  // 装备背包分类
+  back_category = '装备';
+  // 默认获取装备类别
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\"73bff967-6703-4fca-9ffd-3db4b2880724\"}]}");
+
+
+  //console.log("获取完毕")
+ $(document).ready(function(){
+     var h2 = $(".container3").height();
+	 var H = $(window).height();
+	 $(".container2").css("height",H-h2);
+  });
+
+
+// 背包分类函数
+function back_uid(uid){
+  // 装备背包分类
+  back_category = ""+uid+"";
+  // 默认获取背包类别里面的物品
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\""+uid+"\"}]}");
+  console.log(uid);
+}
+
+// 关闭行囊 获取人物
+$(".close_back").click(function(){
+    // 加载人物界面
+    $(".page").load("/page/fiure-self-details.html");
+})
+
+
+</script>
+
+<script>
+  $(function () { 
+	  $(".flsx_slider").hide()
+      $("a.flsx").click(function (event) {    
+         event.stopPropagation();    
+         $(".flsx_slider").toggle('fast');    
+          });   
+	  $(".flsx_slider a").click(function(event){
+		 event.stopPropagation(); 
+		 $(".flsx_slider").hide();
+		 })
+     $(document).click(function (event) { $(".flsx_slider").slideUp('fast') });  	 
+             
+  })
+</script>
+</head>
+<body class="bd01">
+<div class="container2">
+
+<div class="xn_con1">
+    <div class="tit01">行囊<img src="images/bk12.png" alt=""></div>
+    
+     <!-- 类别选择 -->
+     <a class="flsx">分类筛选<img src="images/flsx.png" alt=""></a>
+     
+     <div class="flsx_slider">
+        <div class="flsx_sjx"></div>
+
+        <!-- 背包类别 -->
+        <div class="flsx_con"></div>
+    </div>  
+    
+
+     <div class="xn_txt1">
+      <!-- 游戏货币 -->
+      <span>
+        <img src="images/ico06.png" class="game_money xntb"><a href="javascript:void(0)">
+        <img src="images/ico08.png" class="xn_cz">
+      </a>
+        </span>|<span>
+          <!-- 充值货币 -->
+          <img src="images/ico07.png" class="xntb">
+        </span>
+      </div>
+    </div>
+     <div class="xn_con2">
+      <!-- 物品图片 -->
+       <div class="xn_xq"></div>
+     </div>
+     
+     <!-- 事件按钮 -->
+      <div class="back zb_cz">
+      <a class="but02">整理</a>
+      <a class="but02 close_back">关闭</a>
+      </div>
+
+</div>

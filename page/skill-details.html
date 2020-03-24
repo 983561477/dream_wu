@@ -1,0 +1,90 @@
+﻿<script>
+  
+  // 点击确定隐藏提示信息
+  $(".qd").click(function() {
+    $(".black1").hide();
+    $(".login_tk").hide();
+  })
+
+  // 点击准备按钮
+  function Is_prepare(){
+    // 判断是否准备
+    if(skill_is_prepare == 1){
+      var value = 0;
+      // 减少技能准备数目
+      skill_prepare_num--;
+    }
+    // 技能未准备
+    else{
+      var value = 1;
+      // 增加技能准备数目
+      skill_prepare_num++;
+    }
+
+    // 判断技能准备数目
+    if(skill_prepare_num > 1){
+      exception_show("该技能类别已有准备技能！");
+      // 减少技能准备数目
+      skill_prepare_num--;
+      return;
+    }
+
+    var key = "is_prepare";
+    // 修改技能属性
+    Modify_skill_attr(skill_id, key, value);
+    // 关闭物品详情弹窗
+    $(".black").hide();
+    $(".tkbox2").hide();
+    // 重新获取该分类的技能列表
+    Get_skill_list(skill_category);
+  }
+
+
+  // 提示信息
+  function exception_show(err){
+      $(".black1").show();
+      $(".login_tk").show();
+      $(".login_tk p").html(err);
+  }
+
+</script>
+
+ <div class="tkbox2_con1">
+   
+   <!-- 技能名称跟等级 -->
+   <div class="jn_txt1 skill">
+   
+<!--     <p>可准备为：内功</p>
+    <div class="h"></div>
+    <p>被动属性</p>
+    <p><span>气血+500</span><span>气血+500</span></p>
+    <p><span>气血+500</span></p>
+    <div class="h"></div>
+    <p>主动招式</p>
+    <p><span>无</span></p>
+    <div class="h"></div>
+    <p>被动招式</p>
+    <p><span>续元<img src="images/ico09.png" alt=""></span><span>续元<img src="images/ico09.png" alt=""></span></p>
+    <p><span>续元<img src="images/ico09.png" alt=""></span></p> -->
+
+  </div>
+      
+      <!-- 技能描述 -->
+     <div class="jn_txt2 introduce"></div>
+
+      <div class="cz">
+        <!-- 是否装备按钮 -->
+      <a class="but04 is_prepare" onclick="Is_prepare()"></a>
+      </div>
+
+ </div>
+
+<!-- 关闭按钮 -->
+ <div class="tk_button"><a class="but03" name="gb">关闭</a></div>
+
+<!-- 提示信息 -->
+<div class="black1" style="display: none;"></div>
+<div class="login_tk" style="display: none;">
+    <p></p>
+    <a class="qd">确定</a>
+</div>

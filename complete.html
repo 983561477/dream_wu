@@ -1,0 +1,124 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>梦武</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+<link rel="stylesheet" type="text/css" href="css/basic.css">
+<script type="text/javascript" src="/js/jquery-3.0.0.min.js"></script>
+
+<script src="/js/init.js"></script>
+<script src="/js/json2.js"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		// 判断是电脑还是手机
+		if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+			document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+		}else {
+			// height = 691;
+			// width = 1396;
+			// 50
+			// 屏幕高度
+			window_height = window.innerHeight;
+			// 屏幕宽度
+			window_width = window.innerWidth;
+			// 页面的高度
+			html_height = window_height;
+			// 页面的宽度
+			html_width = html_height / 1.8;
+			// 缩放系数
+			var prportion = (html_height / 691) * 50;
+			document.documentElement.style.fontSize = prportion+'px';
+
+			//console.log(prportion, window_width, window_height);
+
+		    $("html").width(html_width).height(html_height);
+		    $("html").css("margin","auto");
+		}
+	});
+</script>
+<script type="text/javascript">
+
+ $(document).ready(function() {
+	 // 点击确定隐藏提示信息
+	 $(".qd").click(function() {
+		 $(".black1").hide();
+		 $(".login_tk").hide();
+	 })
+	 // 点击选择性别
+	 $(".xb").click(function() {
+		 $(".checkbox").removeClass("checkboxon");
+		 $(this).children().first().toggleClass("checkboxon");
+	 })
+
+	 // 点击获取数据
+	 $(".jr").click(function() {
+	 	// 获取角色名
+	 	var nick = $("#nick").val();
+	 	// 只能输入汉字跟26个英文字母 的 正则表达式
+	 	var name = /^[a-zA-Z\u4e00-\u9fa5]+$/;
+	 	// 用test()方法判断 并返回
+	 	var result = name.test(nick);
+	 	// 如果判断不通过
+	 	if (result == false) {
+	 		exception_show("角色名只能为汉字或英文字母！");
+	 	}
+	 	// 如果判断通过
+	 	else {
+	 		// 获取性别
+		 	var gender = $(".checkboxon").attr("value");
+		 	// 判断
+	 		$.post(host + "/player", {action:"COMPLETE", nick:nick, gender:gender}, function(data) {
+				alert(data.ret);
+	 			switch(data.ret) {
+			 		// 未登录
+			 		case '-2':
+				 		window.location.href = '/login.html';
+				 		break;
+					// 取名成功
+					case '1':
+						window.location.href = '/index.html';
+						break;
+					default :
+				 		exception_show(data.desc);
+						break;
+	 			}
+	 	    }, "json")
+	 	}
+	 })
+
+	function exception_show(err){
+		$(".black1").show();
+		$(".login_tk").show();
+		$(".login_tk p").html(err);
+	}
+})
+</script>
+
+</head>
+<body class="nameimgbk">
+	<div class="naming_con">
+	 <ul>
+	   <li><img src="images/bk17.png" alt="" class="ssj"><input type="text" id="nick" value="" class="text01" placeholder="角色名" ></li>
+	   <li class="xb_li">
+
+	   	<div class="xb">
+	   		<span class="checkbox" value="1"></span>男
+	   	</div>
+	   	<div class="xb">
+	   		<span class="checkbox" value="0"></span>女
+	   	</div>
+	   		</li>
+	 </ul>
+	 <a href="javascript:void(0)"><img src="images/jr.png" alt="" class="jr"></a>
+	</div>
+
+	<div class="black1" style="display: none;"></div>
+	<div class="login_tk" style="display: none;">
+		<p></p>
+	    <a class="qd">确定</a>
+	</div>
+</body>
+</html>

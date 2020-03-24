@@ -1,0 +1,35 @@
+﻿<script type="text/javascript">
+	
+	// 如果是接受拒绝类按钮
+	if(inquiry_button == 1){
+		// 获取按钮
+		sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getButton\", \"para\":[{\"category\":\"1015\"}]}");
+	}
+
+
+	// 同意按钮
+	function Agree(category, inquiry_ident){
+		sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"agree\",\"para\":[{\"category\":\""+category+"\", \"inquiry_ident\":\""+inquiry_ident+"\"}]}");
+	}
+
+	// 拒绝按钮
+	function Refuse(category, inquiry_ident){
+		// 关闭弹窗
+		$(".black").hide();
+	    $(".tkbox2").hide();
+		// console.log("1");
+		// 反馈切磋拒绝信息
+		sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"refuse\",\"para\":[{\"category\":\""+category+"\", \"inquiry_ident\":\""+inquiry_ident+"\"}]}");
+	}
+	
+</script>
+
+<div class="rw1"><img src="images/rw.png" alt="" class="rw_tx"><span class="rw_xm name"></span></div>
+
+	<!-- 问题描述 -->
+  <div class="tkbox2_con1 desc">
+ </div>
+	<!-- 按钮 -->
+ <div class="tk_button feedback"></a></div>
+</div>
+

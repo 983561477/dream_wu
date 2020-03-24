@@ -1,0 +1,34 @@
+﻿<script>
+  // 获取玩家按钮  
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getButton\",\"para\":[{\"category\":\"1013\"}]}");
+
+  // 玩家击杀按钮
+  function Player_kill(ident, challenged_ident){
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"player_kill\",\"para\":[{\"ident\":\""+ident+"\", \"challenged_ident\":\""+challenged_ident+"\"}]}");
+  }
+
+  // 玩家切磋按钮
+  function Player_compare(name, ident, feedback_name, feedback_ident){
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"player_compare\",\"para\":[{\"name\":\""+name+"\", \"ident\":\""+ident+"\", \"feedback_name\":\""+feedback_name+"\", \"feedback_ident\":\""+feedback_ident+"\"}]}");
+  }
+</script>
+
+<!-- 玩家信息显示 -->
+<div class="rw1"><img src="images/rw.png" alt="" class="rw_tx"><span class="rw_xm"></span></div>
+<div class="tkbox2_con1">
+  <!-- 玩家介绍 -->
+  <div class="introduce"></div>
+  <!-- 玩家战斗信息 -->
+  <div class="opponents"></div>
+  <!-- 玩家属性 -->
+  <div class="zb_txt2 property">
+      <div class="zb_tit01">
+        <span class="zbtit01_txt">属性</span>
+        <span class="zbtit01_line"></span>
+      </div>
+  </div>
+  <!-- 按钮 -->
+  <div class="player_but cz"></div>
+</div>
+<!-- 关闭按钮 -->
+<div class='tk_button'><a class='but03' name='gb'>关闭</a></div>

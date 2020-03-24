@@ -1,0 +1,202 @@
+﻿<script type="text/javascript">
+
+
+   $(document).ready(function(){
+
+      // 增加样式
+      $("body").addClass("bd02");
+
+      var h1 = $(".zd_top").height();
+      var h2 = $(".zd_bottom").height();
+      var H = $(window).height();
+      $(".zd_mid").css("height",H-h1-h2);
+
+      // 判断是电脑还是手机
+      if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){
+          // 设备为手机
+          equipment == 1;
+      }else {
+          // 设备为电脑
+          equipment == 0;
+
+          // 给 body 设置宽高
+          $("body").css("width", "7.5rem");
+          $("body").height(html_height);
+
+          // 获取弹窗的宽度
+          var tkbox_width = $(".tkbox2").width();
+          // 弹窗的左偏位置
+          $(".tkbox2").css("left", (window_width - tkbox_width) / 2);
+
+          //$("body").css("background", "#d5d0cd");
+      }
+   })
+
+  // console.log("开始执行获取战斗成员信息");
+  // 
+  // 获取战斗成员的信息
+  Push_combat_info();
+  // 获得自己的战斗技能
+  Get_combat_skills();
+  // console.log("执行完毕");
+
+// 血条内力条增加
+function BarAdd(pid, css, now, bl) {
+  //初始化js进度条
+  $(css).css("width", now+"%");
+  //进度条的速度，越小越快
+  var speed = 3;
+  var nowWidth = now;
+
+  pid = setInterval(function() {
+    //宽度要不能大于进度条的总宽度
+    if(nowWidth < bl) {
+      nowWidth++;
+      $(css).css("width", nowWidth + "%");
+    }
+    else {
+      //进度条读满后，停止
+      clearInterval(pid);
+    } 
+  }, speed);
+}
+
+
+
+function BloodPH(pid, cls, damage) {
+  $(cls).html(damage);
+  $(cls).css("top", "28px");
+  var top = 28;
+  pid = setInterval(function() {
+    if(top > 1) {
+      top--;
+      $(cls).css("top", top + "px");
+    }
+    else {
+      clearInterval(pid);
+      $(cls).html("");
+    }
+  }, 25);
+}
+
+
+// 血条内力条减少
+function BarSub(pid, css, now, bl) {
+  //初始化js进度条
+  $(css).css("width", now+"%");
+  //进度条的速度，越小越快
+  var speed = 3;
+  var nowWidth = now;
+
+  pid = setInterval(function() {
+    if(nowWidth > bl) {
+      nowWidth--;
+      $(css).css("width", nowWidth + "%");
+    }
+    else {
+      clearInterval(pid);
+    } 
+  }, speed);
+}
+
+// 战斗逃跑
+function Combat_escape(){
+  // console.log("逃跑开始");
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"combat_escape\",\"para\":[]}");
+  // console.log("逃跑结束");
+}
+
+// 战斗技能函数
+function Onclick_skill(combat_skill_id, combat_skill_consume_cd){
+  // console.log("combat_skill_id : " + combat_skill_id);
+  // console.log("combat_skill_consume_cd : " + combat_skill_consume_cd);
+  if(combat_cd >= combat_skill_consume_cd){
+      // 获取当前战斗技能招式
+      sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_skill_style\",\"para\":[{\"combat_skill_id\":\""+combat_skill_id+"\"}]}");
+      // 消耗战斗cd
+      sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"consume_combat_cd\",\"para\":[{\"combat_skill_consume_cd\":\""+combat_skill_consume_cd+"\"}]}");
+  }
+}
+
+// 开启自动战斗
+function Open_auto_combat(){
+    // 改为自动
+    $(".open_auto_combat").hide();
+    $(".close_auto_combat").show();
+    // 发送指令
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"open_auto_combat\",\"para\":[]}");
+}
+
+// 关闭自动战斗
+function Close_auto_combat(){
+    // 改为手动
+    $(".close_auto_combat").hide();
+    $(".open_auto_combat").show();
+    // 发送指令
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"close_auto_combat\",\"para\":[]}");
+}
+
+
+// 离开战斗界面
+function Leave_combat_html(){
+  // 加载地图页面
+  $("#home").load("/home.html");
+}
+
+</script>
+
+
+<!-- 弹窗界面 -->
+<div class="black" style="display: none;"></div>
+<div class="tkbox2" style="display: none;"></div>
+
+<!-- 敌方 -->
+<div class="zd_top armyB">
+
+   <!-- 敌方人员信息 -->
+  <div class="zd_con1" id="memberB"></div>
+</div>
+
+<div class="zd_mid">
+  <!-- 分隔符 -->
+  <div class="zd_line1"></div>
+  <!-- 战斗内容 -->
+  <div class="zd_con2 combat_message"></div>
+  <!-- 分隔符 -->
+  <div class="zd_line2"></div>
+</div>
+
+<!-- 己方 -->
+<div class="zd_bottom armyA">
+
+ <!-- 己方人员信息 -->
+ <div class="zd_con1" id="memberA"></div>
+
+ <div class="zd_con3">
+   <button class="zd open_auto_combat" onclick="Open_auto_combat()">自动</button>
+   <button class="zd close_auto_combat" style="display: none;" onclick="Close_auto_combat()">手动</button>
+   <div class="zdjd3_con">
+    <div class="zd_jd3">
+      <span class="zdjd3_hs zdjd3_hs50 combat_cd_legth"></span>
+    </div>
+    <span class="zhi2 combat_cd_num"></span>
+   </div>
+
+   <button class="tp escape" onclick="Combat_escape()">逃跑</button>
+  </div>
+
+ <div class="zd_con4">
+    <a href="javascript:void(0)" class="zd_ng skill_0">无</a><a href="javascript:void(0)" class="zd_ng skill_1">无</a><a href="javascript:void(0)" class="zd_ng skill_2">无</a><a href="javascript:void(0)" class="zd_ng skill_3">无</a><a href="javascript:void(0)" class="zd_ng skill_4">无</a><a href="javascript:void(0)" class="zd_ng skill_5">无</a>
+
+   <!-- <a href="#" class="zd_ng  zd_ng1">天峰无极剑壹</a> -->
+
+
+   <div class="zd_con4_r combat_skills">
+   <!-- <div class="zd_img1"><img src="images/zb1.png" alt=""><span class="num">100</span></div> -->
+   <div class="zd_img1"></div>
+   <div class="zd_img1"></div>
+   </div>
+
+  </div>
+
+ </div>
