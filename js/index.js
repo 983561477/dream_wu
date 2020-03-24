@@ -242,7 +242,7 @@
 		// 臂力
 		try{
   	  		var s = '{"desc":"(.*?)","k":"bi_li","v":"(.*?)"}';
-			var bi_li = jst.match(s)[1];
+			var bi_li = jst.match(s)[2];
 		}
 		catch(exception){
 		    var bi_li = "空";
@@ -250,7 +250,7 @@
 		// 气劲
 		try{
     		var s = '{"desc":"(.*?)","k":"qi_jin","v":"(.*?)"}';
-			var qi_jin = jst.match(s)[1];
+			var qi_jin = jst.match(s)[2];
 		}
 		catch(exception){
 		    var qi_jin = "空";
@@ -258,7 +258,7 @@
 		// 根骨
 		try{
     		var s = '{"desc":"(.*?)","k":"gen_gu","v":"(.*?)"}';
-			var gen_gu = jst.match(s)[1];
+			var gen_gu = jst.match(s)[2];
 		}
 		catch(exception){
 		    var gen_gu = "空";
@@ -266,7 +266,7 @@
 		// 定力
 		try{
    		 	var s = '{"desc":"(.*?)","k":"ding_li","v":"(.*?)"}';
-			var ding_li = jst.match(s)[1];
+			var ding_li = jst.match(s)[2];
 		}
 		catch(exception){
 		    var ding_li = "空";
@@ -274,7 +274,7 @@
 		// 身法
 		try{
    		 	var s = '{"desc":"(.*?)","k":"shen_fa","v":"(.*?)"}';
-			var shen_fa = jst.match(s)[1];
+			var shen_fa = jst.match(s)[2];
 		}
 		catch(exception){
 		    var shen_fa = "空";
@@ -282,7 +282,7 @@
 		// 潜能
 		try{
     		var s = '{"desc":"(.*?)","k":"potency","v":"(.*?)"}';
-			var potency = jst.match(s)[1];
+			var potency = jst.match(s)[2];
 		}
 		catch(exception){
 		    var potency = "空";
