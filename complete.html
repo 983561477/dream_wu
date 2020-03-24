@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <title>梦武</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-<link rel="stylesheet" type="text/css" href="css/basic.css">
-<script type="text/javascript" src="/js/jquery-3.0.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/dream_wu/css/basic.css">
+<script type="text/javascript" src="/dream_wu/js/jquery-3.0.0.min.js"></script>
 
-<script src="/js/init.js"></script>
-<script src="/js/json2.js"></script>
+<script src="/dream_wu/js/init.js"></script>
+<script src="/dream_wu/js/json2.js"></script>
 
 
 <script type="text/javascript">
@@ -75,11 +75,11 @@
 	 			switch(data.ret) {
 			 		// 未登录
 			 		case '-2':
-				 		window.location.href = '/login.html';
+				 		window.location.href = '/dream_wu/login.html';
 				 		break;
 					// 取名成功
 					case '1':
-						window.location.href = '/index.html';
+						window.location.href = '/dream_wu/index.html';
 						break;
 					default :
 				 		exception_show(data.desc);
@@ -101,7 +101,7 @@
 <body class="nameimgbk">
 	<div class="naming_con">
 	 <ul>
-	   <li><img src="images/bk17.png" alt="" class="ssj"><input type="text" id="nick" value="" class="text01" placeholder="角色名" ></li>
+	   <li><img src="/dream_wu/images/bk17.png" alt="" class="ssj"><input type="text" id="nick" value="" class="text01" placeholder="角色名" ></li>
 	   <li class="xb_li">
 
 	   	<div class="xb">
@@ -112,7 +112,7 @@
 	   	</div>
 	   		</li>
 	 </ul>
-	 <a href="javascript:void(0)"><img src="images/jr.png" alt="" class="jr"></a>
+	 <a href="javascript:void(0)"><img src="/dream_wu/images/jr.png" alt="" class="jr"></a>
 	</div>
 
 	<div class="black1" style="display: none;"></div>
