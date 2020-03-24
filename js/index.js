@@ -175,10 +175,10 @@
 		// 性格
 		try{
 			var s = '{"desc":"(.*?)","k":"character","v":"(.*?)"}';
-			var gender = jst.match(s)[2];
+			var character = jst.match(s)[2];
 		}
 		catch(exception){
-		    var gender = "空";
+		    var character = "空";
 		}
 		// 当前血量
 		try{
