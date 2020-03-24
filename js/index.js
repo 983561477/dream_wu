@@ -123,12 +123,12 @@
 				var jst = JSON.stringify(attr);
 				// 是否是巫师
 				try{
-					var s = '{"desc":"是否是巫师","k":"isWiz","v":"(.*?)"}';
-					isWiz = jst.match(s)[1];
+					var s = '{"desc":"(.*?)","k":"isWiz","v":"(.*?)"}';
+					isWiz = jst.match(s)[2];
 				}
 				catch(exception){
-				    var s = '{"desc":"是否是巫师","k":"isWiz","parameter":"(.*?)","v":"(.*?)"}';
-					isWiz = jst.match(s)[2];
+				    var s = '{"desc":"(.*?)","k":"isWiz","parameter":"(.*?)","v":"(.*?)"}';
+					isWiz = jst.match(s)[3];
 				}
 				//console.log(isWiz);
 			}
@@ -146,138 +146,142 @@
     	var jst = JSON.stringify(property);
     	// 游戏内交易货币
 		try{
-			var s = '{"desc":"游戏内交易货币","k":"Money","v":"(.*?)"}';
-			player_game_money = jst.match(s)[1];
-		}
-		catch(exception){
-		    var s = '{"desc":"游戏内交易货币","k":"Money","parameter":"(.*?)","v":"(.*?)"}';
+			var s = '{"desc":"(.*?)","k":"Money","v":"(.*?)"}';
 			player_game_money = jst.match(s)[2];
 		}
-
-    	//console.log(player_game_money);
-    	// 称号
-    	try{
-		    var s = '{"desc":"称号","k":"title","v":"(.*?)"}';
-			var title = jst.match(s)[1];
-		}
 		catch(exception){
-		    var title = "空";
-		} 
+		    var s = '{"desc":"(.*?)","k":"Money","parameter":"(.*?)","v":"(.*?)"}';
+			player_game_money = jst.match(s)[3];
+		}
+
+		
+		// 左
 		// 赋值年龄
     	try{
-			var s = '{"desc":"年龄","k":"age","v":"(.*?)"}';
-			var age = jst.match(s)[1];
+			var s = '{"desc":"(.*?)","k":"age","v":"(.*?)"}';
+			var age = jst.match(s)[2];
 		}
 		catch(exception){
 		    var age = "空";
 		} 
 		// 性别
 		try{
-			var s = '{"desc":"性别","k":"gender","v":"(.*?)"}';
-			var gender = jst.match(s)[1];
+			var s = '{"desc":"(.*?)","k":"gender","v":"(.*?)"}';
+			var gender = jst.match(s)[2];
 		}
 		catch(exception){
 		    var gender = "空";
 		} 
-		// 等级
+		// 性格
 		try{
-	    	var s = '{"desc":"等级","k":"level","v":"(.*?)"}';
-			var level = jst.match(s)[1];
+			var s = '{"desc":"(.*?)","k":"character","v":"(.*?)"}';
+			var gender = jst.match(s)[2];
 		}
 		catch(exception){
-		    var level = "空";
-		} 
-		// 战斗力
-		try{
-    		var s = '{"desc":"战斗力","k":"combat_effect","v":"(.*?)"}';
-			var combat_effect = jst.match(s)[1];
+		    var gender = "空";
 		}
-		catch(exception){
-		    var combat_effect = "空";
-		} 
-		// 当前经验值
-		try{
-			var s = '{"desc":"当前经验值","k":"now_exp","v":"(.*?)"}';
-			var now_exp = jst.match(s)[1];
-		}
-		catch(exception){
-		    var now_exp = "空";
-		} 
-		// 下一级所需经验值
-		try{
-	    	var s = '{"desc":"下一级所需经验值","k":"next_exp","v":"(.*?)"}';
-			var next_exp = jst.match(s)[1];
-		}
-		catch(exception){
-		    var next_exp = "空";
-		} 
 		// 当前血量
 		try{
-    		var s = '{"desc":"当前血量","k":"now_hp","v":"(.*?)"}';
-			var now_hp = jst.match(s)[1];
+    		var s = '{"desc":"(.*?)","k":"now_hp","v":"(.*?)"}';
+			var now_hp = jst.match(s)[2];
 		}
 		catch(exception){
 		    var now_hp = "空";
 		} 
 		// 最大血量
 		try{
-    		var s = '{"desc":"最大血量","k":"max_hp","v":"(.*?)"}';
-			var max_hp = jst.match(s)[1];
+    		var s = '{"desc":"(.*?)","k":"max_hp","v":"(.*?)"}';
+			var max_hp = jst.match(s)[2];
 		}
 		catch(exception){
 		    var max_hp = "空";
 		} 
 		// 当前内力
 		try{
-    		var s = '{"desc":"当前内力","k":"now_mp","v":"(.*?)"}';
-			var now_mp = jst.match(s)[1];
+    		var s = '{"desc":"(.*?)","k":"now_mp","v":"(.*?)"}';
+			var now_mp = jst.match(s)[2];
 		}
 		catch(exception){
 		    var now_mp = "空";
 		} 
 		// 最大内力
 		try{
-    		var s = '{"desc":"最大内力","k":"max_mp","v":"(.*?)"}';
-			var max_mp = jst.match(s)[1];
+    		var s = '{"desc":"(.*?)","k":"max_mp","v":"(.*?)"}';
+			var max_mp = jst.match(s)[2];
 		}
 		catch(exception){
 		    var max_mp = "空";
+		} 	
+
+		// 右
+		// 等级
+		try{
+	    	var s = '{"desc":"(.*?)","k":"level","v":"(.*?)"}';
+			var level = jst.match(s)[2;
+		}
+		catch(exception){
+		    var level = "空";
 		} 
-		// 力量
+		// 当前经验值
 		try{
-  	  		var s = '{"desc":"力量","k":"power","v":"(.*?)"}';
-			var power = jst.match(s)[1];
+			var s = '{"desc":"(.*?)","k":"now_exp","v":"(.*?)"}';
+			var now_exp = jst.match(s)[2];
 		}
 		catch(exception){
-		    var power = "空";
+		    var now_exp = "空";
 		} 
-		// 体力
+		// 下一级所需经验值
 		try{
-    		var s = '{"desc":"体力","k":"physical","v":"(.*?)"}';
-			var physical = jst.match(s)[1];
+	    	var s = '{"desc":"(.*?)","k":"next_exp","v":"(.*?)"}';
+			var next_exp = jst.match(s)[2];
 		}
 		catch(exception){
-		    var physical = "空";
+		    var next_exp = "空";
 		} 
-		// 智力
+		
+		// 臂力
 		try{
-    		var s = '{"desc":"智力","k":"intelligence","v":"(.*?)"}';
-			var intelligence = jst.match(s)[1];
+  	  		var s = '{"desc":"(.*?)","k":"bi_li","v":"(.*?)"}';
+			var bi_li = jst.match(s)[1];
 		}
 		catch(exception){
-		    var intelligence = "空";
-		}
-		// 敏捷
+		    var bi_li = "空";
+		} 
+		// 气劲
 		try{
-   		 	var s = '{"desc":"敏捷","k":"agile","v":"(.*?)"}';
-			var agile = jst.match(s)[1];
+    		var s = '{"desc":"(.*?)","k":"qi_jin","v":"(.*?)"}';
+			var qi_jin = jst.match(s)[1];
 		}
 		catch(exception){
-		    var agile = "空";
+		    var qi_jin = "空";
+		} 
+		// 根骨
+		try{
+    		var s = '{"desc":"(.*?)","k":"gen_gu","v":"(.*?)"}';
+			var gen_gu = jst.match(s)[1];
+		}
+		catch(exception){
+		    var gen_gu = "空";
+		}
+		// 定力
+		try{
+   		 	var s = '{"desc":"(.*?)","k":"ding_li","v":"(.*?)"}';
+			var ding_li = jst.match(s)[1];
+		}
+		catch(exception){
+		    var ding_li = "空";
+		}
+		// 身法
+		try{
+   		 	var s = '{"desc":"(.*?)","k":"shen_fa","v":"(.*?)"}';
+			var shen_fa = jst.match(s)[1];
+		}
+		catch(exception){
+		    var shen_fa = "空";
 		}
 		// 潜能
 		try{
-    		var s = '{"desc":"潜能","k":"potency","v":"(.*?)"}';
+    		var s = '{"desc":"(.*?)","k":"potency","v":"(.*?)"}';
 			var potency = jst.match(s)[1];
 		}
 		catch(exception){
@@ -288,31 +292,34 @@
     	// 赋值姓名 nick
     	$(".nick").html(fiure.name);
 
-    	// 属性
-    	// 赋值称号 title 
-    	$(".title").html(title);	
+    	// 属性	
+    	// 左
     	// 赋值年龄 age 
     	$(".age").html("<span class='sp02'>年龄</span>" + age);
     	// 赋值性别 gender
 		$(".gender").html("<span class='sp02'>性别</span>" + gender);
-    	// 赋值等级 level
-    	$(".level").html("<span class='sp02'>等级</span>" + level + "<a href='javascript:void(0)' onclick='uplevel()' class='but08 filter'>升级</a>");
-    	// 战斗力 combat_effect
-    	$(".combat_effect").html("<span class='sp02'>战斗力</span>" + combat_effect);
-    	// 赋值经验值 experience
-    	$(".experience").html("<span class='sp02'>经验值</span>" + now_exp + "(" + Math.round(now_exp/next_exp*100) + "%)");
-    	// 赋值血量 now_hp max_hp 
+		// 赋值性格 character
+		$(".character").html("<span class='sp02'>性格</span>" + character);
+		// 赋值血量 now_hp max_hp 
     	$(".hp").html("<span class='sp02'>血量</span>" + now_hp + "/" + max_hp);
     	// 赋值内力 now_hp max_hp 
     	$(".mp").html("<span class='sp02'>内力</span>" + now_mp + "/" + max_mp);
-    	// 赋值力量 power 
-    	$(".power").html("<span class='sp02'>力量</span>" + power + "<a href='javascript:void(0)' onclick='upattr(7)' class='but08 filter'>提升</a>");
-    	// 赋值体力 physical
-    	$(".physical").html("<span class='sp02'>体力</span>" + physical + "<a href='javascript:void(0)' onclick='upattr(8)' class='but08 filter'>提升</a>");
-    	// 赋值智慧 intelligence 
-    	$(".intelligence").html("<span class='sp02'>智力</span>" + intelligence + "<a href='javascript:void(0)' onclick='upattr(9)' class='but08 filter'>提升</a>");
-    	// 赋值敏捷 agile 
-    	$(".agile").html("<span class='sp02'>敏捷</span>" + agile + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
+
+    	// 右
+    	// 赋值等级 level
+    	$(".level").html("<span class='sp02'>等级</span>" + level + "<a href='javascript:void(0)' onclick='uplevel()' class='but08 filter'>升级</a>");
+    	// 赋值经验 experience
+    	$(".experience").html("<span class='sp02'>经验值</span>" + now_exp + "(" + Math.round(now_exp/next_exp*100) + "%)");
+    	// 赋值臂力 bi_li 
+    	$(".bi_li").html("<span class='sp02'>力量</span>" + bi_li + "<a href='javascript:void(0)' onclick='upattr(7)' class='but08 filter'>提升</a>");
+    	// 赋值气劲 qi_jin
+    	$(".qi_jin").html("<span class='sp02'>体力</span>" + qi_jin + "<a href='javascript:void(0)' onclick='upattr(8)' class='but08 filter'>提升</a>");
+    	// 赋值根骨 gen_gu 
+    	$(".gen_gu").html("<span class='sp02'>智力</span>" + gen_gu + "<a href='javascript:void(0)' onclick='upattr(9)' class='but08 filter'>提升</a>");
+    	// 赋值定力 ding_li 
+    	$(".ding_li").html("<span class='sp02'>敏捷</span>" + ding_li + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
+    	// 赋值身法 shen_fa 
+    	$(".shen_fa").html("<span class='sp02'>敏捷</span>" + shen_fa + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
     	// 赋值潜能 potency 
     	$(".potency").html("<span class='sp02'>潜能</span>" + potency);
     	// 判断潜能大于0
@@ -376,41 +383,38 @@
 				// 赋值物资属
 				var jst = JSON.stringify(property);
 				// 是否是巫师
-				try{
-					var s = '{"desc":"是否是巫师","k":"isWiz","v":"(.*?)"}';
-					var is_wiz = jst.match(s)[1];
-				}
-				catch(exception){
-				    var s = '{"desc":"是否是巫师","k":"isWiz","parameter":"(.*?)","v":"(.*?)"}';
-					var is_wiz = jst.match(s)[2];
-				}
-				// 游戏内交易货币
-				try{
-					var s = '{"desc":"游戏内交易货币","k":"Money","v":"(.*?)"}';
-					var game_money = jst.match(s)[1];
-				}
-				catch(exception){
-				    var s = '{"desc":"游戏内交易货币","k":"Money","parameter":"(.*?)","v":"(.*?)"}';
-					var game_money = jst.match(s)[2];
-				}
-				// 离线场景
-				try{
-					var s = '{"desc":"离线场景","k":"Offline_Scene","v":"(.*?)"}';
-					var offline_scene = jst.match(s)[1];
-				}
-				catch(exception){
-				    var s = '{"desc":"离线场景","k":"Offline_Scene","parameter":"(.*?)","v":"(.*?)"}';
-					var offline_scene = jst.match(s)[2];
-				}
-
-
-
+				// try{
+				// 	var s = '{"desc":"是否是巫师","k":"isWiz","v":"(.*?)"}';
+				// 	var is_wiz = jst.match(s)[1];
+				// }
+				// catch(exception){
+				//     var s = '{"desc":"是否是巫师","k":"isWiz","parameter":"(.*?)","v":"(.*?)"}';
+				// 	var is_wiz = jst.match(s)[2];
+				// }
+				// // 游戏内交易货币
+				// try{
+				// 	var s = '{"desc":"游戏内交易货币","k":"Money","v":"(.*?)"}';
+				// 	var game_money = jst.match(s)[1];
+				// }
+				// catch(exception){
+				//     var s = '{"desc":"游戏内交易货币","k":"Money","parameter":"(.*?)","v":"(.*?)"}';
+				// 	var game_money = jst.match(s)[2];
+				// }
+				// // 离线场景
+				// try{
+				// 	var s = '{"desc":"离线场景","k":"Offline_Scene","v":"(.*?)"}';
+				// 	var offline_scene = jst.match(s)[1];
+				// }
+				// catch(exception){
+				//     var s = '{"desc":"离线场景","k":"Offline_Scene","parameter":"(.*?)","v":"(.*?)"}';
+				// 	var offline_scene = jst.match(s)[2];
+				// }
 				// 玩家是否为巫师
-				$(".property").append("<p>是否是巫师：" + is_wiz +"</p>");
-				// 玩家游戏内交易货币
-				$(".property").append("<p>游戏内交易货币：" + game_money +"</p>");
-				// 玩家离线场景
-				$(".property").append("<p>离线场景：" + offline_scene +"</p>");
+				// $(".property").append("<p>是否是巫师：" + is_wiz +"</p>");
+				// // 玩家游戏内交易货币
+				// $(".property").append("<p>游戏内交易货币：" + game_money +"</p>");
+				// // 玩家离线场景
+				// $(".property").append("<p>离线场景：" + offline_scene +"</p>");
 
 				// 设置基本样式
 			    tkbox2();
@@ -430,11 +434,10 @@
 				// 赋值NPC描述
 				$(".introduce").html("<p>"+ res.introduce +"</p>");
 				// 循环赋值NPC属性
-				$.each(res.attr, function(i){
-					// 属性
-					$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");	
-				});
-
+				// $.each(res.attr, function(i){
+				// 	// 属性
+				// 	$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");	
+				// });
 				// 设置基本样式
 			    tkbox2();
 				});
