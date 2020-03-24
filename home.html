@@ -45,19 +45,19 @@
    // 点击江湖
    $(".nav1").click(function(){
     clearstyle(6,1);
-    $("#home").load("/dream_wu/home.html");
+    $("#home").load("home.html");
    });
 
   // 人物首页
   $(".nav2").click(function(){
     clearstyle(6,2);
-    $(".page").load("/dream_wu/page/fiure-self-details.html");
+    $(".page").load("page/fiure-self-details.html");
   });
 
   // 技能页面
   $(".nav3").click(function(){
     clearstyle(6,3);
-    $(".page").load("/dream_wu/page/skill.html");
+    $(".page").load("page/skill.html");
   });
 
   $(".nav4").click(function(){
@@ -91,7 +91,7 @@
     }
     if(player_state == 1){
       // 加载战斗界面
-      $("#home").load("/dream_wu/page/combat.html");
+      $("#home").load("page/combat.html");
       return;
     }
   }
@@ -116,9 +116,9 @@ function go(path) {
   <!-- 方位界面 -->
   <div class="container1">
     <div class="header">
-      <div class="h_l"><a href="#"><img src="/dream_wu/images/sj.png" alt=""></a></div> 
+      <div class="h_l"><a href="#"><img src="images/sj.png" alt=""></a></div> 
       <div class="title" id="title"></div>
-      <div class="h_r"><a href="#"><img src="/dream_wu/images/dt.png" alt=""></a></div>
+      <div class="h_r"><a href="#"><img src="images/dt.png" alt=""></a></div>
     </div>
 
     <!-- 当前方位介绍 style="font-size:13px" -->
@@ -128,7 +128,7 @@ function go(path) {
 
     <!-- 方位界面 -->
     <div class="box01">
-      <img src="/dream_wu/images/img01.jpg" alt="" class="img01">
+      <img src="images/img01.jpg" alt="" class="img01">
       <div class="box01_con">
         <!-- 西北 westnorth -->
         <a href="javascript:void(0)" class="but01 tm filter" id="westnorth"></a>
@@ -166,7 +166,7 @@ function go(path) {
 <div class="container3">
   <!-- 聊天界面 -->
   <div class="txt02">
-    <a class="lt talk_but"><img src="/dream_wu/images/ico05.png" alt=""></a>
+    <a class="lt talk_but"><img src="images/ico05.png" alt=""></a>
   </div>
 
   <!-- 功能界面 -->

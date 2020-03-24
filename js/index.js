@@ -8,7 +8,7 @@
 			console.log(warning.code);
 			console.log(warning.desc);
 			alert("错误代码："+ warning.code +"\n错误描述："+warning.desc+"");
-			window.location.href = '/login.html';
+			window.location.href = 'login.html';
 			return;
 		}
 		return;
@@ -24,7 +24,7 @@
 		// 传送玩家的状态
 		player_state = 0;
 		// 加载home.html
-		$("#home").load("/home.html");
+		$("#home").load("home.html");
 		return;
 	}
 
@@ -38,7 +38,7 @@
 			// 传送玩家的状态
 			player_state = 1;
 			// 加载主页面后判断
-			$("#home").load("/home.html");
+			$("#home").load("home.html");
 			//return;
 		}
 		return;
@@ -217,7 +217,7 @@
 		// 等级
 		try{
 	    	var s = '{"desc":"(.*?)","k":"level","v":"(.*?)"}';
-			var level = jst.match(s)[2;
+			var level = jst.match(s)[2];
 		}
 		catch(exception){
 		    var level = "空";
@@ -375,7 +375,7 @@
 		//物资为玩家
 		if(res_pid == 1001)
 		{
-			$(".tkbox2").load("/page/player-info-display.html", function(){
+			$(".tkbox2").load("page/player-info-display.html", function(){
 				// 赋值玩家名字
 				$(".rw_xm").html(res.name);
 				// 赋值玩家描述
@@ -428,7 +428,7 @@
 		//物资为npc
 		if(res_pid == 1002)
 		{	
-			$(".tkbox2").load("/page/npc-info-display.html", function(){
+			$(".tkbox2").load("page/npc-info-display.html", function(){
 				// 赋值NPC名字
 				$(".rw_xm").html(res.name);
 				// 赋值NPC描述
@@ -454,7 +454,7 @@
 			goods_category = res.category;
 			// console.log(goods_category);
 
-			$(".tkbox2").load("/page/material-info-display.html", function(){
+			$(".tkbox2").load("page/material-info-display.html", function(){
 				// 赋值物资名字
 				$(".zb_mc").html(res.name);
 				// 赋值物资描述
@@ -597,7 +597,7 @@
 	// 玩家 江湖属性
 	if(data.player_attr1 != null){
 		var player_attr1 = data.player_attr1;
-		$(".tkbox2").load("/page/fiure-jh-property.html", function(){
+		$(".tkbox2").load("page/fiure-jh-property.html", function(){
 			// 赋值姓名 nick
 			$(".txt03").html("<p>"+ player_attr1.nick +"</p>");
 			// 赋值攻击 attack
@@ -631,7 +631,7 @@
 		// 背包种类
 		var backCategory = data.Back_category;
 		// 赋值物品的种类
-        for (var i = 0; i < backCategory.length; i++){
+        for(var i = 0; i < backCategory.length; i++){
             $(".flsx_con").append("<a href='javascript:void(0)' onclick='back_uid(\""+backCategory[i].uid+"\")'>"+backCategory[i].introduce+"</a>");
         }
         return;
@@ -737,7 +737,7 @@
 		back_goods_category = jst.match(s)[2];
 		//console.log(equip_is_wear);
 		// 赋值物品详情页面
-		$(".tkbox2").load("/page/back-goods-info.html", function(){
+		$(".tkbox2").load("page/back-goods-info.html", function(){
 			// 赋值物资名字
 			$(".zb_mc").html(res.name);
 			// 赋值物资描述
@@ -882,7 +882,7 @@
 		var grade = jst.match(s)[1];
 
 		// 赋值技能详情页面
-		$(".tkbox2").load("/page/skill-details.html", function(){
+		$(".tkbox2").load("page/skill-details.html", function(){
 			// 赋值技能名称 等级
 			$(".skill").append("<div class='tkbox2_tit01 martia_color"+grade+"'>"+skill_name+"<span class='jndj'>"+level+"级</span></div>");
 			// 赋值技能描述
@@ -937,7 +937,7 @@
 				// 接受拒绝类按钮
 				inquiry_button = 1;
 				// 赋值切磋询问弹窗
-				$(".tkbox2").load("/page/inquiry-window.html", function(){
+				$(".tkbox2").load("page/inquiry-window.html", function(){
 					// 赋值物资名字
 					$(".name").html(inquiry_name);
 					// 赋值物资描述
@@ -1011,7 +1011,7 @@
 			$(".black").hide();
 			$(".tkbox2").hide();
 			// 加载home.html
-			$("#home").load("/home.html");
+			$("#home").load("home.html");
 			return;
 		}
 
@@ -1033,7 +1033,7 @@
 			$(".black").hide();
 			$(".tkbox2").hide();
 			// 加载战斗界面
-			$("#home").load("/page/combat.html");
+			$("#home").load("page/combat.html");
 			return;
 		}
 
@@ -1043,7 +1043,7 @@
 			$(".black").hide();
 			$(".tkbox2").hide();
 			// 加载战斗界面
-			$("#home").load("/page/combat.html");
+			$("#home").load("page/combat.html");
 			return;
 		}
 
