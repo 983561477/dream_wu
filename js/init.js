@@ -1,5 +1,5 @@
 ﻿//var host="http://localhost:8080";
-var host="http://mud1.taesio.com:8080";
+var host="http://tgmudyq.gitee.io/dream_wu";
 
 $(function () {
         $.ajaxSetup({xhrFields: {withCredentials: true}});
@@ -35,7 +35,7 @@ var other_ident;
 // 其它物资的name
 var other_name;
 
-var gid;    // 游戏id
+var gid = 300;    // 游戏id
 
 //玩家的游戏货币
 var player_game_money; 

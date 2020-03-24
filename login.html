@@ -62,7 +62,7 @@
 			// 获取密码
 			var password = $("#password").val();
 			// 获取游戏id
-			gid = $("#game_id").val();
+			// gid = $("#game_id").val();
 			//console.log("gid = " + gid);
 			// 传送数据
 			$.post(host + "/player", {action:"LOGIN", login_name:login_name, password:password, game_id:gid}, function(data) {
@@ -105,10 +105,10 @@
 	    <img src="images/bk13.png" alt="" class="ssj">
 		<input type="password" id="password" value="" class="text03" placeholder="密码">
 	</li>
-	<li>
+<!-- 	<li>
 	    <img src="images/bk13.png" alt="" class="ssj">
 		<input type="text" id="game_id" value="" class="text03" placeholder="游戏ID">
-	</li>
+	</li> -->
    <li><a href="/register.html">立即注册</a></li>
  </ul>
 
