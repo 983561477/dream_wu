@@ -1,5 +1,5 @@
 ﻿//var host="http://localhost:8080";
-var host="http://tgmudyq.gitee.io/dream_wu";
+var host="http://mud1.taesio.com:8080";
 
 $(function () {
         $.ajaxSetup({xhrFields: {withCredentials: true}});
