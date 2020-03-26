@@ -70,9 +70,10 @@
     window.location.href = "";
   });
 
+  // 系统
   $(".nav6").click(function(){
 	  clearstyle(6,6);
-    window.location.href = "";
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"reLoad\",\"para\":[]}");
   });
 
 });

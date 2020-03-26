@@ -343,6 +343,28 @@
     	return;
     }
 
+    // 玩家 江湖属性
+	if(data.fiure_jh_property != null){
+		var fiure_jh_property = data.fiure_jh_property;
+		$(".tkbox2").load("page/fiure-jh-property.html", function(){
+			// 赋值姓名 nick
+			// $(".txt03").html("<p>"+ fiure_jh_property.nick +"</p>");
+			// 赋值攻击 attack
+			$(".ul02").append("<li><span>攻击</span>"+ fiure_jh_property.attack +"</li>");
+			// 赋值防御 defense
+			$(".ul02").append("<li><span>防御</span>"+ fiure_jh_property.defense +"</li>");
+			// 赋值命中 hit
+			$(".ul02").append("<li><span>命中</span>"+ fiure_jh_property.hit +"</li>");
+			// 赋值敏捷 agility
+			$(".ul02").append("<li><span>敏捷</span>"+ fiure_jh_property.agility +"</li>");
+			// 设置基本样式
+		    tkbox2();
+		});
+		// 显示弹窗
+		$(".black").show();
+		$(".tkbox2").show();
+		return;
+	}
 
     // 打坐收益
     if (data.dazuo_result != null){
@@ -359,6 +381,8 @@
     	$(".force").html("<span class='sp02'>内力</span>" + dazuo_result.present_force + "/" + dazuo_result.max_force);
     	return;
     }
+
+
 
 	// 查看场景物资信息
 	if(data.view_res != null){
@@ -591,99 +615,197 @@
 		return;
 	}
 
-
-
-
-	// 玩家 江湖属性
-	if(data.player_attr1 != null){
-		var player_attr1 = data.player_attr1;
-		$(".tkbox2").load("page/fiure-jh-property.html", function(){
-			// 赋值姓名 nick
-			$(".txt03").html("<p>"+ player_attr1.nick +"</p>");
-			// 赋值攻击 attack
-			$(".ul02").append("<li><span>攻击</span>"+ player_attr1.attack +"</li>");
-			// 赋值防御 defense
-			$(".ul02").append("<li><span>防御</span>"+ player_attr1.defense +"</li>");
-			$(".ul02").append("<li><span>命中</span>"+ player_attr1.hit +"</li>");
-			// 赋值敏捷 agility
-			// 赋值命中 hit
-			$(".ul02").append("<li><span>敏捷</span>"+ player_attr1.agility +"</li>");
-			// 赋值银两 tael
-			$(".ul02").append("<li><span>携带银两</span>"+ player_attr1.tael +"</li>");
-			// 赋值杀戮值 kill_count
-			$(".ul02").append("<li><span>杀戮值</span>"+ player_attr1.kill_count +"</li>");
-			// 赋值死亡次数 die_count
-			$(".ul02").append("<li><span>死亡次数</span>"+ player_attr1.die_count +"</li>");
-			// 设置基本样式
-		    tkbox2();
-		});
-		// 显示弹窗
-		$(".black").show();
-		$(".tkbox2").show();
-		return;
-	}
-
-
-	// 背包分类
-	if(data.Back_category != null){
-		// 赋值玩家游戏金币
-		$(".game_money").after(player_game_money);
-		// 背包种类
-		var backCategory = data.Back_category;
-		// 赋值物品的种类
-        for(var i = 0; i < backCategory.length; i++){
-            $(".flsx_con").append("<a href='javascript:void(0)' onclick='back_uid(\""+backCategory[i].uid+"\")'>"+backCategory[i].introduce+"</a>");
-        }
-        return;
-	}
-
 	// 人物页面或背包页面获取物品
+	function Function_Equip_wear_show(equip_part_id){
+		// 图片id
+		var s = '{"desc":"(.*?)","k":"image_id","v":"(.*?)"}';
+		var image_id = jst.match(s)[2];	
+		// 消除字体
+		$("#"+ equip_part_id + " span").html("");
+		// 如果穿戴则给玩家穿戴上
+		$("#"+ equip_part_id + " img").attr("src", "images/"+image_id+".png");
+		// 增加物品详情按钮
+		$("#"+ equip_part_id).attr("onclick", "back_goods_info('"+goods_id+"')");
+	}
+
 	if(data.Back_reses != null){
 		var back_size = data.Back_reses.size;
 		var res = data.Back_reses.res_list;
 		// 如果是从人物页面传入
 		if(is_fiure_or_back == 'fiure'){
-			// 将穿戴数量置零
-			equip_HandLeft_count = 0;
-			//console.log("1");
-			// 循环判断
+			// 将部位数组重置 为0
+			equip_part_array = [0,0,0,0,0,0,0,0,0,0,0,0];
+			// 循环判断装备是否穿戴
 			for(var i = 0; i < res.length; i++){
 				// 赋值物品id
 				goods_id = res[i].id;
-				// 获取物品是否穿戴
 				var attr = res[i].attr;
 				var jst = JSON.stringify(attr);
-				var s = '{"desc":"部位","k":"part","v":"(.*?)"}';
-				equip_part = jst.match(s)[1];
-				var s = '{"desc":"是否穿戴","k":"is_wear","v":"(.*?)"}';
-				equip_is_wear = jst.match(s)[1];
-				// 增加该部位穿戴数目
-				if(equip_part == 'hand_left' && equip_is_wear == 1){
-					equip_HandLeft_count++;
-					// console.log(equip_HandLeft_count);
-				}
-				// 同一部位穿戴物品数量多于1报错修改
-				if(equip_HandLeft_count > 1){
-					alert("左手部位已有穿戴物品！！")
-					// 修改穿戴属性
-					var res_id = goods_id;
-					var key = "is_wear";
-					var value = 0;
-					Modify_goods_attr(res_id, key, value);
-    				// 减少物品穿戴数目
-    				equip_HandLeft_count--;
-    				// console.log(equip_HandLeft_count);
-				}
-
-				// 判断是否穿戴
+				// 穿戴部位
+				var s = '{"desc":"(.*?)","k":"part","v":"(.*?)"}';
+				equip_part = jst.match(s)[2];
+				// 是否穿戴
+				var s = '{"desc":"(.*?)","k":"is_wear","v":"(.*?)"}';
+				equip_is_wear = jst.match(s)[2];
+				// 判断装备是否穿戴
 				if(equip_is_wear == 1){
-					//console.log("穿戴物品");
-					// 如果穿戴则给玩家穿戴上
-					$("#"+ equip_part + " img").attr("src", "images/zb1.png");
-					// 消除字体
-					$("#"+ equip_part + " span").html("");
-					// 增加物品详情按钮
-					$("#"+ equip_part).attr("onclick", "back_goods_info('"+goods_id+"')");
+					// 判断武器穿戴部位
+					switch(equip_part){
+						// 1
+						case "武器":
+							// 如果武器部位等于零
+							if(equip_part_array[0] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("weapon");
+								// 增加该部位数组长度
+								equip_part_array[0] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;
+						// 2
+						case "项链":
+							// 如果项链部位等于零
+							if(equip_part_array[1] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("necklace");
+								// 增加该部位数组长度
+								equip_part_array[1] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;
+						// 3 4
+						case "戒指":
+							// 如果戒指左部位等于零
+							if(equip_part_array[2] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("ring_left");
+								// 增加该部位数组长度
+								equip_part_array[2] = 1;
+							}
+							// 如果戒指右部位等于零
+							else if(equip_part_array[3] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("ring_right");
+								// 增加该部位数组长度
+								equip_part_array[3] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;	
+						// 5 6
+						case "护符":
+							// 如果护符左部位等于零
+							if(equip_part_array[4] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("amulet_left");
+								// 增加该部位数组长度
+								equip_part_array[4] = 1;
+							}
+							// 如果护符右部位等于零
+							if(equip_part_array[5] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("amulet_right");
+								// 增加该部位数组长度
+								equip_part_array[5] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;
+						// 7
+						case "帽子":
+							// 如果帽子部位等于零
+							if(equip_part_array[6] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("cap");
+								// 增加该部位数组长度
+								equip_part_array[6] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;
+						// 8
+						case "衣服":
+							// 如果衣服部位等于零
+							if(equip_part_array[7] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("clothing");
+								// 增加该部位数组长度
+								equip_part_array[7] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;	
+						// 9
+						case "鞋子":
+							// 如果鞋子部位等于零
+							if(equip_part_array[8] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("shoes");
+								// 增加该部位数组长度
+								equip_part_array[8] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;	
+						// 10
+						case "手套":
+							// 如果手套部位等于零
+							if(equip_part_array[9] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("gloves");
+								// 增加该部位数组长度
+								equip_part_array[9] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;
+						// 11
+						case "护腕":
+							// 如果护腕部位等于零
+							if(equip_part_array[10] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("wristbands");
+								// 增加该部位数组长度
+								equip_part_array[10] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;
+						// 12
+						case "护肩":
+							// 如果护肩部位等于零
+							if(equip_part_array[11] == 0){
+								// 穿戴显示
+								Function_Equip_wear_show("wristbands");
+								// 增加该部位数组长度
+								equip_part_array[11] = 1;
+							}
+							else{
+								// 修改该装备 穿戴属性为 未穿戴
+								Modify_goods_attr(goods_id, "is_wear", 0);
+							}
+							break;
+					}
 				}
 			}
 			return;
@@ -691,6 +813,7 @@
 
 		// 如果是从背包页面传入
 		if(is_fiure_or_back == 'back'){
+
 			// 清空背包格子
 			$(".xn_xq").html("");
 			// 赋值背包格子数目
@@ -709,9 +832,13 @@
 
 			// 赋值背包物品
 			for(var i = 0; i < res.length; i++){
+				var attr = res[i].attr;
+				var jst = JSON.stringify(attr);
+				var s = '{"desc":"(.*?)","k":"image_id","v":"(.*?)"}';
+				var image_id = jst.match(s)[2];
 				// 赋值物品id
 				goods_id = res[i].id;
-				$("." + i + " img").attr("src", "images/zb1.png");
+				$("." + i + " img").attr("src", "images/"+image_id+".png");
 				// 增加物品详情按钮
 				$("." + i).attr("onclick", "back_goods_info('"+goods_id+"')");
 			}
@@ -720,6 +847,20 @@
 		return;
 	}
 
+	// 背包分类
+	if(data.Back_category != null){
+		// 赋值玩家游戏金币
+		$(".game_money").after(player_game_money);
+		// 背包种类
+		var back_category = data.Back_category;
+		// 赋值物品的种类
+        for(var i = 0; i < back_category.length; i++){
+        	var uid = back_category[i].uid;
+        	var introduce = back_category[i].introduce;
+            $(".flsx_con").append("<a href='javascript:void(0)' onclick='Back_category_goods(\""+uid+"\", \""+introduce+"\")'>"+introduce+"</a>");
+        }
+        return;
+	}
 
 	// 背包单个物品详情
 	if(data.Back_res != null){
@@ -729,33 +870,69 @@
 		// 获取物品是否穿戴
 		var attr = res.attr;
 		var jst = JSON.stringify(attr);
-		var s = '{"desc":"(.*?)","k":"is_wear","v":"(.*?)"}';
-		equip_is_wear = jst.match(s)[2];
-		var s = '{"desc":"(.*?)","k":"part","v":"(.*?)"}';
-		equip_part = jst.match(s)[2];
-		var s = '{"desc":"(.*?)","k":"category","v":"(.*?)"}';
-		back_goods_category = jst.match(s)[2];
-		//console.log(equip_is_wear);
-		// 赋值物品详情页面
-		$(".tkbox2").load("page/back-goods-info.html", function(){
-			// 赋值物资名字
-			$(".zb_mc").html(res.name);
-			// 赋值物资描述
-			$(".introduce").html("<p>"+ res.introduce +"</p>");
-			// 循环赋值物资属性
-			$.each(res.attr, function(i){
-				//console.log(res.attr[i].desc);
-				// 属性
-				if(res.attr[i].desc != '是否穿戴' && res.attr[i].desc != '部位'){
-					$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");
-				}
+
+		// 如果物资是装备
+		if(back_category_introduce == "装备"){
+			// 等级
+			var s = '{"desc":"(.*?)","k":"level","v":"(.*?)"}';
+			var level = jst.match(s)[2]; 
+			// 星级
+			var s = '{"desc":"(.*?)","k":"star_level","v":"(.*?)"}';
+			var star_level = jst.match(s)[2];
+			// 颜色
+			var s = '{"desc":"(.*?)","k":"color","v":"(.*?)"}';
+			var color = jst.match(s)[2];
+			// 类型
+			var s = '{"desc":"(.*?)","k":"category","v":"(.*?)"}';
+			var category = jst.match(s)[2];	
+			// 部位
+			var s = '{"desc":"(.*?)","k":"part","v":"(.*?)"}';
+			equip_part  = jst.match(s)[2];	
+
+
+			// 基础属性
+			var s = '{"desc":"(.*?)","k":"basic_properties","v":"(.*?)"}';
+			var basic_properties = jst.match(s)[2];		
+			// 随机属性
+			var s = '{"desc":"(.*?)","k":"random_properties","v":"(.*?)"}';
+			var random_properties = jst.match(s)[2];
+
+			// 是否穿戴
+			var s = '{"desc":"(.*?)","k":"is_wear","v":"(.*?)"}';
+			equip_is_wear = jst.match(s)[2];	
+			// 图片id
+			var s = '{"desc":"(.*?)","k":"image_id","v":"(.*?)"}';
+			var image_id = jst.match(s)[2];	
+
+			// 赋值物品详情页面
+			$(".tkbox2").load("page/back-enuipment-window.html", function(){
+				// 赋值物资图片
+				$(".image img").attr("src", "images/"+image_id+".png");
+				// 赋值物资名字
+				$(".name").html(res.name);
+				// 赋值物资描述
+				$(".introduce").html("<p>"+ res.introduce +"</p>");
+				// 赋值物资标准属性
+				$(".standard_property").append("<p>类型："+category+"</p>");
+				$(".standard_property").append("<p>部位："+equip_part+"</p>");
+				$(".standard_property").append("<p>等级："+level+"</p>");
+				$(".standard_property").append("<p>星级："+star_level+"</p>");
+				$(".standard_property").append("<p>颜色："+color+"</p>");
+				// 赋值基础属性
+				
+				// 赋值随机属性
+				
+				// 设置基本样式
+			    tkbox2();
 			});
-			// 设置基本样式
-		    tkbox2();
-		});
-		// 显示弹窗
-		$(".black").show();
-		$(".tkbox2").show();
+			// 显示弹窗
+			$(".black").show();
+			$(".tkbox2").show();
+			return;
+		}
+
+		//console.log(equip_is_wear);
+
 		return;
 	}
 
@@ -1356,7 +1533,7 @@ function back_goods_info(id) {
     // console.log("单个物品详情");
 }
 
-// 修改物品属性
+// 修改背包中 指定物品 的 指定属性 值
 function Modify_goods_attr(res_id, key, value){
 	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"modify_goods_attr\",\"para\":[{\"res_id\":\""+res_id+"\", \"key\":\""+key+"\", \"value\":\""+value+"\"}]}");
 }

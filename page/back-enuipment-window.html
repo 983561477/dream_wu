@@ -1,0 +1,383 @@
+﻿<script>
+
+  // 点击确定隐藏提示信息
+  $(".qd").click(function() {
+    $(".black1").hide();
+    $(".login_tk").hide();
+  })
+
+  // 物资类别
+  res_pid = 1003;
+
+    // 赋值装备按钮
+    $(".goods_but").append("<a class='but02'>出售</a>");
+
+    // 如果装备已经穿戴
+    if(equip_is_wear == 1){
+      $(".goods_but").append("<a class='but02 images' onclick='Function_Unload_equipment()'>卸下</a>");
+    }
+    else{
+      $(".goods_but").append("<a class='but02' onclick='Function_Wear_equipment()'>穿戴</a>");
+      $(".goods_but").append("<a class='but02' onclick='Abandon_goods()'>丢弃</a>");
+    }
+  
+
+// 穿戴装备
+function Function_Wear_equipment(){
+  // 是否关闭弹窗
+  var is_close_window;
+  // 判断穿戴的部位
+  switch(equip_part){
+    case "武器":
+      console.log(equip_part_array[0]);
+      if(equip_part_array[0] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[0] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "项链":
+      if(equip_part_array[1] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[1] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "戒指":
+      if(equip_part_array[2] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[2] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else if(equip_part_array[3] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[3] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "护符":
+      if(equip_part_array[4] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[4] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else if(equip_part_array[5] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[5] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "帽子":
+      if(equip_part_array[6] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[6] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "衣服":
+      if(equip_part_array[7] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[7] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "鞋子":
+      if(equip_part_array[8] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[8] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "手套":
+      if(equip_part_array[9] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[9] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;
+
+    case "护腕":
+      if(equip_part_array[10] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[10] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;   
+
+    case "护肩":
+      if(equip_part_array[11] == 0){
+        // 修改物品为 穿戴
+        Modify_goods_attr(goods_id, "is_wear", 1);
+        // 修改该部位数量为1
+        equip_part_array[11] = 1;
+        // 是否关闭弹窗为 真
+        is_close_window = true;
+      }
+      else{
+        exception_show("该部位已有穿戴的装备！");
+        // 是否关闭弹窗为 假
+        is_close_window = false;
+      }
+      break;   
+  }
+
+  // 判断是否关闭弹窗
+  if(is_close_window == true){
+    // 关闭物品详情弹窗
+    $(".black").hide();
+    $(".tkbox2").hide();
+    // 加载背包页面
+    $(".page").load("page/backpack.html");
+  }
+
+  return;
+}
+
+  // 卸载装备
+  function Function_Unload_equipment(){
+      // 判断穿戴的部位
+    switch(equip_part){
+      case "武器":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[0] = 0;
+        break; 
+
+      case "项链":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[1] = 0;
+        break; 
+
+      case "戒指":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        if(equip_part_array[2] == 1){
+          // 修改该部位数量为1
+          equip_part_array[2] = 0;
+        }
+        else if(equip_part_array[3] == 1){
+          // 修改该部位数量为1
+          equip_part_array[3] = 0;
+        }
+        break;
+
+      case "护符":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        if(equip_part_array[4] == 1){
+          // 修改该部位数量为1
+          equip_part_array[4] = 0;
+        }
+        else if(equip_part_array[5] == 1){
+          // 修改该部位数量为1
+          equip_part_array[5] = 0;
+        }
+        break;
+
+      case "帽子":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[6] = 0;
+        break; 
+
+      case "衣服":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[7] = 0;
+        break; 
+
+      case "鞋子":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[8] = 0;
+        break; 
+
+      case "手套":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[9] = 0;
+        break; 
+
+      case "护腕":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[10] = 0;
+        break;   
+
+      case "护肩":
+        // 修改装备为 未穿戴
+        Modify_goods_attr(goods_id, "is_wear", 0);
+        // 修改该部位数量为1
+        equip_part_array[11] = 0;
+        break;   
+    }
+
+    // 关闭物品详情弹窗
+    $(".black").hide();
+    $(".tkbox2").hide();
+    // 重新加载人物页面
+    if(is_fiure_or_back == 'fiure'){
+      // 加载人物页面
+      $(".page").load("page/fiure-self-details.html");
+      return;
+    }
+    // 重新加载背包页面
+    if(is_fiure_or_back == 'back'){
+      // 加载背包页面
+      $(".page").load("page/backpack.html");
+      return;
+    }
+  }
+
+  // 丢弃函数
+  function Abandon_goods(){
+      sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"abandon_goods\",\"para\":[{\"goods_id\":\""+goods_id+"\"}]}");
+      // 关闭弹窗
+      $(".black").hide();
+      $(".tkbox2").hide();
+      // 刷新页面
+      $(".page").load("page/backpack.html");
+  }
+
+// 提示信息
+function exception_show(err){
+  $(".black1").show();
+  $(".login_tk").show();
+  $(".login_tk p").html(err);
+}
+  
+</script>
+
+<!-- 背包显示 -->
+  <div class="tkbox1_con1">
+    <div class="zb">
+      <!-- 图像 -->
+      <div class="zb_img zb_img4 image"><img src="" alt=""></div>
+
+      <!-- 名称 -->
+      <span class="zb_mc name"></span>
+    </div>
+        <!-- 标准属性 -->
+    <div class="zb_txt2 standard_property">
+      <div class="zb_tit01"><span class="zbtit01_txt">标准属性</span><span class="zbtit01_line"></span></div>
+
+    </div>
+        <!-- 基础属性 -->
+    <div class="zb_txt2 basic_properties">
+      <div class="zb_tit01"><span class="zbtit01_txt">基础属性</span><span class="zbtit01_line"></span></div>
+
+    </div>
+        <!-- 随机属性 -->
+    <div class="zb_txt2 random_properties">
+      <div class="zb_tit01"><span class="zbtit01_txt">随机属性</span><span class="zbtit01_line"></span></div>
+
+    </div>
+    <!-- 描述 -->
+    <div class="zb_txt3 introduce"></div>
+
+    <!-- 按钮 -->
+    <div class="goods_but zb_cz"></div>
+
+</div>
+<!-- 关闭按钮 -->
+<div class='tk_button'><a class='but03' name='gb'>关闭</a></div>
+
+<!-- 提示信息 -->
+<div class="black1" style="display: none;"></div>
+<div class="login_tk" style="display: none;">
+    <p></p>
+    <a class="qd">确定</a>
+</div>

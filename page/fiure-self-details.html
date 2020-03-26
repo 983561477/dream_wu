@@ -4,12 +4,11 @@
 
   // 从人物页面传入
   is_fiure_or_back = 'fiure';
-  // 装备背包分类
-  back_category = '1011';
 
   // 获取背包里面的装备
-  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\"73bff967-6703-4fca-9ffd-3db4b2880724\"}]}");
-
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\""+equipment_uid+"\"}]}");
+  // 物资为装备
+  back_category_introduce = "装备";
   
   
 
@@ -35,8 +34,8 @@ $(".backpack").click(function(){
   }
 
   // 江湖属性返回函数
-  function jh_attribute() {
-  
+  function Get_fiure_jh_property(){
+  	 sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_fiure_jh_property\",\"para\":[]}");
   }
 </script>
 
@@ -93,7 +92,7 @@ $(".backpack").click(function(){
      <p class="potency"></p>
 
      <!-- 江湖属性 -->
-      <a href="javascript:void(0)" class="but06" onclick='jh_attribute()'>江湖属性</a>
+      <a href="javascript:void(0)" class="but06" onclick='Get_fiure_jh_property()'>江湖属性</a>
     </div>
   </div>
   </div>
@@ -113,17 +112,17 @@ $(".backpack").click(function(){
     
     <div class="sx" id="amulet_right"><a href="javascript:void(0)" value="12"><img src="images/sx.png" alt=""><span>护符</span></a></div>
 
-    <div class="sx" id="head"><a href="javascript:void(0)" value="2"><img src="images/sx.png" alt=""><span>头</span></a></div>
+    <div class="sx" id="cap"><a href="javascript:void(0)" value="2"><img src="images/sx.png" alt=""><span>帽子</span></a></div>
 
-    <div class="sx" id="clothing"><a href="javascript:void(0)" value="3"><img src="images/sx.png" alt=""><span>衣</span></a></div>
+    <div class="sx" id="clothing"><a href="javascript:void(0)" value="3"><img src="images/sx.png" alt=""><span>衣服</span></a></div>
 
-    <div class="sx" id="shoes"><a href="javascript:void(0)" value="4"><img src="images/sx.png" alt=""><span>鞋</span></a></div>
+    <div class="sx" id="shoes"><a href="javascript:void(0)" value="4"><img src="images/sx.png" alt=""><span>鞋子</span></a></div>
 
-    <div class="sx" id="hand"><a href="javascript:void(0)" value="6"><img src="images/sx.png" alt=""><span>手</span></a></div>
+    <div class="sx" id="gloves"><a href="javascript:void(0)" value="6"><img src="images/sx.png" alt=""><span>手套</span></a></div>
 
-    <div class="sx" id="wrist"><a href="javascript:void(0)" value="7"><img src="images/sx.png" alt=""><span>腕</span></a></div>
+    <div class="sx" id="wristbands"><a href="javascript:void(0)" value="7"><img src="images/sx.png" alt=""><span>护腕</span></a></div>
     
-    <div class="sx" id="shoulder"><a href="javascript:void(0)" value="5"><img src="images/sx.png" alt=""><span>肩</span></a></div>
+    <div class="sx" id="shoulder"><a href="javascript:void(0)" value="5"><img src="images/sx.png" alt=""><span>护肩</span></a></div>
   
     </div>
 

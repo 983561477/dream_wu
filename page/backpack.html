@@ -5,10 +5,8 @@
   // 从背包页面传入
   is_fiure_or_back = 'back';
   //console.log(is_fiure_or_back);
-  // 装备背包分类
-  back_category = '装备';
   // 默认获取装备类别
-  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\"73bff967-6703-4fca-9ffd-3db4b2880724\"}]}");
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\""+equipment_uid+"\"}]}");
 
 
   //console.log("获取完毕")
@@ -19,13 +17,12 @@
   });
 
 
-// 背包分类函数
-function back_uid(uid){
-  // 装备背包分类
-  back_category = ""+uid+"";
+// 获取该背包分类里面的物资
+function Back_category_goods(uid, introduce){
+  back_category_uid = uid;
+  back_category_introduce = introduce;
   // 默认获取背包类别里面的物品
   sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\""+uid+"\"}]}");
-  console.log(uid);
 }
 
 // 关闭行囊 获取人物
