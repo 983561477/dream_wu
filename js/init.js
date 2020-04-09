@@ -22,6 +22,7 @@ var token;  // 连接
 var ident;  // 当前玩家的ident
 var name;	// 当前玩家的name
 
+
 // 玩家是否战斗
 var is_combat = false;
 
@@ -58,7 +59,7 @@ var back_category_uid;
 // 背包分类introduce
 var back_category_introduce;
 // 装备的uid
-var equipment_uid = "c1482092-f95c-4380-8db8-3e06ab9c14ca";
+var back_equipment_uid = "c1482092-f95c-4380-8db8-3e06ab9c14ca";
 
 var back_goods_category; //背包物品类别
 

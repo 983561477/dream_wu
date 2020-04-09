@@ -1,12 +1,12 @@
 ﻿<script>
-  // 获取背包类别详情
-  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushCategory\",\"para\":[]}");
+  // 获取人物自身背包中所有类别
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Fiure_back_categorys\",\"para\":[]}");
 
   // 从背包页面传入
   is_fiure_or_back = 'back';
   //console.log(is_fiure_or_back);
   // 默认获取装备类别
-  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\""+equipment_uid+"\"}]}");
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Fiure_back_category_goods\",\"para\":[{\"fiure_back_category_uid\":\""+back_equipment_uid+"\"}]}");
 
 
   //console.log("获取完毕")
@@ -22,7 +22,7 @@ function Back_category_goods(uid, introduce){
   back_category_uid = uid;
   back_category_introduce = introduce;
   // 默认获取背包类别里面的物品
-  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\""+uid+"\"}]}");
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Fiure_back_category_goods\",\"para\":[{\"fiure_back_category_uid\":\""+uid+"\"}]}");
 }
 
 // 关闭行囊 获取人物

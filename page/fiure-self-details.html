@@ -1,12 +1,12 @@
 ﻿<script>
   // 获取人物详情
-  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getPlayerInfo\",\"para\":[]}");
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_fiure_attribute\",\"para\":[]}");
 
   // 从人物页面传入
   is_fiure_or_back = 'fiure';
 
   // 获取背包里面的装备
-  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushReses\",\"para\":[{\"category\":\""+equipment_uid+"\"}]}");
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Fiure_back_category_goods\",\"para\":[{\"fiure_back_category_uid\":\""+back_equipment_uid+"\"}]}");
   // 物资为装备
   back_category_introduce = "装备";
   
@@ -35,6 +35,7 @@ $(".backpack").click(function(){
 
   // 江湖属性返回函数
   function Get_fiure_jh_property(){
+      console.log("1");
   	 sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_fiure_jh_property\",\"para\":[]}");
   }
 </script>

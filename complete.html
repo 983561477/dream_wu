@@ -69,6 +69,8 @@
 	 	else {
 	 		// 获取性别
 		 	var gender = $(".checkboxon").attr("value");
+		 	// 赋值玩家性别
+			// sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"set_player_gender\",\"para\":[{\"gender\":\""+gender+"\"}]}");
 		 	// 判断
 	 		$.post(host + "/player", {action:"COMPLETE", nick:nick, gender:gender}, function(data) {
 				alert(data.ret);

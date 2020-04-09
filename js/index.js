@@ -54,22 +54,22 @@
 		return;
 	}
 	// 信息示结束
+	
+	// 当前场景信息
+	if(data.scene_info != null){
+		var scene_info = data.scene_info;
 
-	// 路径开始
-	if(data.path != null) {
-		// 场景路径方向
-		var path = data.path;
-		// 场景的名字和描述
-		var local = data.local;
-		// console.log("path = " + JSON.stringify(path));
-		// console.log("local = " + JSON.stringify(local));
-		// console.log("local.name = " + local.name);
-		// console.log("local.introduce = " + local.introduce);
-		// 当前位置的名称
-		$("#title").html(local.name);
-		$("#local").html(local.name);
-		// 当前位置的介绍信息
-		$("#introduce").html(local.introduce);
+		// 赋值当前场景的名称
+		$("#title").html(scene_info.name);
+		$("#local").html(scene_info.name);
+		// 赋值当前场景的介绍
+		$("#introduce").html(scene_info.introduce);
+	}
+	
+	// 周围路径信息
+	if(data.path_info != null) {
+		var path_info = data.path_info;
+		
 		// 全部不显示
 		$(".but01").addClass("filter");
 		// 清除点击的方向
@@ -77,13 +77,11 @@
 		// 当前位置显示
 		$("#local").removeClass("filter");
 		// 遍历八个方向的名称
-		$.each(path, function(item) {
-			// console.log(item);
-			// console.log(path[item]);
+		$.each(path_info, function(k) {
 			// 遍历显示方向
-			$("#"+item).removeClass("filter");
-			$("#"+item).html(path[item]);
-			$("#"+item).attr("onclick", "go('"+item+"')");
+			$("#"+k).removeClass("filter");
+			$("#"+k).html(path_info[k]);
+			$("#"+k).attr("onclick", "go('"+k+"')");
 		});
 		return;
 	}
@@ -93,44 +91,51 @@
 	if(data.res_info != null){
 		// 当前场景的物资
 		var res = data.res_info;
+		// 物资 name
+		var goods_name;
+		// 物资 ident
+		var goods_ident;
 		// 清除旧数据
 		$(".box02").html("");
 		// 遍历新数据
-		$.each(res, function(item){
-			// console.log(item);
-			// console.log("res[item].ident = " + res[item].ident);
-			// console.log("res[item].name = " + res[item].name);
-			// 不显示自己的名字
-			if(res[item].ident != ident && res[item].name != "") {
+		$.each(res, function(i){
+			var attr = res[i];
+			// console.log(attr);
+			$.each(attr, function(j){
+				// console.log(attr[j]);
+				// 获取物资 name
+				if(attr[j].k == "name"){
+					goods_name = attr[j].v;
+				}
+				// 获取物资 ident			
+				if(attr[j].k == "ident"){
+					goods_ident = attr[j].v;
+				}
+			});
+			
+			// 物资不是自己
+			if(goods_ident != ident){
 				// console.log(equipment);
 				// 设备为电脑
 				if(equipment == 0){
-					$(".box02").append("<div class='rw' style='margin-left:0.14rem;'><a href='javascript:void(0)' class='rw_xm2' onclick='call_res(\""+res[item].ident+"\")'>" + res[item].name + "</a></div>");
+					$(".box02").append("<div class='rw' style='margin-left:0.14rem;'><a href='javascript:void(0)' class='rw_xm2' onclick='Get_Sence_single_goods_info(\""+goods_ident+"\")'>"+goods_name+"</a></div>");
 				}
 				// 设备为手机
 				if(equipment == 1){
-					$(".box02").append("<div class='rw'><a href='javascript:void(0)' class='rw_xm2' onclick='call_res(\""+res[item].ident+"\")'>" + res[item].name + "</a></div>");
+					$(".box02").append("<div class='rw'><a href='javascript:void(0)' class='rw_xm2' onclick='Get_Sence_single_goods_info(\""+goods_ident+"\")'>"+goods_name+"</a></div>");
 				}
 			}
-			// 获取本玩家是否为巫师
-			if(res[item].ident == ident)
-			{
+			// 物资为自己
+			else{
 				// 获取当前玩家的名称
-				name = res[item].name;
-				// console.log(name);
-				// 获得是否为巫师
-				var attr = res[item].attr;
-				var jst = JSON.stringify(attr);
-				// 是否是巫师
-				try{
-					var s = '{"desc":"(.*?)","k":"isWiz","v":"(.*?)"}';
-					isWiz = jst.match(s)[2];
-				}
-				catch(exception){
-				    var s = '{"desc":"(.*?)","k":"isWiz","parameter":"(.*?)","v":"(.*?)"}';
-					isWiz = jst.match(s)[3];
-				}
-				//console.log(isWiz);
+				name = goods_name;
+				// 遍历关键字
+				$.each(attr, function(j){
+					// 获取自己的 isWiz
+					if(attr[j].k == "isWiz"){
+						isWiz = attr[j].v;
+					}
+				});
 			}
 		});
 		return;
@@ -138,159 +143,106 @@
 
 
 // 人物界面开始
-    if(data.player_info != null){
+    if(data.fiure_attribute != null){
     	// 人物基本介绍
-    	var fiure = data.player_info;
-    	// 人物属性
-    	var property = fiure.attr;
-    	var jst = JSON.stringify(property);
-    	// 游戏内交易货币
-		try{
-			var s = '{"desc":"(.*?)","k":"Money","v":"(.*?)"}';
-			player_game_money = jst.match(s)[2];
-		}
-		catch(exception){
-		    var s = '{"desc":"(.*?)","k":"Money","parameter":"(.*?)","v":"(.*?)"}';
-			player_game_money = jst.match(s)[3];
-		}
+    	var res = data.fiure_attribute;
+    	// 定义玩家 关键字
+    	var age;				// 玩家年龄
+    	var gender;				// 玩家性别
+    	var character;			// 玩家性格
+    	var now_hp;				// 玩家当前血量
+    	var max_hp;				// 玩家最大血量
+    	var now_mp;				// 玩家当前内力
+    	var max_mp;				// 玩家最大内力
+    	var level;				// 玩家等级
+    	var now_exp;			// 玩家当前经验值
+    	var next_exp;			// 玩家下一级所需经验值
+    	var bi_li;				// 玩家臂力
+    	var qi_jin;				// 玩家气劲
+    	var gen_gu;				// 玩家根骨
+    	var ding_li;			// 玩家定力
+    	var shen_fa;			// 玩家身法
+    	var potency;			// 玩家潜能
 
-		
-		// 左
-		// 赋值年龄
-    	try{
-			var s = '{"desc":"(.*?)","k":"age","v":"(.*?)"}';
-			var age = jst.match(s)[2];
-		}
-		catch(exception){
-		    var age = "空";
-		} 
-		// 性别
-		try{
-			var s = '{"desc":"(.*?)","k":"gender","v":"(.*?)"}';
-			var gender = jst.match(s)[2];
-		}
-		catch(exception){
-		    var gender = "空";
-		} 
-		// 性格
-		try{
-			var s = '{"desc":"(.*?)","k":"character","v":"(.*?)"}';
-			var character = jst.match(s)[2];
-		}
-		catch(exception){
-		    var character = "空";
-		}
-		// 当前血量
-		try{
-    		var s = '{"desc":"(.*?)","k":"now_hp","v":"(.*?)"}';
-			var now_hp = jst.match(s)[2];
-		}
-		catch(exception){
-		    var now_hp = "空";
-		} 
-		// 最大血量
-		try{
-    		var s = '{"desc":"(.*?)","k":"max_hp","v":"(.*?)"}';
-			var max_hp = jst.match(s)[2];
-		}
-		catch(exception){
-		    var max_hp = "空";
-		} 
-		// 当前内力
-		try{
-    		var s = '{"desc":"(.*?)","k":"now_mp","v":"(.*?)"}';
-			var now_mp = jst.match(s)[2];
-		}
-		catch(exception){
-		    var now_mp = "空";
-		} 
-		// 最大内力
-		try{
-    		var s = '{"desc":"(.*?)","k":"max_mp","v":"(.*?)"}';
-			var max_mp = jst.match(s)[2];
-		}
-		catch(exception){
-		    var max_mp = "空";
-		} 	
-
-		// 右
-		// 等级
-		try{
-	    	var s = '{"desc":"(.*?)","k":"level","v":"(.*?)"}';
-			var level = jst.match(s)[2];
-		}
-		catch(exception){
-		    var level = "空";
-		} 
-		// 当前经验值
-		try{
-			var s = '{"desc":"(.*?)","k":"now_exp","v":"(.*?)"}';
-			var now_exp = jst.match(s)[2];
-		}
-		catch(exception){
-		    var now_exp = "空";
-		} 
-		// 下一级所需经验值
-		try{
-	    	var s = '{"desc":"(.*?)","k":"next_exp","v":"(.*?)"}';
-			var next_exp = jst.match(s)[2];
-		}
-		catch(exception){
-		    var next_exp = "空";
-		} 
-		
-		// 臂力
-		try{
-  	  		var s = '{"desc":"(.*?)","k":"bi_li","v":"(.*?)"}';
-			var bi_li = jst.match(s)[2];
-		}
-		catch(exception){
-		    var bi_li = "空";
-		} 
-		// 气劲
-		try{
-    		var s = '{"desc":"(.*?)","k":"qi_jin","v":"(.*?)"}';
-			var qi_jin = jst.match(s)[2];
-		}
-		catch(exception){
-		    var qi_jin = "空";
-		} 
-		// 根骨
-		try{
-    		var s = '{"desc":"(.*?)","k":"gen_gu","v":"(.*?)"}';
-			var gen_gu = jst.match(s)[2];
-		}
-		catch(exception){
-		    var gen_gu = "空";
-		}
-		// 定力
-		try{
-   		 	var s = '{"desc":"(.*?)","k":"ding_li","v":"(.*?)"}';
-			var ding_li = jst.match(s)[2];
-		}
-		catch(exception){
-		    var ding_li = "空";
-		}
-		// 身法
-		try{
-   		 	var s = '{"desc":"(.*?)","k":"shen_fa","v":"(.*?)"}';
-			var shen_fa = jst.match(s)[2];
-		}
-		catch(exception){
-		    var shen_fa = "空";
-		}
-		// 潜能
-		try{
-    		var s = '{"desc":"(.*?)","k":"potency","v":"(.*?)"}';
-			var potency = jst.match(s)[2];
-		}
-		catch(exception){
-		    var potency = "空";
-		}
+    	$.each(res, function(i){
+			// console.log(res[i]);
+			// 获取人物 name
+			if(res[i].k == "name"){
+				name = res[i].v;
+			}
+			// 获取人物 Money
+			if(res[i].k == "Money"){
+				player_game_money = res[i].v;
+			}
+			// 获取人物 age
+			if(res[i].k == "age"){
+				age = res[i].v;
+			}
+			// 获取人物 gender
+			if(res[i].k == "gender"){
+				gender = res[i].v;
+			}
+			// 获取人物 character
+			if(res[i].k == "character"){
+				character = res[i].v;
+			}
+			// 获取人物 now_hp
+			if(res[i].k == "now_hp"){
+				now_hp = res[i].v;
+			}
+			// 获取人物 max_hp
+			if(res[i].k == "max_hp"){
+				max_hp = res[i].v;
+			}
+			// 获取人物 now_mp
+			if(res[i].k == "now_mp"){
+				now_mp = res[i].v;
+			}
+			// 获取人物 max_mp
+			if(res[i].k == "max_mp"){
+				max_mp = res[i].v;
+			}
+			// 获取人物 level
+			if(res[i].k == "level"){
+				level = res[i].v;
+			}
+			// 获取人物 now_exp
+			if(res[i].k == "now_exp"){
+				now_exp = res[i].v;
+			}
+			// 获取人物 next_exp
+			if(res[i].k == "next_exp"){
+				next_exp = res[i].v;
+			}
+			// 获取人物臂力 bl_li
+			if(res[i].k == "bi_li"){
+				bi_li = res[i].v;
+			}
+			// 获取人物 qi_jin
+			if(res[i].k == "qi_jin"){
+				qi_jin = res[i].v;
+			}
+			// 获取人物 gen_gu
+			if(res[i].k == "gen_gu"){
+				gen_gu = res[i].v;
+			}
+			// 获取人物 ding_li
+			if(res[i].k == "ding_li"){
+				ding_li = res[i].v;
+			}
+			// 获取人物 shen_fa
+			if(res[i].k == "shen_fa"){
+				shen_fa = res[i].v;
+			}
+			// 获取人物 potency
+			if(res[i].k == "potency"){
+				potency = res[i].v;
+			}
+		});
 
     	// 基本信息
     	// 赋值姓名 nick
-    	$(".nick").html(fiure.name);
+    	$(".nick").html(name);
 
     	// 属性	
     	// 左
@@ -311,15 +263,15 @@
     	// 赋值经验 experience
     	$(".experience").html("<span class='sp02'>经验值</span>" + now_exp + "(" + Math.round(now_exp/next_exp*100) + "%)");
     	// 赋值臂力 bi_li 
-    	$(".bi_li").html("<span class='sp02'>力量</span>" + bi_li + "<a href='javascript:void(0)' onclick='upattr(7)' class='but08 filter'>提升</a>");
+    	$(".bi_li").html("<span class='sp02'>臂力</span>" + bi_li + "<a href='javascript:void(0)' onclick='upattr(7)' class='but08 filter'>提升</a>");
     	// 赋值气劲 qi_jin
-    	$(".qi_jin").html("<span class='sp02'>体力</span>" + qi_jin + "<a href='javascript:void(0)' onclick='upattr(8)' class='but08 filter'>提升</a>");
+    	$(".qi_jin").html("<span class='sp02'>气劲</span>" + qi_jin + "<a href='javascript:void(0)' onclick='upattr(8)' class='but08 filter'>提升</a>");
     	// 赋值根骨 gen_gu 
-    	$(".gen_gu").html("<span class='sp02'>智力</span>" + gen_gu + "<a href='javascript:void(0)' onclick='upattr(9)' class='but08 filter'>提升</a>");
+    	$(".gen_gu").html("<span class='sp02'>根骨</span>" + gen_gu + "<a href='javascript:void(0)' onclick='upattr(9)' class='but08 filter'>提升</a>");
     	// 赋值定力 ding_li 
-    	$(".ding_li").html("<span class='sp02'>敏捷</span>" + ding_li + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
+    	$(".ding_li").html("<span class='sp02'>定力</span>" + ding_li + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
     	// 赋值身法 shen_fa 
-    	$(".shen_fa").html("<span class='sp02'>敏捷</span>" + shen_fa + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
+    	$(".shen_fa").html("<span class='sp02'>身法</span>" + shen_fa + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
     	// 赋值潜能 potency 
     	$(".potency").html("<span class='sp02'>潜能</span>" + potency);
     	// 判断潜能大于0
@@ -331,32 +283,32 @@
     		$(".box03_l .but08").removeClass("filter");
     	}
     	// 打坐
-	    if (fiure.dazuo != null) {
-	    	// 不在打坐
-	    	if(fiure.dazuo == 0) {
-	    		$(".dazuo").html("开始打坐");
-	    	}
-	    	else {
-	    		$(".dazuo").html("停止打坐");
-	    	}
-	    }
+	    // if (fiure.dazuo != null) {
+	    // 	// 不在打坐
+	    // 	if(fiure.dazuo == 0) {
+	    // 		$(".dazuo").html("开始打坐");
+	    // 	}
+	    // 	else {
+	    // 		$(".dazuo").html("停止打坐");
+	    // 	}
+	    // }
     	return;
     }
 
     // 玩家 江湖属性
 	if(data.fiure_jh_property != null){
-		var fiure_jh_property = data.fiure_jh_property;
+		var res = data.fiure_jh_property;
 		$(".tkbox2").load("page/fiure-jh-property.html", function(){
 			// 赋值姓名 nick
 			// $(".txt03").html("<p>"+ fiure_jh_property.nick +"</p>");
 			// 赋值攻击 attack
-			$(".ul02").append("<li><span>攻击</span>"+ fiure_jh_property.attack +"</li>");
+			$(".ul02").append("<li><span>攻击</span>"+ res.attack +"</li>");
 			// 赋值防御 defense
-			$(".ul02").append("<li><span>防御</span>"+ fiure_jh_property.defense +"</li>");
+			$(".ul02").append("<li><span>防御</span>"+ res.defense +"</li>");
 			// 赋值命中 hit
-			$(".ul02").append("<li><span>命中</span>"+ fiure_jh_property.hit +"</li>");
+			$(".ul02").append("<li><span>命中</span>"+ res.hit +"</li>");
 			// 赋值敏捷 agility
-			$(".ul02").append("<li><span>敏捷</span>"+ fiure_jh_property.agility +"</li>");
+			$(".ul02").append("<li><span>敏捷</span>"+ res.agility +"</li>");
 			// 设置基本样式
 		    tkbox2();
 		});
@@ -367,79 +319,60 @@
 	}
 
     // 打坐收益
-    if (data.dazuo_result != null){
-    	var dazuo_result = data.dazuo_result;
-    	// 赋值经验值 experience
-    	$(".experience").html("<span class='sp02'>经验值</span>" + dazuo_result.experience + "(" + Math.round(dazuo_result.experience/dazuo_result.next_exp*100) + "%)");
-    	// 判断当前经验值是否大于下一级经验值
-    	if(dazuo_result.experience >= dazuo_result.next_exp) {
-    		$(".box03_l .but08").removeClass("filter");
-    	}
-    	// 赋值气血 present_blood max_blood
-    	$(".blood").html("<span class='sp02'>气血</span>" + dazuo_result.present_blood + "/" + dazuo_result.max_blood);
-    	// 赋值内力 present_force max_force
-    	$(".force").html("<span class='sp02'>内力</span>" + dazuo_result.present_force + "/" + dazuo_result.max_force);
-    	return;
-    }
+    // if (data.dazuo_result != null){
+    // 	var dazuo_result = data.dazuo_result;
+    // 	// 赋值经验值 experience
+    // 	$(".experience").html("<span class='sp02'>经验值</span>" + dazuo_result.experience + "(" + Math.round(dazuo_result.experience/dazuo_result.next_exp*100) + "%)");
+    // 	// 判断当前经验值是否大于下一级经验值
+    // 	if(dazuo_result.experience >= dazuo_result.next_exp) {
+    // 		$(".box03_l .but08").removeClass("filter");
+    // 	}
+    // 	// 赋值气血 present_blood max_blood
+    // 	$(".blood").html("<span class='sp02'>气血</span>" + dazuo_result.present_blood + "/" + dazuo_result.max_blood);
+    // 	// 赋值内力 present_force max_force
+    // 	$(".force").html("<span class='sp02'>内力</span>" + dazuo_result.present_force + "/" + dazuo_result.max_force);
+    // 	return;
+    // }
 
 
 
 	// 查看场景物资信息
 	if(data.view_res != null){
-		//
 		var res = data.view_res;
-		// 被查询物资ident
-		other_ident = res.ident;
-		// 被查询物资name
-		other_name = res.name;
-		var property = res.attr;
-		// 按钮类别
-		res_pid = res.pid;
-		console.log(res_pid);
+
+		// 物资描述
+		var introduce;
+		$.each(res, function(i){
+			if(res[i].k == "name"){
+				// 被查询物资name
+				other_name = res[i].v;
+			}
+			if(res[i].k == "ident"){
+				// 被查询物资ident
+				other_ident = res[i].v;
+			}
+			if(res[i].k == "pid"){
+				// 按钮类别
+				res_pid = res[i].v;
+			}
+			if(res[i].k == "pid"){
+				// 按钮类别
+				res_pid = res[i].v;
+			}
+			if(res[i].k == "introduce"){
+				// 按钮类别
+				introduce = res[i].v;
+			}
+		});
 		//物资为玩家
 		if(res_pid == 1001)
 		{
+
 			$(".tkbox2").load("page/player-info-display.html", function(){
 				// 赋值玩家名字
-				$(".rw_xm").html(res.name);
+				$(".rw_xm").html(other_name);
 				// 赋值玩家描述
 				//$(".zb_txt3").html("<p>"+ res.introduce +"</p>");
-				// 赋值物资属
-				var jst = JSON.stringify(property);
-				// 是否是巫师
-				// try{
-				// 	var s = '{"desc":"是否是巫师","k":"isWiz","v":"(.*?)"}';
-				// 	var is_wiz = jst.match(s)[1];
-				// }
-				// catch(exception){
-				//     var s = '{"desc":"是否是巫师","k":"isWiz","parameter":"(.*?)","v":"(.*?)"}';
-				// 	var is_wiz = jst.match(s)[2];
-				// }
-				// // 游戏内交易货币
-				// try{
-				// 	var s = '{"desc":"游戏内交易货币","k":"Money","v":"(.*?)"}';
-				// 	var game_money = jst.match(s)[1];
-				// }
-				// catch(exception){
-				//     var s = '{"desc":"游戏内交易货币","k":"Money","parameter":"(.*?)","v":"(.*?)"}';
-				// 	var game_money = jst.match(s)[2];
-				// }
-				// // 离线场景
-				// try{
-				// 	var s = '{"desc":"离线场景","k":"Offline_Scene","v":"(.*?)"}';
-				// 	var offline_scene = jst.match(s)[1];
-				// }
-				// catch(exception){
-				//     var s = '{"desc":"离线场景","k":"Offline_Scene","parameter":"(.*?)","v":"(.*?)"}';
-				// 	var offline_scene = jst.match(s)[2];
-				// }
-				// 玩家是否为巫师
-				// $(".property").append("<p>是否是巫师：" + is_wiz +"</p>");
-				// // 玩家游戏内交易货币
-				// $(".property").append("<p>游戏内交易货币：" + game_money +"</p>");
-				// // 玩家离线场景
-				// $(".property").append("<p>离线场景：" + offline_scene +"</p>");
-
 				// 设置基本样式
 			    tkbox2();
 			});
@@ -454,9 +387,9 @@
 		{	
 			$(".tkbox2").load("page/npc-info-display.html", function(){
 				// 赋值NPC名字
-				$(".rw_xm").html(res.name);
+				$(".rw_xm").html(other_name);
 				// 赋值NPC描述
-				$(".introduce").html("<p>"+ res.introduce +"</p>");
+				$(".introduce").html("<p>"+ introduce +"</p>");
 				// 循环赋值NPC属性
 				// $.each(res.attr, function(i){
 				// 	// 属性
@@ -615,38 +548,52 @@
 		return;
 	}
 
+
 	// 人物页面或背包页面获取物品
-	function Function_Equip_wear_show(equip_part_id){
-		// 图片id
-		var s = '{"desc":"(.*?)","k":"image_id","v":"(.*?)"}';
-		var image_id = jst.match(s)[2];	
+	function Function_Equip_wear_show(equip_part_id, image_id){
 		// 消除字体
 		$("#"+ equip_part_id + " span").html("");
 		// 如果穿戴则给玩家穿戴上
 		$("#"+ equip_part_id + " img").attr("src", "images/"+image_id+".png");
 		// 增加物品详情按钮
-		$("#"+ equip_part_id).attr("onclick", "back_goods_info('"+goods_id+"')");
+		$("#"+ equip_part_id).attr("onclick", "Get_Fiure_back_goods_info('"+goods_id+"')");
 	}
 
-	if(data.Back_reses != null){
-		var back_size = data.Back_reses.size;
-		var res = data.Back_reses.res_list;
+	if(data.fiure_back_category_goods != null){
+		var res = data.fiure_back_category_goods;
 		// 如果是从人物页面传入
 		if(is_fiure_or_back == 'fiure'){
 			// 将部位数组重置 为0
 			equip_part_array = [0,0,0,0,0,0,0,0,0,0,0,0];
+			// console.log(res.length);
 			// 循环判断装备是否穿戴
-			for(var i = 0; i < res.length; i++){
-				// 赋值物品id
-				goods_id = res[i].id;
-				var attr = res[i].attr;
-				var jst = JSON.stringify(attr);
-				// 穿戴部位
-				var s = '{"desc":"(.*?)","k":"part","v":"(.*?)"}';
-				equip_part = jst.match(s)[2];
-				// 是否穿戴
-				var s = '{"desc":"(.*?)","k":"is_wear","v":"(.*?)"}';
-				equip_is_wear = jst.match(s)[2];
+			$.each(res, function(i){
+				// console.log(i);
+				var goods = res[i];
+				//console.log(goods);
+				// 图片id
+				var image_id;
+				// 遍历当前装备的关键字
+				$.each(goods, function(i){
+					// console.log(i);
+					// console.log(goods[i]);
+					if(goods[i].k == "id"){
+						// 物品的id
+						goods_id = goods[i].v;
+					}
+					if(goods[i].k == "part"){
+						// 物品的穿戴部位
+						equip_part = goods[i].v;
+					}
+					if(goods[i].k == "is_wear"){
+						// 物品是否穿戴
+						equip_is_wear = goods[i].v;
+					}
+					if(goods[i].k == "image_id"){
+						// 物品的图片id
+						image_id = goods[i].v;
+					}
+				});
 				// 判断装备是否穿戴
 				if(equip_is_wear == 1){
 					// 判断武器穿戴部位
@@ -656,7 +603,7 @@
 							// 如果武器部位等于零
 							if(equip_part_array[0] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("weapon");
+								Function_Equip_wear_show("weapon", image_id);
 								// 增加该部位数组长度
 								equip_part_array[0] = 1;
 							}
@@ -670,7 +617,7 @@
 							// 如果项链部位等于零
 							if(equip_part_array[1] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("necklace");
+								Function_Equip_wear_show("necklace", image_id);
 								// 增加该部位数组长度
 								equip_part_array[1] = 1;
 							}
@@ -684,14 +631,14 @@
 							// 如果戒指左部位等于零
 							if(equip_part_array[2] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("ring_left");
+								Function_Equip_wear_show("ring_left", image_id);
 								// 增加该部位数组长度
 								equip_part_array[2] = 1;
 							}
 							// 如果戒指右部位等于零
 							else if(equip_part_array[3] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("ring_right");
+								Function_Equip_wear_show("ring_right", image_id);
 								// 增加该部位数组长度
 								equip_part_array[3] = 1;
 							}
@@ -705,14 +652,14 @@
 							// 如果护符左部位等于零
 							if(equip_part_array[4] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("amulet_left");
+								Function_Equip_wear_show("amulet_left", image_id);
 								// 增加该部位数组长度
 								equip_part_array[4] = 1;
 							}
 							// 如果护符右部位等于零
 							if(equip_part_array[5] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("amulet_right");
+								Function_Equip_wear_show("amulet_right", image_id);
 								// 增加该部位数组长度
 								equip_part_array[5] = 1;
 							}
@@ -726,7 +673,7 @@
 							// 如果帽子部位等于零
 							if(equip_part_array[6] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("cap");
+								Function_Equip_wear_show("cap", image_id);
 								// 增加该部位数组长度
 								equip_part_array[6] = 1;
 							}
@@ -740,7 +687,7 @@
 							// 如果衣服部位等于零
 							if(equip_part_array[7] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("clothing");
+								Function_Equip_wear_show("clothing", image_id);
 								// 增加该部位数组长度
 								equip_part_array[7] = 1;
 							}
@@ -754,7 +701,7 @@
 							// 如果鞋子部位等于零
 							if(equip_part_array[8] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("shoes");
+								Function_Equip_wear_show("shoes", image_id);
 								// 增加该部位数组长度
 								equip_part_array[8] = 1;
 							}
@@ -768,7 +715,7 @@
 							// 如果手套部位等于零
 							if(equip_part_array[9] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("gloves");
+								Function_Equip_wear_show("gloves", image_id);
 								// 增加该部位数组长度
 								equip_part_array[9] = 1;
 							}
@@ -782,7 +729,7 @@
 							// 如果护腕部位等于零
 							if(equip_part_array[10] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("wristbands");
+								Function_Equip_wear_show("wristbands", image_id);
 								// 增加该部位数组长度
 								equip_part_array[10] = 1;
 							}
@@ -796,7 +743,7 @@
 							// 如果护肩部位等于零
 							if(equip_part_array[11] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("wristbands");
+								Function_Equip_wear_show("wristbands", image_id);
 								// 增加该部位数组长度
 								equip_part_array[11] = 1;
 							}
@@ -807,7 +754,7 @@
 							break;
 					}
 				}
-			}
+			});
 			return;
 		}
 
@@ -840,7 +787,7 @@
 				goods_id = res[i].id;
 				$("." + i + " img").attr("src", "images/"+image_id+".png");
 				// 增加物品详情按钮
-				$("." + i).attr("onclick", "back_goods_info('"+goods_id+"')");
+				$("." + i).attr("onclick", "Get_Fiure_back_goods_info('"+goods_id+"')");
 			}
 		}
 
@@ -848,23 +795,23 @@
 	}
 
 	// 背包分类
-	if(data.Back_category != null){
+	if(data.Fiure_back_categorys != null){
 		// 赋值玩家游戏金币
 		$(".game_money").after(player_game_money);
 		// 背包种类
-		var back_category = data.Back_category;
+		var res = data.Fiure_back_categorys;
 		// 赋值物品的种类
-        for(var i = 0; i < back_category.length; i++){
-        	var uid = back_category[i].uid;
-        	var introduce = back_category[i].introduce;
+        for(var i = 0; i < res.length; i++){
+        	var uid = res[i].uid;
+        	var introduce = res[i].introduce;
             $(".flsx_con").append("<a href='javascript:void(0)' onclick='Back_category_goods(\""+uid+"\", \""+introduce+"\")'>"+introduce+"</a>");
         }
         return;
 	}
 
 	// 背包单个物品详情
-	if(data.Back_res != null){
-		var res = data.Back_res;
+	if(data.Fiure_back_goods_info != null){
+		var res = data.Fiure_back_goods_info;
 		// 物品id
 		goods_id = res.id;
 		// 获取物品是否穿戴
@@ -1519,17 +1466,17 @@ function Hot_shift(){
 // 	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getButton\", \"para\":[{\"category\":\""+category+"\"}]}");
 // }
 
-// 物资信息返回函数
-function call_res(res_ident) {
+// 场景中单个物资信息 返回函数
+function Get_Sence_single_goods_info(sence_goods_id) {
 	// 发送请求
-    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"viewRes\",\"para\":[{\"ident\":\""+res_ident+"\"}]}");
+    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Sence_single_goods_info\",\"para\":[{\"sence_goods_id\":\""+sence_goods_id+"\"}]}");
     //console.log("物资详情");
 }
 
-// 背包物资信息返回函数
-function back_goods_info(id) {
+// 人物背包物资信息 返回函数
+function Get_Fiure_back_goods_info(id) {
 	// 发送请求
-    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushRes\",\"para\":[{\"id\":\""+id+"\"}]}");
+    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Fiure_back_goods_info\",\"para\":[{\"goods_id\":\""+id+"\"}]}");
     // console.log("单个物品详情");
 }
 
