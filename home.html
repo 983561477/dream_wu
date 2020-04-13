@@ -73,7 +73,12 @@
   // 系统
   $(".nav6").click(function(){
 	  clearstyle(6,6);
-    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"reLoad\",\"para\":[]}");
+    console.log(isWiz);
+    if(isWiz == 1){
+      console.log("尝试热更！")
+        sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"reLoad\",\"para\":[]}");
+      console.log("热更成功！");
+    }
   });
 
 });
