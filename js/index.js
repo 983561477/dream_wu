@@ -214,24 +214,24 @@
 			if(res[i].k == "next_exp"){
 				next_exp = res[i].v;
 			}
-			// 获取人物臂力 bl_li
-			if(res[i].k == "bi_li"){
+			// 获取人物臂力 bl
+			if(res[i].k == "bl"){
 				bi_li = res[i].v;
 			}
-			// 获取人物 qi_jin
-			if(res[i].k == "qi_jin"){
+			// 获取人物气劲 qj
+			if(res[i].k == "qj"){
 				qi_jin = res[i].v;
 			}
-			// 获取人物 gen_gu
-			if(res[i].k == "gen_gu"){
+			// 获取人物根骨 gg
+			if(res[i].k == "gg"){
 				gen_gu = res[i].v;
 			}
-			// 获取人物 ding_li
-			if(res[i].k == "ding_li"){
+			// 获取人物定力 dl
+			if(res[i].k == "dl"){
 				ding_li = res[i].v;
 			}
-			// 获取人物 shen_fa
-			if(res[i].k == "shen_fa"){
+			// 获取人物身法 sf
+			if(res[i].k == "sf"){
 				shen_fa = res[i].v;
 			}
 			// 获取人物 potency
@@ -296,19 +296,52 @@
     }
 
     // 玩家 江湖属性
-	if(data.fiure_jh_property != null){
-		var res = data.fiure_jh_property;
+	if(data.fiure_jh_attribute != null){
+		var res = data.fiure_jh_attribute;
+
+		// 江湖属性
+		var appearance;
+		var attack;
+		var defense;
+		var hit;
+		var agility;
+		$.each(res, function(i){
+			// console.log(res[i]);
+			// 获取人物容貌 appearance
+			if(res[i].k == "appearance"){
+				appearance = res[i].v;
+			}
+			// 获取人物攻击 attack
+			if(res[i].k == "attack"){
+				attack = res[i].v;
+			}
+			// 获取人物防御 defense
+			if(res[i].k == "defense"){
+				defense = res[i].v;
+			}
+			// 获取人物命中 hit
+			if(res[i].k == "hit"){
+				hit = res[i].v;
+			}
+			// 获取人物敏捷 agility
+			if(res[i].k == "agility"){
+				agility = res[i].v;
+			}
+		});
+		// 赋值江湖属性
 		$(".tkbox2").load("page/fiure-jh-property.html", function(){
 			// 赋值姓名 nick
 			// $(".txt03").html("<p>"+ fiure_jh_property.nick +"</p>");
+			// 赋值容貌
+			$(".appearance").html("<p>"+ appearance +"</p>");
 			// 赋值攻击 attack
-			$(".ul02").append("<li><span>攻击</span>"+ res.attack +"</li>");
+			$(".ul02").append("<li><span>攻击</span>"+ attack +"</li>");
 			// 赋值防御 defense
-			$(".ul02").append("<li><span>防御</span>"+ res.defense +"</li>");
+			$(".ul02").append("<li><span>防御</span>"+ defense +"</li>");
 			// 赋值命中 hit
-			$(".ul02").append("<li><span>命中</span>"+ res.hit +"</li>");
+			$(".ul02").append("<li><span>命中</span>"+ hit +"</li>");
 			// 赋值敏捷 agility
-			$(".ul02").append("<li><span>敏捷</span>"+ res.agility +"</li>");
+			$(".ul02").append("<li><span>敏捷</span>"+ agility +"</li>");
 			// 设置基本样式
 		    tkbox2();
 		});
