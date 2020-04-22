@@ -146,140 +146,48 @@
     if(data.fiure_attribute != null){
     	// 人物基本介绍
     	var res = data.fiure_attribute;
-    	// 定义玩家 关键字
-    	var age;				// 玩家年龄
-    	var gender;				// 玩家性别
-    	var character;			// 玩家性格
-    	var now_hp;				// 玩家当前血量
-    	var max_hp;				// 玩家最大血量
-    	var now_mp;				// 玩家当前内力
-    	var max_mp;				// 玩家最大内力
-    	var level;				// 玩家等级
-    	var now_exp;			// 玩家当前经验值
-    	var next_exp;			// 玩家下一级所需经验值
-    	var bi_li;				// 玩家臂力
-    	var qi_jin;				// 玩家气劲
-    	var gen_gu;				// 玩家根骨
-    	var ding_li;			// 玩家定力
-    	var shen_fa;			// 玩家身法
-    	var potency;			// 玩家潜能
-
-    	$.each(res, function(i){
-			// console.log(res[i]);
-			// 获取人物 name
-			if(res[i].k == "name"){
-				name = res[i].v;
-			}
-			// 获取人物 Money
-			if(res[i].k == "Money"){
-				player_game_money = res[i].v;
-			}
-			// 获取人物 age
-			if(res[i].k == "age"){
-				age = res[i].v;
-			}
-			// 获取人物 gender
-			if(res[i].k == "gender"){
-				gender = res[i].v;
-			}
-			// 获取人物 character
-			if(res[i].k == "character"){
-				character = res[i].v;
-			}
-			// 获取人物 now_hp
-			if(res[i].k == "now_hp"){
-				now_hp = res[i].v;
-			}
-			// 获取人物 max_hp
-			if(res[i].k == "max_hp"){
-				max_hp = res[i].v;
-			}
-			// 获取人物 now_mp
-			if(res[i].k == "now_mp"){
-				now_mp = res[i].v;
-			}
-			// 获取人物 max_mp
-			if(res[i].k == "max_mp"){
-				max_mp = res[i].v;
-			}
-			// 获取人物 level
-			if(res[i].k == "level"){
-				level = res[i].v;
-			}
-			// 获取人物 now_exp
-			if(res[i].k == "now_exp"){
-				now_exp = res[i].v;
-			}
-			// 获取人物 next_exp
-			if(res[i].k == "next_exp"){
-				next_exp = res[i].v;
-			}
-			// 获取人物臂力 bl
-			if(res[i].k == "bl"){
-				bi_li = res[i].v;
-			}
-			// 获取人物气劲 qj
-			if(res[i].k == "qj"){
-				qi_jin = res[i].v;
-			}
-			// 获取人物根骨 gg
-			if(res[i].k == "gg"){
-				gen_gu = res[i].v;
-			}
-			// 获取人物定力 dl
-			if(res[i].k == "dl"){
-				ding_li = res[i].v;
-			}
-			// 获取人物身法 sf
-			if(res[i].k == "sf"){
-				shen_fa = res[i].v;
-			}
-			// 获取人物 potency
-			if(res[i].k == "potency"){
-				potency = res[i].v;
-			}
-		});
-
+    	
     	// 基本信息
     	// 赋值姓名 nick
-    	$(".nick").html(name);
+    	$(".nick").html(res.name);
 
     	// 属性	
     	// 左
     	// 赋值年龄 age 
-    	$(".age").html("<span class='sp02'>年龄</span>" + age);
+    	$(".age").html("<span class='sp02'>年龄</span>" + res.age);
     	// 赋值性别 gender
-		$(".gender").html("<span class='sp02'>性别</span>" + gender);
+		$(".gender").html("<span class='sp02'>性别</span>" + res.gender);
 		// 赋值性格 character
-		$(".character").html("<span class='sp02'>性格</span>" + character);
+		$(".character").html("<span class='sp02'>性格</span>" + res.character);
 		// 赋值血量 now_hp max_hp 
-    	$(".hp").html("<span class='sp02'>血量</span>" + now_hp + "/" + max_hp);
+    	$(".hp").html("<span class='sp02'>血量</span>" + res.now_hp + "/" + res.max_hp);
     	// 赋值内力 now_hp max_hp 
-    	$(".mp").html("<span class='sp02'>内力</span>" + now_mp + "/" + max_mp);
+    	$(".mp").html("<span class='sp02'>内力</span>" + res.now_mp + "/" + res.max_mp);
 
     	// 右
     	// 赋值等级 level
-    	$(".level").html("<span class='sp02'>等级</span>" + level + "<a href='javascript:void(0)' onclick='uplevel()' class='but08 filter'>升级</a>");
+    	$(".level").html("<span class='sp02'>等级</span>" + res.level + "<a href='javascript:void(0)' onclick='uplevel()' class='but08 filter'>升级</a>");
     	// 赋值经验 experience
-    	$(".experience").html("<span class='sp02'>经验值</span>" + now_exp + "(" + Math.round(now_exp/next_exp*100) + "%)");
+    	$(".experience").html("<span class='sp02'>经验值</span>" + res.now_exp + "(" + Math.round(res.now_exp/res.next_exp*100) + "%)");
     	// 赋值臂力 bi_li 
-    	$(".bi_li").html("<span class='sp02'>臂力</span>" + bi_li + "<a href='javascript:void(0)' onclick='upattr(7)' class='but08 filter'>提升</a>");
+    	$(".bi_li").html("<span class='sp02'>臂力</span>" + res.bl + "<a href='javascript:void(0)' onclick='upattr(7)' class='but08 filter'>提升</a>");
     	// 赋值气劲 qi_jin
-    	$(".qi_jin").html("<span class='sp02'>气劲</span>" + qi_jin + "<a href='javascript:void(0)' onclick='upattr(8)' class='but08 filter'>提升</a>");
+    	$(".qi_jin").html("<span class='sp02'>气劲</span>" + res.qj + "<a href='javascript:void(0)' onclick='upattr(8)' class='but08 filter'>提升</a>");
     	// 赋值根骨 gen_gu 
-    	$(".gen_gu").html("<span class='sp02'>根骨</span>" + gen_gu + "<a href='javascript:void(0)' onclick='upattr(9)' class='but08 filter'>提升</a>");
+    	$(".gen_gu").html("<span class='sp02'>根骨</span>" + res.gg + "<a href='javascript:void(0)' onclick='upattr(9)' class='but08 filter'>提升</a>");
     	// 赋值定力 ding_li 
-    	$(".ding_li").html("<span class='sp02'>定力</span>" + ding_li + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
+    	$(".ding_li").html("<span class='sp02'>定力</span>" + res.dl + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
     	// 赋值身法 shen_fa 
-    	$(".shen_fa").html("<span class='sp02'>身法</span>" + shen_fa + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
+    	$(".shen_fa").html("<span class='sp02'>身法</span>" + res.sf + "<a href='javascript:void(0)' onclick='upattr(11)' class='but08 filter'>提升</a>");
     	// 赋值潜能 potency 
-    	$(".potency").html("<span class='sp02'>潜能</span>" + potency);
+    	$(".potency").html("<span class='sp02'>潜能</span>" + res.potency);
+    	
     	// 判断潜能大于0
-    	if(potency > 0) {
+    	if(res.potency > 0) {
     		$(".box03_r .but08").removeClass("filter");
     	}
     	// 判断当前经验值是否大于下一级经验值
-    	if(now_exp >= next_exp) {
+    	if(res.now_exp >= res.next_exp) {
     		$(".box03_l .but08").removeClass("filter");
     	}
     	// 打坐
@@ -299,49 +207,20 @@
 	if(data.fiure_jh_attribute != null){
 		var res = data.fiure_jh_attribute;
 
-		// 江湖属性
-		var appearance;
-		var attack;
-		var defense;
-		var hit;
-		var agility;
-		$.each(res, function(i){
-			// console.log(res[i]);
-			// 获取人物容貌 appearance
-			if(res[i].k == "appearance"){
-				appearance = res[i].v;
-			}
-			// 获取人物攻击 attack
-			if(res[i].k == "attack"){
-				attack = res[i].v;
-			}
-			// 获取人物防御 defense
-			if(res[i].k == "defense"){
-				defense = res[i].v;
-			}
-			// 获取人物命中 hit
-			if(res[i].k == "hit"){
-				hit = res[i].v;
-			}
-			// 获取人物敏捷 agility
-			if(res[i].k == "agility"){
-				agility = res[i].v;
-			}
-		});
 		// 赋值江湖属性
 		$(".tkbox2").load("page/fiure-jh-property.html", function(){
 			// 赋值姓名 nick
 			// $(".txt03").html("<p>"+ fiure_jh_property.nick +"</p>");
 			// 赋值容貌
-			$(".appearance").html("<p>"+ appearance +"</p>");
+			$(".appearance").html("<p>"+ res.appearance +"</p>");
 			// 赋值攻击 attack
-			$(".ul02").append("<li><span>攻击</span>"+ attack +"</li>");
+			$(".ul02").append("<li><span>攻击</span>"+ res.attack +"</li>");
 			// 赋值防御 defense
-			$(".ul02").append("<li><span>防御</span>"+ defense +"</li>");
+			$(".ul02").append("<li><span>防御</span>"+ res.defence +"</li>");
 			// 赋值命中 hit
-			$(".ul02").append("<li><span>命中</span>"+ hit +"</li>");
+			$(".ul02").append("<li><span>命中</span>"+ res.hit +"</li>");
 			// 赋值敏捷 agility
-			$(".ul02").append("<li><span>敏捷</span>"+ agility +"</li>");
+			$(".ul02").append("<li><span>敏捷</span>"+ res.agility +"</li>");
 			// 设置基本样式
 		    tkbox2();
 		});
