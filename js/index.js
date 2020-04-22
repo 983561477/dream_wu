@@ -247,6 +247,60 @@
     // }
 
 
+    // 场景物资
+    // 
+    // 场景NPC详情
+    if(data.scene_npc_attribute != null){
+    	var res = data.scene_npc_attribute;
+    	// NPC的姓名
+    	scene_npc_name = res.name;
+    	// NPC的ID
+    	scene_npc_ident = res.ident;
+    	// NPC的描述
+    	var scene_npc_introduce = res.introduce;
+    	// 赋值
+		$(".tkbox2").load("page/npc-info-display.html", function(){
+			// 赋值NPC名字
+			$(".rw_xm").html(scene_npc_name);
+			// 赋值NPC描述
+			$(".introduce").html("<p>"+ scene_npc_introduce +"</p>");
+			// 循环赋值NPC属性
+			// $.each(res.attr, function(i){
+			// 	// 属性
+			// 	$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");	
+			// });
+			// 设置基本样式
+		    tkbox2();
+			});
+		// 显示弹窗
+		$(".black").show();
+		$(".tkbox2").show();
+		return;
+    }
+
+    // 场景玩家详情
+    if(data.scene_player_attribute != null){
+    	var res = data.scene_player_attribute;
+    	// 玩家的姓名
+    	scene_player_name = res.name;
+    	// 玩家的ID
+    	scene_player_ident = res.ident;
+    	// 玩家的描述
+    	var scene_player_introduce = res.introduce;
+    	// 赋值
+    	$(".tkbox2").load("page/player-info-display.html", function(){
+				// 赋值玩家名字
+				$(".rw_xm").html(scene_player_name);
+				// 赋值玩家描述
+				$(".introduce").html("<p>"+ scene_player_introduce +"</p>");
+				// 设置基本样式
+			    tkbox2();
+			});
+			// 显示弹窗
+			$(".black").show();
+			$(".tkbox2").show();
+			return;
+    }
 
 	// 查看场景物资信息
 	if(data.view_res != null){
@@ -262,10 +316,6 @@
 			if(res[i].k == "ident"){
 				// 被查询物资ident
 				other_ident = res[i].v;
-			}
-			if(res[i].k == "pid"){
-				// 按钮类别
-				res_pid = res[i].v;
 			}
 			if(res[i].k == "pid"){
 				// 按钮类别

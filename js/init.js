@@ -23,6 +23,14 @@ var ident;  // 当前玩家的ident
 var name;	// 当前玩家的name
 
 
+// 场景npc
+var scene_npc_name;
+var scene_npc_ident;
+
+// 场景玩家
+var scene_player_name;
+var scene_player_ident;
+
 // 玩家是否战斗
 var is_combat = false;
 
