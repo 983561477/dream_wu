@@ -1,0 +1,94 @@
+﻿<script>
+	// 点击确定隐藏提示信息
+	$(".qd").click(function() {
+		$(".black1").hide();
+		$(".login_tk").hide();
+	})
+
+	// 获取聊天信息
+
+	function Send(){
+		// 获取聊天信息
+		var message = $("#chat").val();
+		if(message == ""){
+			exception_show("请输入内容！");
+		}
+		else{
+			// 去除空格后的字符串数组
+			var str = message.trim().split(/\s+/);
+			console.log(message);
+			console.log(str);
+			// 是否为指令
+			var is_instruct = 0;
+			// 循环判断对应的指令
+			$.each(Wiz_instruct, function(i, v){
+				if(str[0] == v){
+					is_instruct = 1;
+				}
+			});
+			// 如果不是指令
+			if(is_instruct == 0){
+			   // 调用聊天指令
+			   sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"chat\",\"para\":[{\"message\":\""+message+"\"}]}");
+			}
+			else{
+				// 指令头
+				var instruct_head;
+				// 参数
+				var parameter = [];
+				// 封装参数
+				$.each(str, function(i, v){
+					console.log(i+v);
+					if(i == 0){
+						instruct_head = v;
+					}
+					else{
+						var temp = "\"parameter_"+i+"\":\""+v+"\"";
+						parameter.push(temp);
+					}
+				});
+				// 封装参数
+				$.each(parameter, function(i, v){
+
+				});
+				// // 调用功能性指令
+				sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\""+instruct_head+"\",\"para\":[{"+parameter+"}]}");
+			}
+		}
+		// 关闭弹窗
+		$(".black").hide();
+	    $(".tkbox2").hide();
+	}
+
+	function exception_show(err){
+		$(".black1").show();
+		$(".login_tk").show();
+		$(".login_tk p").html(err);
+	}
+
+</script>
+
+<!-- 聊天功能 -->
+<div class="rw1"><img src="images/ico05.png" alt="" class="rw_tx"><span class="rw_xm">聊天功能</span></div>
+<div class="tkbox2_con1">
+
+ <ul class="ul01">
+    <li>
+      <input type="text" id="chat" value="" class="text03" placeholder="请输入">
+    </li>
+  </ul>
+
+  <!-- 按钮 -->
+  <div class="npc_but cz">
+  	<a class='but04' onclick='Send()'>发送</a>
+  </div>
+</div>
+
+<!-- 关闭按钮 -->
+<div class='tk_button'><a class='but03' name='gb'>关闭</a></div>
+
+<div class="black1" style="display: none;"></div>
+<div class="login_tk" style="display: none;">
+	<P></P>
+    <a class="qd">确定</a>
+</div>

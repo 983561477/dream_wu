@@ -22,6 +22,9 @@ var token;  // 连接
 var ident;  // 当前玩家的ident
 var name;	// 当前玩家的name
 
+// 巫师指令
+// fly: 飞行
+var Wiz_instruct = ["fly"];
 
 // 场景npc
 var scene_npc_name;

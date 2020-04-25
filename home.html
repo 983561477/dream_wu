@@ -97,12 +97,21 @@
     }
   }
 
-  // 路径返回函数
+// 路径返回函数
 function go(path) {
   sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"go\",\"para\":[{\"path\":\""+path+"\"}]}");
 }
 
-// 
+// 聊天窗口
+function Chat() {
+  $(".tkbox2").load("page/chat-window.html", function(){
+    // 设置基本样式
+      tkbox2();
+  });
+  // 显示弹窗
+  $(".black").show();
+  $(".tkbox2").show();
+}
 
 
 </script>
@@ -167,7 +176,9 @@ function go(path) {
 <div class="container3">
   <!-- 聊天界面 -->
   <div class="txt02">
-    <a class="lt talk_but"><img src="images/ico05.png" alt=""></a>
+
+    <!-- 聊天跟功能界面 -->
+    <a class="lt talk_but" onclick="Chat()"><img src="images/ico05.png" alt=""></a>
   </div>
 
   <!-- 功能界面 -->

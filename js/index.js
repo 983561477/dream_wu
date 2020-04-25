@@ -46,9 +46,9 @@
 
 
 	// 信息提示开始
-	if(data.talk != null) {
+	if(data.message != null) {
 	    // console.log(data.talk);
-		$(".txt02").append(data.talk);
+		$(".txt02").append(data.message);
 		// 更新信息
 		$(".txt02").scrollTop($(".txt02").get(0).scrollHeight);
 		return;
@@ -209,10 +209,18 @@
 
 		// 赋值江湖属性
 		$(".tkbox2").load("page/fiure-jh-property.html", function(){
-			// 赋值姓名 nick
-			// $(".txt03").html("<p>"+ fiure_jh_property.nick +"</p>");
+			// 赋值称号
+			$(".introduce").append("<p>"+ res.title_desc +"</p>");
+			// 赋值年龄
+			$(".introduce").append("<p>"+ res.age_desc +"</p>");
+			// 赋值战力
+			$(".introduce").append("<p>"+ res.zdl_desc +"</p>");
 			// 赋值容貌
-			$(".appearance").html("<p>"+ res.appearance +"</p>");
+			$(".introduce").append("<p>"+ res.appearance_desc +"</p>");
+			// 赋值状态
+			$(".introduce").append("<p>"+ res.state_desc +"</p>");
+			// 赋值婚配状况
+			$(".introduce").append("<p>"+ res.marriage_desc +"</p>");
 			// 赋值攻击 attack
 			$(".ul02").append("<li><span>攻击</span>"+ res.attack +"</li>");
 			// 赋值防御 defense
@@ -256,19 +264,20 @@
     	scene_npc_name = res.name;
     	// NPC的ID
     	scene_npc_ident = res.ident;
-    	// NPC的描述
-    	var scene_npc_introduce = res.introduce;
     	// 赋值
 		$(".tkbox2").load("page/npc-info-display.html", function(){
 			// 赋值NPC名字
 			$(".rw_xm").html(scene_npc_name);
+
 			// 赋值NPC描述
-			$(".introduce").html("<p>"+ scene_npc_introduce +"</p>");
-			// 循环赋值NPC属性
-			// $.each(res.attr, function(i){
-			// 	// 属性
-			// 	$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");	
-			// });
+			$(".introduce").append("<p>"+ res.title_desc +"</p>");
+			$(".introduce").append("<p>"+ res.introduce +"</p>");
+			$(".introduce").append("<p>"+ res.age_desc +"</p>");
+			$(".introduce").append("<p>"+ res.zdl_desc +"</p>");
+			$(".introduce").append("<p>"+ res.appearance_desc +"</p>");
+			$(".introduce").append("<p>"+ res.state_desc +"</p>");
+			$(".introduce").append("<p>"+ res.marriage_desc +"</p>");
+
 			// 设置基本样式
 		    tkbox2();
 			});
@@ -285,14 +294,17 @@
     	scene_player_name = res.name;
     	// 玩家的ID
     	scene_player_ident = res.ident;
-    	// 玩家的描述
-    	var scene_player_introduce = res.introduce;
     	// 赋值
     	$(".tkbox2").load("page/player-info-display.html", function(){
 				// 赋值玩家名字
 				$(".rw_xm").html(scene_player_name);
 				// 赋值玩家描述
-				$(".introduce").html("<p>"+ scene_player_introduce +"</p>");
+				$(".introduce").append("<p>"+ res.title_desc +"</p>");
+				$(".introduce").append("<p>"+ res.age_desc +"</p>");
+				$(".introduce").append("<p>"+ res.zdl_desc +"</p>");
+				$(".introduce").append("<p>"+ res.appearance_desc +"</p>");
+				$(".introduce").append("<p>"+ res.state_desc +"</p>");
+				$(".introduce").append("<p>"+ res.marriage_desc +"</p>");
 				// 设置基本样式
 			    tkbox2();
 			});
