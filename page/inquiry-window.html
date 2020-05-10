@@ -3,7 +3,9 @@
 	// 如果是接受拒绝类按钮
 	if(inquiry_button == 1){
 		// 获取按钮
-		sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getButton\", \"para\":[{\"category\":\"1015\"}]}");
+		// sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"getButton\", \"para\":[{\"category\":\"1015\"}]}");
+		$(".feedback").append("<a class='but03' onclick='Agree(\""+inquiry_category+"\", \""+inquiry_ident+"\")'>接受</a>");
+		$(".feedback").append("<a class='but03' onclick='Refuse(\""+inquiry_category+"\",  \""+inquiry_ident+"\")'>拒绝</a>");
 	}
 
 

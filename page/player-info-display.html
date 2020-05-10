@@ -14,6 +14,15 @@
     sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"player_compare\",\"para\":[{\"name\":\""+name+"\", \"ident\":\""+ident+"\", \"feedback_name\":\""+feedback_name+"\", \"feedback_ident\":\""+feedback_ident+"\"}]}");
   }
   */
+ 
+ // 击杀玩家
+  function Button_kill_npc(ident, enemy_ident){
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"kill_player\",\"para\":[{\"ident\":\""+ident+"\", \"enemy_ident\":\""+enemy_ident+"\"}]}");
+  }
+ // 切磋玩家
+  function Button_compare_player(ident, feedback_name, feedback_ident){
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"compare_player\",\"para\":[{\"name\":\""+ident+"\", \"ident\":\""+ident+"\", \"feedback_name\":\""+feedback_name+"\", \"feedback_ident\":\""+feedback_ident+"\"}]}");
+  }
 </script>
 
 <!-- 玩家信息显示 -->
@@ -31,7 +40,10 @@
       </div>
   </div> -->
   <!-- 按钮 -->
-  <div class="player_but cz"></div>
+  <div class="player_but cz">
+    <a class='but04' onclick='Button_kill_player(ident, scene_player_ident)'>杀死</a>
+    <a class='but04' onclick='Button_compare_player(ident, scene_player_name, scene_player_ident)'>切磋</a>
+  </div>
 </div>
 <!-- 关闭按钮 -->
 <div class='tk_button'><a class='but03' name='gb'>关闭</a></div>

@@ -35,10 +35,20 @@
   // console.log("开始执行获取战斗成员信息");
   // 
   // 获取战斗成员的信息
-  Push_combat_info();
+  Get_combat_members();
   // 获得自己的战斗技能
   Get_combat_skills();
   // console.log("执行完毕");
+
+// 获取战斗成员的信息
+function Get_combat_members(){
+    sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_combat_members\", \"para\":[]}");
+}
+
+// 获得自己的战斗技能
+function Get_combat_skills(){
+  sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_combat_skills\", \"para\":[]}");
+}
 
 // 血条内力条增加
 function BarAdd(pid, css, now, bl) {

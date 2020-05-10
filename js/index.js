@@ -98,18 +98,19 @@
 		// 清除旧数据
 		$(".box02").html("");
 		// 遍历新数据
-		$.each(res, function(i){
-			var attr = res[i];
-			// console.log(attr);
-			$.each(attr, function(j){
-				// console.log(attr[j]);
+		$.each(res, function(i, item){
+			// console.log(i);
+			// console.log(item);
+			$.each(item, function(i, goods){
+				// console.log(i);
+				// console.log(item);
 				// 获取物资 name
-				if(attr[j].k == "name"){
-					goods_name = attr[j].v;
+				if(goods.k == "name"){
+					goods_name = goods.v;
 				}
 				// 获取物资 ident			
-				if(attr[j].k == "ident"){
-					goods_ident = attr[j].v;
+				if(goods.k == "ident"){
+					goods_ident = goods.v;
 				}
 			});
 			
@@ -118,22 +119,23 @@
 				// console.log(equipment);
 				// 设备为电脑
 				if(equipment == 0){
-					$(".box02").append("<div class='rw' style='margin-left:0.14rem;'><a href='javascript:void(0)' class='rw_xm2' onclick='Get_Sence_single_goods_info(\""+goods_ident+"\")'>"+goods_name+"</a></div>");
+					$(".box02").append("<div class='rw' style='margin-left:0.14rem;'><a href='javascript:void(0)' class='rw_xm2' onclick='Get_sence_single_goods_info(\""+goods_ident+"\")'>"+goods_name+"</a></div>");
 				}
 				// 设备为手机
 				if(equipment == 1){
-					$(".box02").append("<div class='rw'><a href='javascript:void(0)' class='rw_xm2' onclick='Get_Sence_single_goods_info(\""+goods_ident+"\")'>"+goods_name+"</a></div>");
+					$(".box02").append("<div class='rw'><a href='javascript:void(0)' class='rw_xm2' onclick='Get_sence_single_goods_info(\""+goods_ident+"\")'>"+goods_name+"</a></div>");
 				}
 			}
 			// 物资为自己
 			else{
 				// 获取当前玩家的名称
 				name = goods_name;
+				console.log(name);
 				// 遍历关键字
-				$.each(attr, function(j){
+				$.each(item, function(i, goods){
 					// 获取自己的 isWiz
-					if(attr[j].k == "isWiz"){
-						isWiz = attr[j].v;
+					if(goods.k == "isWiz"){
+						isWiz = goods.v;
 					}
 				});
 			}
@@ -146,6 +148,10 @@
     if(data.fiure_attribute != null){
     	// 人物基本介绍
     	var res = data.fiure_attribute;
+    	// 玩家的金钱
+    	player_game_money = res.money;
+    	// 获取玩家背包大小
+    	back_size = res.back_size;
     	
     	// 基本信息
     	// 赋值姓名 nick
@@ -261,9 +267,9 @@
     if(data.scene_npc_attribute != null){
     	var res = data.scene_npc_attribute;
     	// NPC的姓名
-    	scene_npc_name = res.name;
+    	other_name = scene_npc_name = res.name;
     	// NPC的ID
-    	scene_npc_ident = res.ident;
+    	other_ident = scene_npc_ident = res.ident;
     	// 赋值
 		$(".tkbox2").load("page/npc-info-display.html", function(){
 			// 赋值NPC名字
@@ -291,9 +297,9 @@
     if(data.scene_player_attribute != null){
     	var res = data.scene_player_attribute;
     	// 玩家的姓名
-    	scene_player_name = res.name;
+    	other_name = scene_player_name = res.name;
     	// 玩家的ID
-    	scene_player_ident = res.ident;
+    	other_ident = scene_player_ident = res.ident;
     	// 赋值
     	$(".tkbox2").load("page/player-info-display.html", function(){
 				// 赋值玩家名字
@@ -314,213 +320,213 @@
 			return;
     }
 
-	// 查看场景物资信息
-	if(data.view_res != null){
-		var res = data.view_res;
+	// // 查看场景物资信息
+	// if(data.view_res != null){
+	// 	var res = data.view_res;
 
-		// 物资描述
-		var introduce;
-		$.each(res, function(i){
-			if(res[i].k == "name"){
-				// 被查询物资name
-				other_name = res[i].v;
-			}
-			if(res[i].k == "ident"){
-				// 被查询物资ident
-				other_ident = res[i].v;
-			}
-			if(res[i].k == "pid"){
-				// 按钮类别
-				res_pid = res[i].v;
-			}
-			if(res[i].k == "introduce"){
-				// 按钮类别
-				introduce = res[i].v;
-			}
-		});
-		//物资为玩家
-		if(res_pid == 1001)
-		{
+	// 	// 物资描述
+	// 	var introduce;
+	// 	$.each(res, function(i){
+	// 		if(res[i].k == "name"){
+	// 			// 被查询物资name
+	// 			other_name = res[i].v;
+	// 		}
+	// 		if(res[i].k == "ident"){
+	// 			// 被查询物资ident
+	// 			other_ident = res[i].v;
+	// 		}
+	// 		if(res[i].k == "pid"){
+	// 			// 按钮类别
+	// 			res_pid = res[i].v;
+	// 		}
+	// 		if(res[i].k == "introduce"){
+	// 			// 按钮类别
+	// 			introduce = res[i].v;
+	// 		}
+	// 	});
+	// 	//物资为玩家
+	// 	if(res_pid == 1001)
+	// 	{
 
-			$(".tkbox2").load("page/player-info-display.html", function(){
-				// 赋值玩家名字
-				$(".rw_xm").html(other_name);
-				// 赋值玩家描述
-				//$(".zb_txt3").html("<p>"+ res.introduce +"</p>");
-				// 设置基本样式
-			    tkbox2();
-			});
-			// 显示弹窗
-			$(".black").show();
-			$(".tkbox2").show();
-			return;
-		}
+	// 		$(".tkbox2").load("page/player-info-display.html", function(){
+	// 			// 赋值玩家名字
+	// 			$(".rw_xm").html(other_name);
+	// 			// 赋值玩家描述
+	// 			//$(".zb_txt3").html("<p>"+ res.introduce +"</p>");
+	// 			// 设置基本样式
+	// 		    tkbox2();
+	// 		});
+	// 		// 显示弹窗
+	// 		$(".black").show();
+	// 		$(".tkbox2").show();
+	// 		return;
+	// 	}
 
-		//物资为npc
-		if(res_pid == 1002)
-		{	
-			$(".tkbox2").load("page/npc-info-display.html", function(){
-				// 赋值NPC名字
-				$(".rw_xm").html(other_name);
-				// 赋值NPC描述
-				$(".introduce").html("<p>"+ introduce +"</p>");
-				// 循环赋值NPC属性
-				// $.each(res.attr, function(i){
-				// 	// 属性
-				// 	$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");	
-				// });
-				// 设置基本样式
-			    tkbox2();
-				});
-			// 显示弹窗
-			$(".black").show();
-			$(".tkbox2").show();
-			return;
-		}
+	// 	//物资为npc
+	// 	if(res_pid == 1002)
+	// 	{	
+	// 		$(".tkbox2").load("page/npc-info-display.html", function(){
+	// 			// 赋值NPC名字
+	// 			$(".rw_xm").html(other_name);
+	// 			// 赋值NPC描述
+	// 			$(".introduce").html("<p>"+ introduce +"</p>");
+	// 			// 循环赋值NPC属性
+	// 			// $.each(res.attr, function(i){
+	// 			// 	// 属性
+	// 			// 	$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");	
+	// 			// });
+	// 			// 设置基本样式
+	// 		    tkbox2();
+	// 			});
+	// 		// 显示弹窗
+	// 		$(".black").show();
+	// 		$(".tkbox2").show();
+	// 		return;
+	// 	}
 
-		//物资为物品
-		if(res_pid == '479518a5-5d2e-4633-982f-050cd46b63a1')
-		{
-			// 赋值物品类别
-			goods_category = res.category;
-			// console.log(goods_category);
+	// 	//物资为物品
+	// 	if(res_pid == '479518a5-5d2e-4633-982f-050cd46b63a1')
+	// 	{
+	// 		// 赋值物品类别
+	// 		goods_category = res.category;
+	// 		// console.log(goods_category);
 
-			$(".tkbox2").load("page/material-info-display.html", function(){
-				// 赋值物资名字
-				$(".zb_mc").html(res.name);
-				// 赋值物资描述
-				$(".introduce").html("<p>"+ res.introduce +"</p>");
-				// 循环赋值物资属性
-				$.each(res.attr, function(i){
-					//console.log(res.attr[i].desc);
-					// 属性
-					if(res.attr[i].desc != '是否穿戴' && res.attr[i].desc != '部位'){
-						$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");
-					}
-				});
-				// 设置基本样式
-			    tkbox2();
-			});
-			// 显示弹窗
-			$(".black").show();
-			$(".tkbox2").show();
-			return;
-		}
-		return;
-	}
+	// 		$(".tkbox2").load("page/material-info-display.html", function(){
+	// 			// 赋值物资名字
+	// 			$(".zb_mc").html(res.name);
+	// 			// 赋值物资描述
+	// 			$(".introduce").html("<p>"+ res.introduce +"</p>");
+	// 			// 循环赋值物资属性
+	// 			$.each(res.attr, function(i){
+	// 				//console.log(res.attr[i].desc);
+	// 				// 属性
+	// 				if(res.attr[i].desc != '是否穿戴' && res.attr[i].desc != '部位'){
+	// 					$(".property").append("<p>"+ res.attr[i].desc + "：" + res.attr[i].v +"</p>");
+	// 				}
+	// 			});
+	// 			// 设置基本样式
+	// 		    tkbox2();
+	// 		});
+	// 		// 显示弹窗
+	// 		$(".black").show();
+	// 		$(".tkbox2").show();
+	// 		return;
+	// 	}
+	// 	return;
+	// }
 
 
 	// 赋值按钮
-	if(data.button_info != null){
-		var but = data.button_info;
-		// 按钮类别
-		var category = data.category;
-		// console.log(category);
-		//玩家按钮
-		if(category == 1013){
-			// 循环赋值按钮
-			for (var i = 0; i < but.length; i++){	
-				// 热更按钮
-				if(but[i].introduce == "热更"){
-					// 如果该玩家是巫师
-					if(isWiz == 1){
-						// 赋值热更按钮
-						$(".player_but").append("<a class='but04' onclick='Hot_shift()'>" + but[i].introduce +"</a>");
-						continue;
-					}
-					// 如果玩家不是巫师
-					if(isWiz == 0){
-						continue;
-					}
-				}
-				// 击杀按钮
-				if(but[i].introduce == "杀死"){
-					// 赋值热更按钮
-					$(".player_but").append("<a class='but04' onclick='Player_kill(\""+ident+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
-					continue;
-				}
-				// 切磋按钮
-				if(but[i].introduce == "切磋"){
-					// 赋值热更按钮
-					// console.log(other_name);
-					$(".player_but").append("<a class='but04' onclick='Player_compare(\""+name+"\", \""+ident+"\", \""+other_name+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
-					continue;
-				}	
-				// 普通按钮
-				$(".player_but").append("<a class='but04'>"+ but[i].introduce +"</a>");
-			}
-			return;
-		}
+	// if(data.button_info != null){
+	// 	var but = data.button_info;
+	// 	// 按钮类别
+	// 	var category = data.category;
+	// 	// console.log(category);
+	// 	//玩家按钮
+	// 	if(category == 1013){
+	// 		// 循环赋值按钮
+	// 		for (var i = 0; i < but.length; i++){	
+	// 			// 热更按钮
+	// 			if(but[i].introduce == "热更"){
+	// 				// 如果该玩家是巫师
+	// 				if(isWiz == 1){
+	// 					// 赋值热更按钮
+	// 					$(".player_but").append("<a class='but04' onclick='Hot_shift()'>" + but[i].introduce +"</a>");
+	// 					continue;
+	// 				}
+	// 				// 如果玩家不是巫师
+	// 				if(isWiz == 0){
+	// 					continue;
+	// 				}
+	// 			}
+	// 			// 击杀按钮
+	// 			if(but[i].introduce == "杀死"){
+	// 				// 赋值热更按钮
+	// 				$(".player_but").append("<a class='but04' onclick='Player_kill(\""+ident+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
+	// 				continue;
+	// 			}
+	// 			// 切磋按钮
+	// 			if(but[i].introduce == "切磋"){
+	// 				// 赋值热更按钮
+	// 				// console.log(other_name);
+	// 				$(".player_but").append("<a class='but04' onclick='Player_compare(\""+name+"\", \""+ident+"\", \""+other_name+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
+	// 				continue;
+	// 			}	
+	// 			// 普通按钮
+	// 			$(".player_but").append("<a class='but04'>"+ but[i].introduce +"</a>");
+	// 		}
+	// 		return;
+	// 	}
 
-		//NPC按钮
-		if(category == 1014){
-			// 循环赋值按钮
-			for (var i = 0; i < but.length; i++){	
-				//热更按钮
-				if(but[i].introduce == "热更"){
-					// 如果该玩家是巫师
-					if(isWiz == 1){
-						// 赋值热更按钮
-						$(".npc_but").append("<a class='but04' onclick='Hot_shift()'>" + but[i].introduce +"</a>");
-						continue;
-					}
-					// 如果玩家不是巫师
-					if(isWiz == 0){
-						continue;
-					}
-				}
-				// 击杀按钮
-				if(but[i].introduce == "杀死"){
-					// 赋值热更按钮
-					$(".npc_but").append("<a class='but04' onclick='Npc_kill(\""+ident+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
-					continue;
-				}
-				// 切磋按钮
-				if(but[i].introduce == "切磋"){
-					// 赋值热更按钮
-					$(".npc_but").append("<a class='but04' onclick='Npc_compare(\""+ident+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
-					continue;
-				}		
-				// 普通按钮
-				$(".npc_but").append("<a class='but04'>"+ but[i].introduce +"</a>");
-			}
-			return;
-		}
+	// 	//NPC按钮
+	// 	if(category == 1014){
+	// 		// 循环赋值按钮
+	// 		for (var i = 0; i < but.length; i++){	
+	// 			//热更按钮
+	// 			if(but[i].introduce == "热更"){
+	// 				// 如果该玩家是巫师
+	// 				if(isWiz == 1){
+	// 					// 赋值热更按钮
+	// 					$(".npc_but").append("<a class='but04' onclick='Hot_shift()'>" + but[i].introduce +"</a>");
+	// 					continue;
+	// 				}
+	// 				// 如果玩家不是巫师
+	// 				if(isWiz == 0){
+	// 					continue;
+	// 				}
+	// 			}
+	// 			// 击杀按钮
+	// 			if(but[i].introduce == "杀死"){
+	// 				// 赋值热更按钮
+	// 				$(".npc_but").append("<a class='but04' onclick='Npc_kill(\""+ident+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
+	// 				continue;
+	// 			}
+	// 			// 切磋按钮
+	// 			if(but[i].introduce == "切磋"){
+	// 				// 赋值热更按钮
+	// 				$(".npc_but").append("<a class='but04' onclick='Npc_compare(\""+ident+"\", \""+other_ident+"\")'>" + but[i].introduce +"</a>");
+	// 				continue;
+	// 			}		
+	// 			// 普通按钮
+	// 			$(".npc_but").append("<a class='but04'>"+ but[i].introduce +"</a>");
+	// 		}
+	// 		return;
+	// 	}
 
-		// 接受拒绝类按钮
-		if(category == 1015){
-			// 循环赋值按钮
-			for (var i = 0; i < but.length; i++){	
-				if(but[i].introduce == "接受"){
-					// 赋值热更按钮
-					$(".feedback").append("<a class='but03' onclick='Agree(\""+inquiry_category+"\", \""+inquiry_ident+"\")'>" + but[i].introduce +"</a>");
-					continue;
-				}	
-				if(but[i].introduce == "拒绝"){
-					// 赋值热更按钮
-					// 给对手发送自己名字
-					$(".feedback").append("<a class='but03' onclick='Refuse(\""+inquiry_category+"\",  \""+inquiry_ident+"\")'>" + but[i].introduce +"</a>");
-					continue;
-				}
-			}
-			return;
-		}
+	// 	// 接受拒绝类按钮
+	// 	if(category == 1015){
+	// 		// 循环赋值按钮
+	// 		for (var i = 0; i < but.length; i++){	
+	// 			if(but[i].introduce == "接受"){
+	// 				// 赋值热更按钮
+	// 				$(".feedback").append("<a class='but03' onclick='Agree(\""+inquiry_category+"\", \""+inquiry_ident+"\")'>" + but[i].introduce +"</a>");
+	// 				continue;
+	// 			}	
+	// 			if(but[i].introduce == "拒绝"){
+	// 				// 赋值热更按钮
+	// 				// 给对手发送自己名字
+	// 				$(".feedback").append("<a class='but03' onclick='Refuse(\""+inquiry_category+"\",  \""+inquiry_ident+"\")'>" + but[i].introduce +"</a>");
+	// 				continue;
+	// 			}
+	// 		}
+	// 		return;
+	// 	}
 
-		//物品按钮
-		if(res_pid == 1003){
-			// 循环赋值按钮
-			for (var i = 0; i < but.length; i++){		
-				// 如果装备已经穿戴
-				if(equip_is_wear == 1 && but[i].introduce == '穿戴'){
-					but[i].introduce = '脱下';
-				}
-				// 赋值按钮
-				$(".goods_but").append("<a class='but02'>"+ but[i].introduce +"</a>");	
-			}
-			return;
-		}
-		return;
-	}
+	// 	//物品按钮
+	// 	if(res_pid == 1003){
+	// 		// 循环赋值按钮
+	// 		for (var i = 0; i < but.length; i++){		
+	// 			// 如果装备已经穿戴
+	// 			if(equip_is_wear == 1 && but[i].introduce == '穿戴'){
+	// 				but[i].introduce = '脱下';
+	// 			}
+	// 			// 赋值按钮
+	// 			$(".goods_but").append("<a class='but02'>"+ but[i].introduce +"</a>");	
+	// 		}
+	// 		return;
+	// 	}
+	// 	return;
+	// }
 
 
 	// 人物页面或背包页面获取物品
@@ -530,7 +536,7 @@
 		// 如果穿戴则给玩家穿戴上
 		$("#"+ equip_part_id + " img").attr("src", "images/"+image_id+".png");
 		// 增加物品详情按钮
-		$("#"+ equip_part_id).attr("onclick", "Get_Fiure_back_goods_info('"+goods_id+"')");
+		$("#"+ equip_part_id).attr("onclick", "Get_fiure_back_single_goods_info('"+goods_id+"')");
 	}
 
 	if(data.fiure_back_category_goods != null){
@@ -538,36 +544,38 @@
 		// 如果是从人物页面传入
 		if(is_fiure_or_back == 'fiure'){
 			// 将部位数组重置 为0
-			equip_part_array = [0,0,0,0,0,0,0,0,0,0,0,0];
+			equip_part_num_array = [0,0,0,0,0,0,0,0,0,0,0,0];
 			// console.log(res.length);
 			// 循环判断装备是否穿戴
-			$.each(res, function(i){
+			$.each(res, function(i, v){
 				// console.log(i);
-				var goods = res[i];
-				//console.log(goods);
+				// console.log(v);
 				// 图片id
 				var image_id;
 				// 遍历当前装备的关键字
-				$.each(goods, function(i){
+				$.each(v, function(i, goods){
 					// console.log(i);
+					// console.log(v);
 					// console.log(goods[i]);
-					if(goods[i].k == "id"){
+					if(goods.k == "id"){
 						// 物品的id
-						goods_id = goods[i].v;
+						goods_id = goods.v;
 					}
-					if(goods[i].k == "part"){
+					if(goods.k == "part"){
 						// 物品的穿戴部位
-						equip_part = goods[i].v;
+						equip_part = goods.v;
 					}
-					if(goods[i].k == "is_wear"){
+					if(goods.k == "is_wear"){
 						// 物品是否穿戴
-						equip_is_wear = goods[i].v;
+						equip_is_wear = goods.v;
 					}
-					if(goods[i].k == "image_id"){
+					if(goods.k == "image_id"){
 						// 物品的图片id
-						image_id = goods[i].v;
+						image_id = goods.v;
 					}
 				});
+
+				// console.log(equip_is_wear);
 				// 判断装备是否穿戴
 				if(equip_is_wear == 1){
 					// 判断武器穿戴部位
@@ -575,155 +583,156 @@
 						// 1
 						case "武器":
 							// 如果武器部位等于零
-							if(equip_part_array[0] == 0){
+							if(equip_part_num_array[0] == 0){
+								// console.log(equip_part_array[0]);
 								// 穿戴显示
-								Function_Equip_wear_show("weapon", image_id);
+								Function_Equip_wear_show(equip_part_array[0], image_id);
 								// 增加该部位数组长度
-								equip_part_array[0] = 1;
+								equip_part_num_array[0] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;
 						// 2
 						case "项链":
 							// 如果项链部位等于零
-							if(equip_part_array[1] == 0){
+							if(equip_part_num_array[1] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("necklace", image_id);
+								Function_Equip_wear_show(equip_part_array[1], image_id);
 								// 增加该部位数组长度
-								equip_part_array[1] = 1;
+								equip_part_num_array[1] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;
 						// 3 4
 						case "戒指":
 							// 如果戒指左部位等于零
-							if(equip_part_array[2] == 0){
+							if(equip_part_num_array[2] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("ring_left", image_id);
+								Function_Equip_wear_show(equip_part_array[2], image_id);
 								// 增加该部位数组长度
-								equip_part_array[2] = 1;
+								equip_part_num_array[2] = 1;
 							}
 							// 如果戒指右部位等于零
-							else if(equip_part_array[3] == 0){
+							else if(equip_part_num_array[3] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("ring_right", image_id);
+								Function_Equip_wear_show(equip_part_array[3], image_id);
 								// 增加该部位数组长度
-								equip_part_array[3] = 1;
+								equip_part_num_array[3] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;	
 						// 5 6
 						case "护符":
 							// 如果护符左部位等于零
-							if(equip_part_array[4] == 0){
+							if(equip_part_num_array[4] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("amulet_left", image_id);
+								Function_Equip_wear_show(equip_part_array[4], image_id);
 								// 增加该部位数组长度
-								equip_part_array[4] = 1;
+								equip_part_num_array[4] = 1;
 							}
 							// 如果护符右部位等于零
-							if(equip_part_array[5] == 0){
+							if(equip_part_num_array[5] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("amulet_right", image_id);
+								Function_Equip_wear_show(equip_part_array[5], image_id);
 								// 增加该部位数组长度
-								equip_part_array[5] = 1;
+								equip_part_num_array[5] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;
 						// 7
 						case "帽子":
 							// 如果帽子部位等于零
-							if(equip_part_array[6] == 0){
+							if(equip_part_num_array[6] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("cap", image_id);
+								Function_Equip_wear_show(equip_part_array[6], image_id);
 								// 增加该部位数组长度
-								equip_part_array[6] = 1;
+								equip_part_num_array[6] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;
 						// 8
 						case "衣服":
 							// 如果衣服部位等于零
-							if(equip_part_array[7] == 0){
+							if(equip_part_num_array[7] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("clothing", image_id);
+								Function_Equip_wear_show(equip_part_array[7], image_id);
 								// 增加该部位数组长度
-								equip_part_array[7] = 1;
+								equip_part_num_array[7] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;	
 						// 9
-						case "鞋子":
+						case "下装":
 							// 如果鞋子部位等于零
-							if(equip_part_array[8] == 0){
+							if(equip_part_num_array[8] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("shoes", image_id);
+								Function_Equip_wear_show(equip_part_array[8], image_id);
 								// 增加该部位数组长度
-								equip_part_array[8] = 1;
+								equip_part_num_array[8] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;	
 						// 10
-						case "手套":
+						case "鞋子":
 							// 如果手套部位等于零
-							if(equip_part_array[9] == 0){
+							if(equip_part_num_array[9] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("gloves", image_id);
+								Function_Equip_wear_show(equip_part_array[9], image_id);
 								// 增加该部位数组长度
-								equip_part_array[9] = 1;
+								equip_part_num_array[9] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;
 						// 11
 						case "护腕":
 							// 如果护腕部位等于零
-							if(equip_part_array[10] == 0){
+							if(equip_part_num_array[10] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("wristbands", image_id);
+								Function_Equip_wear_show(equip_part_array[10], image_id);
 								// 增加该部位数组长度
-								equip_part_array[10] = 1;
+								equip_part_num_array[10] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;
 						// 12
 						case "护肩":
 							// 如果护肩部位等于零
-							if(equip_part_array[11] == 0){
+							if(equip_part_num_array[11] == 0){
 								// 穿戴显示
-								Function_Equip_wear_show("wristbands", image_id);
+								Function_Equip_wear_show(equip_part_array[11], image_id);
 								// 增加该部位数组长度
-								equip_part_array[11] = 1;
+								equip_part_num_array[11] = 1;
 							}
 							else{
 								// 修改该装备 穿戴属性为 未穿戴
-								Modify_goods_attr(goods_id, "is_wear", 0);
+								Modify_back_goods_attr(goods_id, "is_wear", 0);
 							}
 							break;
 					}
@@ -752,28 +761,36 @@
 			}
 
 			// 赋值背包物品
-			for(var i = 0; i < res.length; i++){
-				var attr = res[i].attr;
-				var jst = JSON.stringify(attr);
-				var s = '{"desc":"(.*?)","k":"image_id","v":"(.*?)"}';
-				var image_id = jst.match(s)[2];
-				// 赋值物品id
-				goods_id = res[i].id;
+				$.each(res, function(i, item){
+				// 图片id
+				var image_id;
+				// 遍历当前背包的关键字
+				$.each(item, function(i, goods){
+					// console.log(goods[i]);
+					if(goods.k == "id"){
+						// 物品的id
+						goods_id = goods.v;
+					}
+					if(goods.k == "image_id"){
+						// 物品的图片id
+						image_id = goods.v;
+					}
+				});
 				$("." + i + " img").attr("src", "images/"+image_id+".png");
 				// 增加物品详情按钮
-				$("." + i).attr("onclick", "Get_Fiure_back_goods_info('"+goods_id+"')");
-			}
+				$("." + i).attr("onclick", "Get_fiure_back_single_goods_info('"+goods_id+"')");
+			});
 		}
 
 		return;
 	}
 
 	// 背包分类
-	if(data.Fiure_back_categorys != null){
+	if(data.fiure_back_categorys != null){
 		// 赋值玩家游戏金币
 		$(".game_money").after(player_game_money);
 		// 背包种类
-		var res = data.Fiure_back_categorys;
+		var res = data.fiure_back_categorys;
 		// 赋值物品的种类
         for(var i = 0; i < res.length; i++){
         	var uid = res[i].uid;
@@ -783,95 +800,91 @@
         return;
 	}
 
-	// 背包单个物品详情
-	if(data.Fiure_back_goods_info != null){
-		var res = data.Fiure_back_goods_info;
-		// 物品id
-		goods_id = res.id;
-		// 获取物品是否穿戴
-		var attr = res.attr;
-		var jst = JSON.stringify(attr);
+	// // 背包单个物品详情
+	// if(data.fiure_back_goods_info != null){
+	// 	var res = data.Fiure_back_goods_info;
+	// 	// 物品id
+	// 	goods_id = res.id;
+	// 	// 获取物品是否穿戴
+	// 	var attr = res.attr;
+	// 	var jst = JSON.stringify(attr);
 
-		// 如果物资是装备
-		if(back_category_introduce == "装备"){
-			// 等级
-			var s = '{"desc":"(.*?)","k":"level","v":"(.*?)"}';
-			var level = jst.match(s)[2]; 
-			// 星级
-			var s = '{"desc":"(.*?)","k":"star_level","v":"(.*?)"}';
-			var star_level = jst.match(s)[2];
-			// 颜色
-			var s = '{"desc":"(.*?)","k":"color","v":"(.*?)"}';
-			var color = jst.match(s)[2];
-			// 类型
-			var s = '{"desc":"(.*?)","k":"category","v":"(.*?)"}';
-			var category = jst.match(s)[2];	
-			// 部位
-			var s = '{"desc":"(.*?)","k":"part","v":"(.*?)"}';
-			equip_part  = jst.match(s)[2];	
+	// 	// 如果物资是装备
+	// 	if(back_category_introduce == "装备"){
+	// 		// 等级
+	// 		var s = '{"desc":"(.*?)","k":"level","v":"(.*?)"}';
+	// 		var level = jst.match(s)[2]; 
+	// 		// 星级
+	// 		var s = '{"desc":"(.*?)","k":"star_level","v":"(.*?)"}';
+	// 		var star_level = jst.match(s)[2];
+	// 		// 颜色
+	// 		var s = '{"desc":"(.*?)","k":"color","v":"(.*?)"}';
+	// 		var color = jst.match(s)[2];
+	// 		// 类型
+	// 		var s = '{"desc":"(.*?)","k":"category","v":"(.*?)"}';
+	// 		var category = jst.match(s)[2];	
+	// 		// 部位
+	// 		var s = '{"desc":"(.*?)","k":"part","v":"(.*?)"}';
+	// 		equip_part  = jst.match(s)[2];	
 
 
-			// 基础属性
-			var s = '{"desc":"(.*?)","k":"basic_properties","v":"(.*?)"}';
-			var basic_properties = jst.match(s)[2];		
-			// 随机属性
-			var s = '{"desc":"(.*?)","k":"random_properties","v":"(.*?)"}';
-			var random_properties = jst.match(s)[2];
+	// 		// 基础属性
+	// 		var s = '{"desc":"(.*?)","k":"basic_properties","v":"(.*?)"}';
+	// 		var basic_properties = jst.match(s)[2];		
+	// 		// 随机属性
+	// 		var s = '{"desc":"(.*?)","k":"random_properties","v":"(.*?)"}';
+	// 		var random_properties = jst.match(s)[2];
 
-			// 是否穿戴
-			var s = '{"desc":"(.*?)","k":"is_wear","v":"(.*?)"}';
-			equip_is_wear = jst.match(s)[2];	
-			// 图片id
-			var s = '{"desc":"(.*?)","k":"image_id","v":"(.*?)"}';
-			var image_id = jst.match(s)[2];	
+	// 		// 是否穿戴
+	// 		var s = '{"desc":"(.*?)","k":"is_wear","v":"(.*?)"}';
+	// 		equip_is_wear = jst.match(s)[2];	
+	// 		// 图片id
+	// 		var s = '{"desc":"(.*?)","k":"image_id","v":"(.*?)"}';
+	// 		var image_id = jst.match(s)[2];	
 
-			// 赋值物品详情页面
-			$(".tkbox2").load("page/back-enuipment-window.html", function(){
-				// 赋值物资图片
-				$(".image img").attr("src", "images/"+image_id+".png");
-				// 赋值物资名字
-				$(".name").html(res.name);
-				// 赋值物资描述
-				$(".introduce").html("<p>"+ res.introduce +"</p>");
-				// 赋值物资标准属性
-				$(".standard_property").append("<p>类型："+category+"</p>");
-				$(".standard_property").append("<p>部位："+equip_part+"</p>");
-				$(".standard_property").append("<p>等级："+level+"</p>");
-				$(".standard_property").append("<p>星级："+star_level+"</p>");
-				$(".standard_property").append("<p>颜色："+color+"</p>");
-				// 赋值基础属性
+	// 		// 赋值物品详情页面
+	// 		$(".tkbox2").load("page/back-enuipment-window.html", function(){
+	// 			// 赋值物资图片
+	// 			$(".image img").attr("src", "images/"+image_id+".png");
+	// 			// 赋值物资名字
+	// 			$(".name").html(res.name);
+	// 			// 赋值物资描述
+	// 			$(".introduce").html("<p>"+ res.introduce +"</p>");
+	// 			// 赋值物资标准属性
+	// 			$(".standard_property").append("<p>类型："+category+"</p>");
+	// 			$(".standard_property").append("<p>部位："+equip_part+"</p>");
+	// 			$(".standard_property").append("<p>等级："+level+"</p>");
+	// 			$(".standard_property").append("<p>星级："+star_level+"</p>");
+	// 			$(".standard_property").append("<p>颜色："+color+"</p>");
+	// 			// 赋值基础属性
 				
-				// 赋值随机属性
+	// 			// 赋值随机属性
 				
-				// 设置基本样式
-			    tkbox2();
-			});
-			// 显示弹窗
-			$(".black").show();
-			$(".tkbox2").show();
-			return;
-		}
+	// 			// 设置基本样式
+	// 		    tkbox2();
+	// 		});
+	// 		// 显示弹窗
+	// 		$(".black").show();
+	// 		$(".tkbox2").show();
+	// 		return;
+	// 	}
 
-		//console.log(equip_is_wear);
+	// 	//console.log(equip_is_wear);
 
-		return;
-	}
+	// 	return;
+	// }
 
 	// 技能分类
-	if(data.categorys != null){
-		var skill_categorys = data.categorys;
+	if(data.skill_categorys != null){
+		var res = data.skill_categorys;
 		// 清空技能分类
 		$(".skill_category").empty();
 		// 获取分类
-		$.each(skill_categorys, function(i, item){
-			// 技能类别
-			skill_category = item.uid;
-			// 技能类别名称
-			var skill_category_name = item.introduce
+		$.each(res, function(i, item){
 			// 赋值分类		
-			$(".skill_category").append("<li class='"+skill_category+"' onclick='Get_skill_list(\""+skill_category+"\")'><span class='martia_tit'>"+skill_category_name+"</span></li>");
+			$(".skill_category").append("<li class='"+item.uid+"' onclick='Get_skill_list(\""+item.uid+"\")'><span class='martia_tit'>"+item.introduce+"</span></li>");
 			// 遍历所有技能分类
-			Get_skill_list(skill_category);
+			Get_skill_list(item.uid);
 		})
 		// 遍历完毕 再返回第一个技能类别
 		Get_skill_list(1030);
@@ -879,110 +892,125 @@
 	}
 
 	// 根据分类返回的技能列表
-	if(data.skills != null){
-		var skill_list = data.skills;
-		// 初始化技能准备数目
-		skill_prepare_num = 0
-		// 准备技能的名称
-		var skill_prepare_name;
-		// 准备技能的品阶
-		var skill_prepare_grade;
-		// 清空技能列表
-		$(".skill_list").empty();
-		// 获取技能列表
-		$.each(skill_list, function(i, item){
-			// 技能id
-			skill_id = item.id;
-			// 技能名称
-			var skill_name = item.name;
-			// 技能类别
-			skill_category = item.category;
-			// 技能序列
-			var skill_pid = item.pid;
-			// 赋值一级技能分类
-			if(skill_pid == 0){
-				var jst = JSON.stringify(item.attr);
-				// 技能等级
-				var s = '{"desc":"等级","k":"level","v":"(.*?)"}';
-				var skill_level = jst.match(s)[1];
-				// 技能是否准备
-				var s = '{"desc":"是否准备","k":"is_prepare","v":"(.*?)"}';
-				skill_is_prepare = jst.match(s)[1];
-				// 技能品阶
-				var s = '{"desc":"品阶","k":"grade","v":"(.*?)"}';
-				var skill_grade = jst.match(s)[1];
-				// 判断技能是否准备
-				if(skill_is_prepare == 1){
-					// 增加技能准备数目
-					skill_prepare_num++;
-				}
-				// 判断技能准备数目
-				// 技能准备数目超过1
-				if(skill_prepare_num > 1){
-					var key = "is_prepare";
-					var value = 0;
-					// 重置该技能的准备为未准备
-					Modify_skill_attr(skill_id, key, value);
-					// 修改技能为未准备
-					skill_is_prepare = 0;
-					// 减少技能准备数目
-					skill_prepare_num--;
-				}
+	if(data.skill_list != null){
+		var res = data.skill_list;
+		// console.log(res.length);
+		// 如果技能列表不为空
+		if(res.length != 0){
+			// 初始化技能准备数目
+			skill_prepare_num = 0
+			// 准备技能的名称
+			var skill_prepare_name;
+			// 准备技能的品阶
+			var skill_prepare_grade;
+			// 清空技能列表
+			$(".skill_list").empty();
+			// 获取技能列表
+			$.each(res, function(i, item){
+				// 技能id
+				skill_id = item.id;
+				// 技能名称
+				var skill_name = item.name;
+				// 技能类别
+				skill_category = item.category;
+				// 技能序列
+				var skill_pid = item.pid;
+				// 赋值一级技能分类
+				var skill_level;
+				var skill_grade;
+				if(skill_pid == 0){
+					$.each(item.attr, function(i, skill){
+						if(skill.k == "level"){
+							skill_level = skill.v;
+						}
+						if(skill.k == "is_prepare"){
+							skill_is_prepare = skill.v;
+						}
+						if(skill.k == "grade"){
+							skill_grade = skill.v;
+						}
+					});
+					// 判断技能是否准备
+					if(skill_is_prepare == 1){
+						// 增加技能准备数目
+						skill_prepare_num++;
+					}
+					// 判断技能准备数目
+					// 技能准备数目超过1
+					if(skill_prepare_num > 1){
+						var key = "is_prepare";
+						var value = 0;
+						// 重置该技能的准备为未准备
+						Modify_skill_attr(skill_id, key, value);
+						// 修改技能为未准备
+						skill_is_prepare = 0;
+						// 减少技能准备数目
+						skill_prepare_num--;
+					}
 
-				if(skill_is_prepare == 1){
-					// 准备技能名称
-					skill_prepare_name = skill_name;
-					// 准备技能品阶
-					skill_prepare_grade = skill_grade;
-					// 赋值技能	
-					$(".skill_list").append("<li onclick='Get_skill_details(\""+skill_id+"\")'><span class='syz'>使用中</span><span class='martia_name martia_color"+skill_grade+"'>"+skill_name+"</span><span class='dj'>"+skill_level+"级</span></li>");
-				}
-				else{
-					$(".skill_list").append("<li onclick='Get_skill_details(\""+skill_id+"\")'><span class='martia_name martia_color"+skill_grade+"'>"+skill_name+"</span><span class='dj'>"+skill_level+"级</span></li>");
-				}
-			}	
-		})
-		// 技能准备数目等于0
-		if(skill_prepare_num == 0){
-			// 删除技能分类下显示的技能名
-			$("."+skill_category+" .prepare_skill_name").remove();
+					if(skill_is_prepare == 1){
+						// 准备技能名称
+						skill_prepare_name = skill_name;
+						// 准备技能品阶
+						skill_prepare_grade = skill_grade;
+						// 赋值技能	
+						$(".skill_list").append("<li onclick='Get_skill_details(\""+skill_id+"\")'><span class='syz'>使用中</span><span class='martia_name martia_color"+skill_grade+"'>"+skill_name+"</span><span class='dj'>"+skill_level+"级</span></li>");
+					}
+					else{
+						$(".skill_list").append("<li onclick='Get_skill_details(\""+skill_id+"\")'><span class='martia_name martia_color"+skill_grade+"'>"+skill_name+"</span><span class='dj'>"+skill_level+"级</span></li>");
+					}
+				}	
+			})
+			// 技能准备数目等于0
+			if(skill_prepare_num == 0){
+				// 删除技能分类下显示的技能名
+				$("."+skill_category+" .prepare_skill_name").remove();
+			}
+			// 技能准备数目等于1
+			if(skill_prepare_num == 1){
+				// 删除技能分类下显示的技能名
+				$("."+skill_category+" .prepare_skill_name").remove();
+				$("."+skill_category).append("<span class='prepare_skill_name martia_color"+skill_prepare_grade+"'>"+skill_prepare_name+"</span>");
+			}
+			return;
 		}
-		// 技能准备数目等于1
-		if(skill_prepare_num == 1){
-			// 删除技能分类下显示的技能名
-			$("."+skill_category+" .prepare_skill_name").remove();
-			$("."+skill_category).append("<span class='prepare_skill_name martia_color"+skill_prepare_grade+"'>"+skill_prepare_name+"</span>");
+		else{
+			// 清空技能列表
+			$(".skill_list").empty();
 		}
-		return;
 	}
 
 	// 单个技能详情
-	if(data.skill != null){
-		var skill = data.skill;
+	if(data.skill_deatils != null){
+		var res = data.skill_deatils;
 		// 技能类别
-		skill_category = skill.category;
+		skill_category = res.category;
 		// 技能id
-		skill_id = skill.id;
+		skill_id = res.id;
 		// 技能名称
-		var skill_name = skill.name;
+		var skill_name = res.name;
 		// 技能描述
-		var skill_introduce = skill.introduce;
-		// 技能属性
-		var jst = JSON.stringify(skill.attr);
-		// 技能等级
-		var s = '{"desc":"等级","k":"level","v":"(.*?)"}';
-		var level = jst.match(s)[1];
-		// 技能是否准备
-		var s = '{"desc":"是否准备","k":"is_prepare","v":"(.*?)"}';
-		skill_is_prepare = jst.match(s)[1];
-		// 技能品阶
-		var s = '{"desc":"品阶","k":"grade","v":"(.*?)"}';
-		var grade = jst.match(s)[1];
+		var skill_introduce = res.introduce;
+		//
+		var skill_level;
+		var skill_grade;
+		//
+		$.each(res.attr, function(i, skill){
+			if(skill.k == "level"){
+				skill_level = skill.v;
+			}
+			if(skill.k == "is_prepare"){
+				skill_is_prepare = skill.v;
+			}
+			if(skill.k == "grade"){
+				skill_grade = skill.v;
+			}
+		});
 
 		// 赋值技能详情页面
 		$(".tkbox2").load("page/skill-details.html", function(){
 			// 赋值技能名称 等级
-			$(".skill").append("<div class='tkbox2_tit01 martia_color"+grade+"'>"+skill_name+"<span class='jndj'>"+level+"级</span></div>");
+			$(".skill").append("<div class='tkbox2_tit01 martia_color"+skill_grade+"'>"+skill_name+"<span class='jndj'>"+skill_level+"级</span></div>");
 			// 赋值技能描述
 			$(".introduce").html("<p>"+skill_introduce+"</p>");
 			// 是否装备按钮
@@ -1248,40 +1276,24 @@
 		var max_mp;
 		// 遍历己方玩家
 		$.each(memberA, function(i, item){
-			// 人物属性
-			var jst = JSON.stringify(item.attr);
-			// 当前血量
-			try{
-	    		var s = '{"desc":"当前血量","k":"now_hp","v":"(.*?)"}';
-				var now_hp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var now_hp = 0;
-			} 
-			// 最大血量
-			try{
-	    		var s = '{"desc":"最大血量","k":"max_hp","v":"(.*?)"}';
-				var max_hp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var max_hp = 0;
-			} 
-			// 当前内力
-			try{
-	    		var s = '{"desc":"当前内力","k":"now_mp","v":"(.*?)"}';
-				var now_mp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var now_mp = 0;
-			} 
-			// 最大内力
-			try{
-	    		var s = '{"desc":"最大内力","k":"max_mp","v":"(.*?)"}';
-				var max_mp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var max_mp = 0;
-			} 
+			$.each(item.attr, function(i, member){
+				// 当前血量 
+				if(member.k == "now_hp"){
+					now_hp = member.v;
+				}
+				// 最大血量
+				if(member.k == "max_hp"){
+					max_hp = member.v;
+				}
+				// 当前内力
+				if(member.k == "now_mp"){
+					now_mp = member.v;
+				}
+				// 最大内力
+				if(member.k == "max_mp"){
+					max_mp = member.v;
+				}
+			});
 			//console.log(JSON.stringify(item));
 			$("#memberA").append("<div class='zd_rwz'><span class='zd_rw'>"+item.name+"</span><div class='zd_jd1'><span class='zdjd1_hs zdjd1_hs100 "+item.ident+"_hp'></span><span class='zhi1'>"+now_hp+"</span></div><div class='zd_jd2'><span class='zdjd1_ls zdjd1_ls100 "+item.ident+"_mp'></span><span class='zhi1'>"+now_mp+"</span></div></div>");
 			// 血条动态增加
@@ -1292,40 +1304,24 @@
 
 		// 遍历敌方玩家
 		$.each(memberB, function(i, item){
-			// 人物属性
-			var jst = JSON.stringify(item.attr);
-			// 当前血量
-			try{
-	    		var s = '{"desc":"当前血量","k":"now_hp","v":"(.*?)"}';
-				var now_hp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var now_hp = 0;
-			} 
-			// 最大血量
-			try{
-	    		var s = '{"desc":"最大血量","k":"max_hp","v":"(.*?)"}';
-				var max_hp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var max_hp = 0;
-			} 
-			// 当前内力
-			try{
-	    		var s = '{"desc":"当前内力","k":"now_mp","v":"(.*?)"}';
-				var now_mp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var now_mp = 0;
-			} 
-			// 最大内力
-			try{
-	    		var s = '{"desc":"最大内力","k":"max_mp","v":"(.*?)"}';
-				var max_mp = jst.match(s)[1];
-			}
-			catch(exception){
-			    var max_mp = 0;
-			}
+			$.each(item.attr, function(i, member){
+				// 当前血量 
+				if(member.k == "now_hp"){
+					now_hp = member.v;
+				}
+				// 最大血量
+				if(member.k == "max_hp"){
+					max_hp = member.v;
+				}
+				// 当前内力
+				if(member.k == "now_mp"){
+					now_mp = member.v;
+				}
+				// 最大内力
+				if(member.k == "max_mp"){
+					max_mp = member.v;
+				}
+			});
 			//console.log(JSON.stringify(item));
 			$("#memberB").append("<div class='zd_rwz'><span class='zd_rw'>"+item.name+"</span><div class='zd_jd1'><span class='zdjd1_hs zdjd1_hs100 "+item.ident+"_hp'></span><span class='zhi1'>"+now_hp+"</span></div><div class='zd_jd2'><span class='zdjd1_ls zdjd1_ls100 "+item.ident+"_mp'></span><span class='zhi1'>"+now_mp+"</span></div></div>");
 			// 血条动态增加
@@ -1338,7 +1334,7 @@
 
 	// 战斗技能
 	if(data.combat_skills != null){
-		var combat_skills = data.combat_skills;
+		var res = data.combat_skills;
 		// 清空战斗技能
 		$(".combat_skill").remove();
 		// 清空战斗技能id
@@ -1346,19 +1342,26 @@
 		// 清空战斗技能消耗的战斗cd数组
 		combat_skills_consume_cd = [];
 		// 遍历战斗技能
-		$.each(combat_skills, function(i, item){
+		$.each(res, function(i, item){
 			// 获取战斗技能id
 			combat_skills_id[i] = item.id;
 			// console.log(i);
+			// 技能名称
 			var combat_skill_name = item.name;
-			// 技能属性
-			var jst = JSON.stringify(item.attr);
-			// 技能所消耗的战斗cd
-			var s = '{"desc":"消耗气力","k":"consume_cd","v":"(.*?)"}';
-			var combat_skill_consume_cd = jst.match(s)[1];
-			// 技能品阶
-			var s = '{"desc":"品阶","k":"grade","v":"(.*?)"}';
-			var combat_skill_grade = jst.match(s)[1];
+			//
+			var combat_skill_consume_cd;
+			var combat_skill_grade;
+			//
+			$.each(item.attr, function(i, combat_skill){
+				// 技能所消耗的战斗cd 
+				if(combat_skill.k == "consume_cd"){
+					combat_skill_consume_cd = combat_skill.v;
+				}
+				// 技能所消耗的战斗cd
+				if(combat_skill.k == "grade"){
+					combat_skill_grade = combat_skill.v;
+				}
+			});
 			// 赋值所消耗的战斗cd
 			combat_skills_consume_cd[i] = combat_skill_consume_cd;
 			// 赋值战斗技能名
@@ -1425,7 +1428,7 @@
 
 // 对话函数
 function Talk(message, recipient_indent){
-	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"message\", \"para\":[{\"message\":\""+message+"\", \"recipient_indent\":\""+recipient_indent+"\",}]}");
+	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"message\", \"para\":[{\"message\":\""+message+"\", \"recipient_indent\":\""+recipient_indent+"\"}]}");
 	// console.log("发送信息");
 }
 
@@ -1441,27 +1444,27 @@ function Hot_shift(){
 // }
 
 // 场景中单个物资信息 返回函数
-function Get_Sence_single_goods_info(sence_goods_id) {
+function Get_sence_single_goods_info(sence_goods_id) {
 	// 发送请求
-    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Sence_single_goods_info\",\"para\":[{\"sence_goods_id\":\""+sence_goods_id+"\"}]}");
+    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_sence_single_goods_info\",\"para\":[{\"sence_goods_id\":\""+sence_goods_id+"\"}]}");
     //console.log("物资详情");
 }
 
-// 人物背包物资信息 返回函数
-function Get_Fiure_back_goods_info(id) {
+// 人物背包单个物资信息 返回函数
+function Get_fiure_back_single_goods_info(back_goods_id) {
 	// 发送请求
-    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_Fiure_back_goods_info\",\"para\":[{\"goods_id\":\""+id+"\"}]}");
+    sdmg("{\"gid\":\""+gid+"\",\"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_fiure_back_single_goods_info\",\"para\":[{\"back_goods_id\":\""+back_goods_id+"\"}]}");
     // console.log("单个物品详情");
 }
 
 // 修改背包中 指定物品 的 指定属性 值
-function Modify_goods_attr(res_id, key, value){
-	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"modify_goods_attr\",\"para\":[{\"res_id\":\""+res_id+"\", \"key\":\""+key+"\", \"value\":\""+value+"\"}]}");
+function Modify_back_goods_attr(res_id, key, value){
+	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"modify_back_goods_attr\",\"para\":[{\"res_id\":\""+res_id+"\", \"key\":\""+key+"\", \"value\":\""+value+"\"}]}");
 }
 
 // 根据技能分类获取技能列表
 function Get_skill_list(skill_category){
-	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_skill_list\", \"para\":[{\"category\":\""+skill_category+"\"}]}");
+	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_skill_list\", \"para\":[{\"skill_category\":\""+skill_category+"\"}]}");
 }
 
 // 获得单个技能详情
@@ -1480,14 +1483,14 @@ function Combat_start(challenged_ident){
 }
 
 // 获取战斗成员的信息
-function Push_combat_info(){
-  	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushCombatMembers\", \"para\":[]}");
-}
+// function Get_combat_info(){
+//   	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"pushCombatMembers\", \"para\":[]}");
+// }
 
 // 获得自己的战斗技能
-function Get_combat_skills(){
-	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_combat_skills\", \"para\":[]}");
-}
+// function Get_combat_skills(){
+// 	sdmg("{\"gid\":\""+gid+"\", \"token\":\""+token+"\", \"ident\":\""+ident+"\", \"cmd\":\"get_combat_skills\", \"para\":[]}");
+// }
 
 // // 开始调用战斗CD
 // function Start_combat_cd(){

@@ -60,8 +60,13 @@ var goods_category; //物品类别
 var equip_is_wear;
 // 物品id
 var goods_id;
-// 装备部位数组 12 个 武器 项链 戒指 戒指 护符 护符 帽子 衣服 鞋子 护腕 护肩
-var equip_part_array = new Array();
+
+// 装备部位数组 武器 项链 戒指 戒指 护符 护符 帽子 衣服 下装 鞋子 护肩
+var equip_part_array = ["weapon", "necklace", "ring_left", "ring_right", "amulet_left", "amulet_right", "cap", "clothing", "bottoms", "shoes", "wristbands", "shoulder"];
+// 装备部位数量数组 12 个 
+var equip_part_num_array = new Array();
+
+
 // 装备数组下标
 var equipment_index;
 
@@ -69,6 +74,9 @@ var equipment_index;
 var back_category_uid;
 // 背包分类introduce
 var back_category_introduce;
+// 背包分类的大小
+var back_size;
+var back_category_size = [];
 // 装备的uid
 var back_equipment_uid = "c1482092-f95c-4380-8db8-3e06ab9c14ca";
 
